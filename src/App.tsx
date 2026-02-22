@@ -845,7 +845,7 @@ function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: s
 
       {searchOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-24"
+          className="fixed inset-0 z-100 flex items-start justify-center pt-24"
           style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
           onClick={() => { setSearchOpen(false); setSearchQuery('') }}
         >
@@ -1480,7 +1480,7 @@ function App() {
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="absolute inset-0 bg-black/70"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black to-transparent"></div>
 
         {/* Logo — centered top */}
         <div className="absolute top-0 left-0 right-0 flex justify-center pt-7 z-10 pointer-events-none">

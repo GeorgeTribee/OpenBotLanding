@@ -2,12 +2,131 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/openbotlogo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>OpenBot - Meet OpenBot. Your own personal AI assistant </title>
+
+    <!-- Primary Meta Tags -->
+    <title>OpenBot — AI Agent That Gets Work Done for You</title>
+    <meta name="title" content="OpenBot — AI Agent That Gets Work Done for You" />
+    <meta name="description" content="OpenBot is an AI agent that takes real action — sends messages, writes code, browses the web, manages files, and automates anything. Local-first, no subscription, works with OpenAI, Anthropic, and more." />
+    <meta name="keywords" content="OpenBot, AI agent, AI automation, agentic AI, local AI assistant, multi-agent, AI productivity, terminal AI, OpenAI, Anthropic, self-hosted AI" />
+    <meta name="author" content="OpenBot Team" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href="https://getopenbot.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://getopenbot.com/" />
+    <meta property="og:site_name" content="OpenBot" />
+    <meta property="og:title" content="OpenBot — AI Agent That Gets Work Done for You" />
+    <meta property="og:description" content="AI agent that takes real action — sends messages, writes code, browses the web, and automates anything. Local-first, no subscription required." />
+    <meta property="og:image" content="https://getopenbot.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="OpenBot — AI Agent That Gets Work Done for You" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MeetOpenBot" />
+    <meta name="twitter:creator" content="@MeetOpenBot" />
+    <meta name="twitter:title" content="OpenBot — AI Agent That Gets Work Done for You" />
+    <meta name="twitter:description" content="AI agent that takes real action — sends messages, writes code, browses the web, and automates anything. Local-first, no subscription." />
+    <meta name="twitter:image" content="https://getopenbot.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="OpenBot — AI Agent That Gets Work Done for You" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/openbotlogo.svg" />
+    <link rel="shortcut icon" href="/openbotlogo.svg" />
+
+    <!-- Preload hero background (LCP element) -->
+    <link rel="preload" as="image" href="/background.webp" fetchpriority="high" />
+
+    <!-- Fonts: preconnect + non-render-blocking load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" /></noscript>
+
+    <!-- Structured Data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "OpenBot",
+      "headline": "AI Agent That Gets Work Done for You",
+      "description": "OpenBot is an AI agent that takes real action — sends messages, writes code, browses the web, manages files, and automates anything. Local-first, works with OpenAI, Anthropic, Google Gemini, and more.",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "AI Automation",
+      "operatingSystem": "macOS, Linux, Windows",
+      "url": "https://getopenbot.com",
+      "downloadUrl": "https://www.npmjs.com/package/openbot",
+      "installUrl": "https://github.com/meetopenbot/openbot#installation",
+      "codeRepository": "https://github.com/meetopenbot/openbot",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Send messages on Telegram, WhatsApp, Slack, and 100+ platforms",
+        "Browse the web and fill forms autonomously",
+        "Write, debug, and deploy code",
+        "Manage files and run shell commands",
+        "Persistent memory across sessions",
+        "Works with OpenAI, Anthropic, Google Gemini, and more",
+        "Build custom agents with YAML or TypeScript"
+      ],
+      "screenshot": "https://getopenbot.com/og-image.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "OpenBot",
+        "url": "https://getopenbot.com",
+        "sameAs": [
+          "https://github.com/meetopenbot/openbot",
+          "https://x.com/MeetOpenBot",
+          "https://discord.gg/XYYXvN2ebB"
+        ]
+      }
+    }
+    </script>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "OpenBot",
+      "url": "https://getopenbot.com",
+      "logo": "https://getopenbot.com/openbotlogo.svg",
+      "description": "OpenBot is an open-source AI agent platform that takes real action on your behalf.",
+      "sameAs": [
+        "https://github.com/meetopenbot/openbot",
+        "https://x.com/MeetOpenBot",
+        "https://discord.gg/XYYXvN2ebB"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "OpenBot",
+      "url": "https://getopenbot.com",
+      "description": "Open-source AI agent that gets work done for you.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://getopenbot.com/#docs?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

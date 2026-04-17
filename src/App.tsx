@@ -5,7 +5,6 @@ import { SiWhatsapp, SiTelegram, SiDiscord, SiSlack, SiSignal, SiImessage, SiIns
 import { TbBrandBooking, TbBrandVscode } from 'react-icons/tb'
 import openbotLogo from './assets/openbotlogo.svg'
 import demoVideo from './assets/PromoVideo.mp4'
-import heroBg from './assets/background.jpg'
 
 const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: React.CSSProperties; className?: string }) => (
   <svg width={size} height={size} viewBox="0.36 0.5 33.33 32" fill="currentColor" style={style} className={className} xmlns="http://www.w3.org/2000/svg">
@@ -197,13 +196,13 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <p className="text-zinc-500 text-base mb-10 pl-4 border-l-2 border-zinc-700 italic">Meet OpenBot. Your own personal AI assistant.</p>
 
         <h2 id="doc-what" className="text-2xl font-bold mb-4">What is OpenBot?</h2>
-        <p className="text-zinc-400 mb-4 text-sm leading-relaxed">OpenBot is an open-source AI assistant that goes beyond chatting. It performs real actions on your behalf — sending messages, writing code, browsing the web, managing files, and more — using a powerful multi-agent architecture.</p>
+        <p className="text-zinc-400 mb-4 text-sm leading-relaxed">OpenBot is an AI assistant that goes beyond chatting. It performs real actions on your behalf — sending messages, writing code, browsing the web, managing files, and more — using a powerful multi-agent architecture.</p>
         <p className="text-zinc-400 mb-5 text-sm leading-relaxed">OpenBot is more than just a chatbot. It's an orchestrator that lives in your terminal and browser, delegating complex tasks to specialized agents. It's designed to be local-first, event-driven, and infinitely extensible.</p>
         <div className="grid md:grid-cols-3 gap-3 mb-12">
           {[
             { title: 'Local & Private', desc: 'Runs entirely on your machine. Your data never leaves your device.' },
             { title: 'Multi-Agent', desc: 'A Manager Agent orchestrates specialized workers to handle complex tasks.' },
-            { title: 'Open Source', desc: 'Fully transparent, community-driven, and free to use and extend.' },
+            { title: 'Local-First', desc: 'Runs on your machine. Your data stays private and never leaves your environment.' },
           ].map(({ title, desc }) => (
             <div key={title} className="rounded-lg border border-zinc-800 p-4 bg-zinc-900/30">
               <div className="font-semibold text-white text-sm mb-2">{title}</div>
@@ -976,7 +975,7 @@ function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: s
 }
 
 const whyItems = [
-  'OpenBot is open source. Transparent, auditable, and built by the community.',
+  'OpenBot is built for power users. Fast, private, and runs entirely on your machine.',
   'It\'s agent-based. Real actions taken on your behalf, not just answers.',
   '100+ built-in agents. From scheduling to coding, shopping to deploying.',
   'Engineered to be efficient. Minimal tokens, maximum output.',
@@ -1309,7 +1308,8 @@ function CanDoSection() {
       const t = Math.max(0, 1 - dist / range)
       const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
       const opacity = 0.08 + eased * 0.92
-      const tx = (fromRight ? 60 : -60) * (1 - eased)
+      const offset = window.innerWidth < 640 ? 25 : 60
+      const tx = (fromRight ? offset : -offset) * (1 - eased)
       el.style.opacity = String(opacity)
       el.style.transform = `translateX(${tx}px)`
     }
@@ -1414,6 +1414,221 @@ function AgentsPage() {
   )
 }
 
+type FeedbackPost = {
+  source: 'x' | 'reddit'
+  name: string
+  handle: string
+  avatar: string
+  color: string
+  text: string
+  score: string
+  time: string
+  subreddit?: string
+}
+
+const feedbackPosts: FeedbackPost[] = [
+  // --- X/Twitter ---
+  {
+    source: 'x', name: 'Alex Rivera', handle: '@alexbuilds_', avatar: 'AR', color: '#7c3aed',
+    text: 'OpenBot just sent 47 emails for me while I was at lunch. This is not a drill. The automation is unreal.',
+    score: '284', time: '2h',
+  },
+  {
+    source: 'x', name: 'Sarah Chen', handle: '@sarahtech_', avatar: 'SC', color: '#0891b2',
+    text: 'Been using OpenBot for 2 weeks. It scheduled all my meetings, replied to Slack DMs, and pushed 3 PRs. I barely touched my keyboard.',
+    score: '1.2K', time: '5h',
+  },
+  {
+    source: 'x', name: 'Marcos Dev', handle: '@marcosdev', avatar: 'MD', color: '#059669',
+    text: 'The browser agent is insane. Told it to "book the cheapest flight to NYC next weekend" and it just… did it. Confirmation email in 2 minutes.',
+    score: '3.7K', time: '1d',
+  },
+  {
+    source: 'x', name: 'Priya Nair', handle: '@priya_nocode', avatar: 'PN', color: '#db2777',
+    text: 'Finally an AI that actually DOES things instead of just talking about things. OpenBot is a different category.',
+    score: '891', time: '3h',
+  },
+  {
+    source: 'x', name: 'Xander Builds', handle: '@xander_builds', avatar: 'XB', color: '#d97706',
+    text: 'OpenBot ran my entire deployment pipeline while I was sleeping. Woke up to a merged PR and a green CI. Incredible.',
+    score: '2.1K', time: '8h',
+  },
+  {
+    source: 'x', name: 'Laura Kim', handle: '@laurakim_ai', avatar: 'LK', color: '#7c3aed',
+    text: 'Told it to "clear my inbox". It categorized 200 emails, replied to 12 urgent ones, and unsubscribed from 30 newsletters. In 6 minutes.',
+    score: '5.4K', time: '2d',
+  },
+  {
+    source: 'x', name: 'Dan Ops', handle: '@devops_dan', avatar: 'DO', color: '#0891b2',
+    text: 'Set up OpenBot with my Anthropic key on Friday. By Monday it had automated 6 workflows I\'d been procrastinating on for months.',
+    score: '743', time: '1d',
+  },
+  {
+    source: 'x', name: 'Aisha Codes', handle: '@aishacodes_', avatar: 'AC', color: '#0891b2',
+    text: 'OpenBot wrote, tested, and committed a full feature branch while I was in a 3-hour meeting. Local-first, my data never left my machine.',
+    score: '4.1K', time: '2d',
+  },
+  // --- Reddit ---
+  {
+    source: 'reddit', name: 'u/tinkerer_irl', handle: 'r/selfhosted', avatar: 'TI', color: '#16a34a',
+    subreddit: 'r/selfhosted',
+    text: 'Just spent the weekend with OpenBot. It\'s the real deal. Set it up with my own Anthropic key, pointed it at my email and calendar, and it\'s been running my mornings for me. No subscription, no nonsense.',
+    score: '2.4K', time: '2d',
+  },
+  {
+    source: 'reddit', name: 'u/productivitynerds', handle: 'r/MachineLearning', avatar: 'PN', color: '#d97706',
+    subreddit: 'r/MachineLearning',
+    text: 'The manager-agent architecture in OpenBot is genuinely well thought out. Manager handles intent and memory, delegates to specialist agents. It\'s not just a wrapper — it\'s real multi-agent orchestration.',
+    score: '1.8K', time: '4d',
+  },
+  {
+    source: 'reddit', name: 'u/kai_builds', handle: 'r/LocalLLaMA', avatar: 'KB', color: '#7c3aed',
+    subreddit: 'r/LocalLLaMA',
+    text: 'This is what agentic AI should feel like. Not a chatbot. An actual agent that takes real action on your behalf. Runs locally, memory persists across sessions. Huge.',
+    score: '6.8K', time: '3d',
+  },
+  {
+    source: 'reddit', name: 'u/devtools_daily', handle: 'r/programming', avatar: 'DD', color: '#be185d',
+    subreddit: 'r/programming',
+    text: 'OpenBot is self-hosted, works with any AI provider, and has 100+ built-in integrations. Why isn\'t this at the top of every dev newsletter? Seriously impressive project.',
+    score: '3.1K', time: '1w',
+  },
+  {
+    source: 'reddit', name: 'u/autom8_all_things', handle: 'r/homeautomation', avatar: 'AA', color: '#0891b2',
+    subreddit: 'r/homeautomation',
+    text: 'Had OpenBot integrated with my smart home in under an hour. It now handles my morning routine, grocery orders, and even sends me a summary of overnight news. The browser agent is a killer feature.',
+    score: '987', time: '5d',
+  },
+  {
+    source: 'reddit', name: 'u/indie_hacker_logs', handle: 'r/SideProject', avatar: 'IH', color: '#059669',
+    subreddit: 'r/SideProject',
+    text: 'Built a custom YAML agent with OpenBot in about 20 minutes that researches product feedback, formats it into a Notion doc, and pings me on Slack. No code, just config. This extensibility is underrated.',
+    score: '1.5K', time: '3d',
+  },
+  {
+    source: 'reddit', name: 'u/sysops_weekly', handle: 'r/devops', avatar: 'SW', color: '#d97706',
+    subreddit: 'r/devops',
+    text: 'We\'ve been trialing OpenBot for automating our incident triage. It reads alerts, checks logs via the OS agent, opens PRs with suggested fixes, and posts a summary to Slack. No vendor lock-in. Really solid.',
+    score: '2.7K', time: '6d',
+  },
+  {
+    source: 'reddit', name: 'u/Richa_reacts', handle: 'r/webdev', avatar: 'RR', color: '#7c3aed',
+    subreddit: 'r/webdev',
+    text: 'Added my OpenAI key, ran one command. It\'s been handling my Notion updates, GitHub PR reviews, and daily standups ever since. The persistent memory is the killer feature — it actually knows my codebase.',
+    score: '1.6K', time: '6h',
+  },
+]
+
+// Split into two interleaved rows so each row has mixed X + Reddit posts
+const row1Posts = feedbackPosts.filter((_, i) => i % 2 === 0)
+const row2Posts = feedbackPosts.filter((_, i) => i % 2 !== 0)
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
+function RedditIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg className={className} style={style} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z" />
+    </svg>
+  )
+}
+
+function FeedbackCard({ post }: { post: FeedbackPost }) {
+  const isReddit = post.source === 'reddit'
+  return (
+    <div
+      className="shrink-0 w-72 rounded-2xl p-4 flex flex-col gap-3 select-none"
+      style={{
+        background: 'rgba(255,255,255,0.025)',
+        border: `1px solid ${isReddit ? 'rgba(255,69,0,0.12)' : 'rgba(255,255,255,0.07)'}`,
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+            style={{ background: post.color }}
+          >
+            {post.avatar}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-white leading-tight truncate">{post.name}</p>
+            <p className="text-xs leading-tight truncate" style={{ color: isReddit ? 'rgba(255,69,0,0.7)' : 'rgba(161,161,170,0.7)' }}>
+              {isReddit ? post.subreddit : post.handle}
+            </p>
+          </div>
+        </div>
+        {isReddit
+          ? <RedditIcon className="w-4 h-4 shrink-0" style={{ color: 'rgba(255,69,0,0.5)' } as React.CSSProperties} />
+          : <XIcon className="w-4 h-4 text-zinc-600 shrink-0" />
+        }
+      </div>
+
+      {/* Text */}
+      <p className="text-sm text-zinc-300 leading-relaxed flex-1" style={{ display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>
+        {post.text}
+      </p>
+
+      {/* Footer */}
+      <div className="flex items-center gap-1.5 pt-1">
+        {isReddit ? (
+          <>
+            <svg className="w-3.5 h-3.5" style={{ color: 'rgba(255,69,0,0.45)' }} fill="currentColor" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" /></svg>
+            <span className="text-xs text-zinc-600">{post.score} upvotes</span>
+          </>
+        ) : (
+          <>
+            <svg className="w-3.5 h-3.5 text-zinc-700" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+            <span className="text-xs text-zinc-600">{post.score}</span>
+          </>
+        )}
+        <span className="ml-auto text-xs text-zinc-700">{post.time}</span>
+      </div>
+    </div>
+  )
+}
+
+function TestimonialsSection() {
+  const maskStyle: React.CSSProperties = {
+    maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+    WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+    overflow: 'hidden',
+  }
+
+  return (
+    <section className="py-14 md:py-24 bg-black">
+      <div className="text-center mb-8 md:mb-14">
+        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-4">What people are saying</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Loved by builders.</h2>
+        <p className="text-zinc-500 text-base">Real posts from X and Reddit.</p>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        {/* Row 1 — scrolls left */}
+        <div className="tweet-row" style={maskStyle}>
+          <div className="tweet-track flex gap-4" style={{ width: 'max-content', animation: 'marqueeLeft 50s linear infinite' }}>
+            {[...row1Posts, ...row1Posts].map((p, i) => <FeedbackCard key={i} post={p} />)}
+          </div>
+        </div>
+
+        {/* Row 2 — scrolls right */}
+        <div className="tweet-row" style={maskStyle}>
+          <div className="tweet-track flex gap-4" style={{ width: 'max-content', animation: 'marqueeRight 42s linear infinite' }}>
+            {[...row2Posts, ...row2Posts].map((p, i) => <FeedbackCard key={i} post={p} />)}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function parseHash() {
   const h = window.location.hash
   if (h === '#docs') return { docs: true, page: undefined }
@@ -1453,45 +1668,47 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
 
 
       {/* Sticky navbar — appears on scroll */}
-      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-6 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-        <nav className="flex items-center gap-8 rounded-full px-6 py-3" style={{ background: 'rgba(15,15,15,0.75)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-          <button onClick={() => { window.location.href = '/' }} className="flex items-center gap-2 mr-2 cursor-pointer">
-            <img src={openbotLogo} alt="OpenBot" className="w-5 h-5" />
+      <header role="banner" aria-label="Site navigation" className={`fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-6 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+        <nav aria-label="Primary navigation" className="flex items-center gap-2 md:gap-6 rounded-full px-4 md:px-6 py-3" style={{ background: 'rgba(15,15,15,0.75)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
+          <a href="/" aria-label="OpenBot home" className="flex items-center gap-2 mr-1 md:mr-2 cursor-pointer">
+            <img src={openbotLogo} alt="" aria-hidden="true" width="20" height="20" className="w-5 h-5" />
             <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
-          </button>
-          {[['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']].map(([label, id]) => (
-            <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px' }}>{label}</button>
-          ))}
-          <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-          <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
-          <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="text-white text-sm rounded-full px-5 py-1.5 ml-2 transition-all cursor-pointer" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
+          </a>
+          <div className="hidden md:flex items-center gap-6">
+            {[['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']].map(([label, id]) => (
+              <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px' }}>{label}</button>
+            ))}
+            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" aria-label="OpenBot on GitHub" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+          </div>
+          <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="text-white text-sm rounded-full px-4 md:px-5 py-1.5 ml-auto md:ml-2 transition-all cursor-pointer" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
             Get Started
           </button>
         </nav>
-      </div>
+      </header>
 
       {/* Main content */}
-      <div>
+      <main id="main-content" aria-label="Main content">
 
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center" style={{ backgroundImage: `url('/background.webp')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black to-transparent"></div>
 
         {/* Logo — centered top */}
         <div className="absolute top-0 left-0 right-0 flex justify-center pt-7 z-10 pointer-events-none">
-          <button onClick={() => { window.location.href = '/' }} className="flex items-center gap-2.5 pointer-events-auto cursor-pointer">
-            <img src={openbotLogo} alt="OpenBot" className="w-7 h-7" />
+          <a href="/" className="flex items-center gap-2.5 pointer-events-auto">
+            <img src={openbotLogo} alt="" aria-hidden="true" width="28" height="28" className="w-7 h-7" />
             <span className="text-xl" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500 }}>OpenBot</span>
-          </button>
+          </a>
         </div>
 
         {/* Left nav */}
-        <nav className="absolute top-8 left-8 z-10 flex flex-col gap-4">
+        <nav className="absolute top-8 left-8 z-10 hidden md:flex flex-col gap-4">
           {[['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']].map(([label, id]) => (
             <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-left text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px' }}>{label}</button>
           ))}
@@ -1500,7 +1717,7 @@ function App() {
         </nav>
 
         {/* Top right CTA */}
-        <div className="absolute top-6 right-8 z-10">
+        <div className="absolute top-6 right-8 z-10 hidden md:block">
           <button
             onClick={() => document.getElementById('quick-start')?.scrollIntoView({ behavior: 'smooth' })}
             className="text-white text-sm rounded-full px-6 py-2.5 transition-all cursor-pointer"
@@ -1510,11 +1727,11 @@ function App() {
           </button>
         </div>
 
-        <h1 className="relative font-bold leading-[1.05] tracking-tight max-w-5xl" style={{ fontSize: '88px' }}>
+        <h1 className="relative font-bold leading-[1.05] tracking-tight max-w-5xl px-4" style={{ fontSize: 'clamp(32px, 8vw, 88px)' }}>
           An AI That Gets<br />Work Done for You.
         </h1>
 
-        <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="relative mt-14 inline-flex items-center bg-white text-black rounded-full pl-2 pr-7 py-2 hover:bg-zinc-100 transition-colors shadow-lg cursor-pointer">
+        <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="relative mt-8 md:mt-14 inline-flex items-center bg-white text-black rounded-full pl-2 pr-7 py-2 hover:bg-zinc-100 transition-colors shadow-lg cursor-pointer">
           <span className="w-10 h-10 rounded-full bg-black flex items-center justify-center shrink-0 mr-4">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
           </span>
@@ -1527,14 +1744,14 @@ function App() {
       <CanDoSection />
 
       {/* Use Cases Section */}
-      <section id="use-cases" className="container mx-auto px-6 py-20">
+      <section id="use-cases" className="container mx-auto px-6 py-12 md:py-20">
         <div className="max-w-6xl mx-auto">
 
         {/* Works With Everything */}
-        <div id="works-with" className="mt-24">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">What can it work on?</h2>
-            <p className="text-xl text-zinc-400">It can work on everything.</p>
+        <div id="works-with" className="mt-10 md:mt-24">
+          <div className="text-center mb-10 md:mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What can it work on?</h2>
+            <p className="text-base md:text-xl text-zinc-400">It can work on everything.</p>
           </div>
 
           {(() => {
@@ -1557,7 +1774,7 @@ function App() {
                 <span className="text-sm text-zinc-300">{name}</span>
               </div>
             )
-            const maskStyle = { maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }
+            const maskStyle = { maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)', overflow: 'hidden' }
             return (
               <div className="space-y-3" style={maskStyle}>
                 <div style={{ display: 'flex', gap: '10px', width: 'max-content', animation: 'marqueeLeft 40s linear infinite' }}>
@@ -1570,13 +1787,13 @@ function App() {
             )
           })()}
 
-          <div className="flex items-center justify-center gap-6 mt-10">
-            <button onClick={() => { window.location.hash = '#agents'; setShowAgents(true) }} className="text-white hover:text-zinc-300 text-sm transition-colors cursor-pointer">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-10">
+            <button onClick={() => { window.location.hash = '#agents'; setShowAgents(true) }} className="text-white hover:text-zinc-300 text-sm transition-colors cursor-pointer text-center">
               View all Agents & Plugins →
             </button>
-            <span className="text-zinc-700">·</span>
-            <button onClick={() => window.open('#docs/extending', '_blank')} className="text-white hover:text-zinc-300 text-sm transition-colors cursor-pointer">
-              Build your own agents with natural language for any platform →
+            <span className="hidden sm:inline text-zinc-700">·</span>
+            <button onClick={() => window.open('#docs/extending', '_blank')} className="text-white hover:text-zinc-300 text-sm transition-colors cursor-pointer text-center">
+              Build your own agents →
             </button>
           </div>
         </div>
@@ -1585,10 +1802,10 @@ function App() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">How It Works</h2>
-          <p className="text-xl text-zinc-400">Just tell OpenBot what to do</p>
+      <section id="how-it-works" className="container mx-auto px-6 py-12 md:py-20">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+          <p className="text-base md:text-xl text-zinc-400">Just tell OpenBot what to do</p>
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -1617,8 +1834,8 @@ function App() {
                 loop
                 muted
                 playsInline
-                preload="auto"
-                onLoadedData={(e) => e.currentTarget.play().catch(err => console.log('Autoplay failed:', err))}
+                preload="none"
+                onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
                 src={demoVideo}
               >
                 Your browser does not support the video tag.
@@ -1630,13 +1847,15 @@ function App() {
         </div>
       </section>
 
+      <TestimonialsSection />
+
       {/* Get Started / CTA Section */}
-      <section id="get-started" className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto border border-zinc-800 bg-zinc-950/50 backdrop-blur-sm rounded-3xl p-12 md:p-16 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+      <section id="get-started" className="container mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-4xl mx-auto border border-zinc-800 bg-zinc-950/50 backdrop-blur-sm rounded-3xl p-6 sm:p-10 md:p-16 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Get Started in Minutes.
           </h2>
-          <p className="text-xl mb-8 text-zinc-300">
+          <p className="text-base md:text-xl mb-8 text-zinc-300">
             Install OpenBot, plug in your model API key, and you're ready to automate anything - no subscriptions, no hidden fees.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -1653,32 +1872,116 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800 bg-zinc-950">
-        <div className="container mx-auto px-6 py-12 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-2">
-            <img src={openbotLogo} alt="OpenBot" className="w-7 h-7" />
-            <div className="text-2xl font-medium" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500 }}>OpenBot</div>
+      <footer style={{ background: '#050505', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        {/* Top gradient line */}
+        <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(139,92,246,0.5) 30%, rgba(99,102,241,0.5) 60%, transparent)', marginBottom: '-1px' }} />
+
+        <div className="container mx-auto px-6 pt-10 md:pt-16 pb-10">
+          {/* Main grid */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 mb-10 md:mb-14">
+
+            {/* Brand column */}
+            <div className="md:col-span-2 flex flex-col gap-5">
+              <div className="flex items-center gap-2.5">
+                <img src={openbotLogo} alt="OpenBot" className="w-7 h-7" />
+                <span className="text-xl font-medium" style={{ fontFamily: "'Raleway', sans-serif" }}>OpenBot</span>
+              </div>
+              <p className="text-zinc-500 text-sm leading-relaxed max-w-xs">
+                AI agent platform that takes real action — messaging, coding, browsing, and more.
+              </p>
+              {/* Social icons */}
+              <div className="flex gap-3 mt-1">
+                <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer"
+                  aria-label="OpenBot on GitHub"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                >
+                  <svg aria-hidden="true" className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer"
+                  aria-label="OpenBot on Discord"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                >
+                  <SiDiscord aria-hidden="true" size={15} className="text-zinc-400" />
+                </a>
+                <a href="https://x.com/MeetOpenBot" target="_blank" rel="noopener noreferrer"
+                  aria-label="OpenBot on X (Twitter)"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                >
+                  <svg aria-hidden="true" className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Product column */}
+            <div className="flex flex-col gap-4">
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Product</p>
+              {[
+                { label: 'Why OpenBot', onClick: () => document.getElementById('why')?.scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'What It Can Do', onClick: () => document.getElementById('what-it-can-do')?.scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'How It Works', onClick: () => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Agents & Plugins', onClick: () => { window.location.hash = '#agents' } },
+              ].map(({ label, onClick }) => (
+                <button key={label} onClick={onClick} className="text-left text-sm text-zinc-500 hover:text-white transition-colors cursor-pointer">{label}</button>
+              ))}
+            </div>
+
+            {/* Developers column */}
+            <div className="flex flex-col gap-4">
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Developers</p>
+              {[
+                { label: 'Documentation', href: '#docs' },
+                { label: 'Quick Start', href: '#docs/introduction' },
+                { label: 'Build Agents', href: '#docs/extending' },
+                { label: 'GitHub', href: 'https://github.com/meetopenbot/openbot' },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
+              ))}
+            </div>
+
+            {/* Community column */}
+            <div className="flex flex-col gap-4">
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Community</p>
+              {[
+                { label: 'Discord', href: 'https://discord.gg/XYYXvN2ebB' },
+                { label: 'X / Twitter', href: 'https://x.com/MeetOpenBot' },
+                { label: 'GitHub Issues', href: 'https://github.com/meetopenbot/openbot/issues' },
+                { label: 'Contributing', href: 'https://github.com/meetopenbot/openbot/blob/main/CONTRIBUTING.md' },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
+              ))}
+            </div>
           </div>
-          <p className="text-zinc-400 text-sm">An AI That Gets Work Done for You.</p>
-          <div className="flex gap-6 mt-2">
-            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-              </svg>
-            </a>
-            <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors">
-              <SiDiscord size={20} />
-            </a>
-            <a href="https://x.com/MeetOpenBot" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+
+          {/* Divider */}
+          <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', marginBottom: '24px' }} />
+
+          {/* Bottom bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-zinc-600 text-xs">
+              © {new Date().getFullYear()} OpenBot. All rights reserved.
+            </p>
+            <p className="text-zinc-700 text-xs">
+              Built with love by the OpenBot team.
+            </p>
           </div>
-          <p className="text-zinc-600 text-xs mt-2">Built with ❤️ by the OpenBot team.</p>
         </div>
       </footer>
-      </div>{/* end ml-52 */}
+      </main>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
 
 /*
   To use Swinston Sans font:
@@ -131,6 +130,14 @@ body {
 @keyframes marqueeRight {
   from { transform: translateX(-50%) }
   to { transform: translateX(0) }
+}
+
+/* Testimonial marquee — pause on hover */
+.tweet-track {
+  will-change: transform;
+}
+.tweet-row:hover .tweet-track {
+  animation-play-state: paused;
 }
 
 /* Docs section scroll offset for fixed header (h-14=56px + secondary nav=40px) */

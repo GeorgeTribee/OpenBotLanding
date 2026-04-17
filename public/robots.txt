@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://openbot.ai/sitemap.xml
+Sitemap: https://getopenbot.com/sitemap.xml

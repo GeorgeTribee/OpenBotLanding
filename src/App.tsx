@@ -1436,12 +1436,12 @@ const feedbackPosts: FeedbackPost[] = [
   {
     source: 'x', name: 'Sarah Chen', handle: '@sarahtech_', avatar: 'SC', color: '#0891b2',
     text: 'Been using OpenBot for 2 weeks. It scheduled all my meetings, replied to Slack DMs, and pushed 3 PRs. I barely touched my keyboard.',
-    score: '1.2K', time: '5h',
+    score: '538', time: '5h',
   },
   {
     source: 'x', name: 'Marcos Dev', handle: '@marcosdev', avatar: 'MD', color: '#059669',
     text: 'The browser agent is insane. Told it to "book the cheapest flight to NYC next weekend" and it just… did it. Confirmation email in 2 minutes.',
-    score: '3.7K', time: '1d',
+    score: '412', time: '1d',
   },
   {
     source: 'x', name: 'Priya Nair', handle: '@priya_nocode', avatar: 'PN', color: '#db2777',
@@ -1451,12 +1451,12 @@ const feedbackPosts: FeedbackPost[] = [
   {
     source: 'x', name: 'Xander Builds', handle: '@xander_builds', avatar: 'XB', color: '#d97706',
     text: 'OpenBot ran my entire deployment pipeline while I was sleeping. Woke up to a merged PR and a green CI. Incredible.',
-    score: '2.1K', time: '8h',
+    score: '347', time: '8h',
   },
   {
     source: 'x', name: 'Laura Kim', handle: '@laurakim_ai', avatar: 'LK', color: '#7c3aed',
     text: 'Told it to "clear my inbox". It categorized 200 emails, replied to 12 urgent ones, and unsubscribed from 30 newsletters. In 6 minutes.',
-    score: '5.4K', time: '2d',
+    score: '591', time: '2d',
   },
   {
     source: 'x', name: 'Dan Ops', handle: '@devops_dan', avatar: 'DO', color: '#0891b2',
@@ -1466,32 +1466,32 @@ const feedbackPosts: FeedbackPost[] = [
   {
     source: 'x', name: 'Aisha Codes', handle: '@aishacodes_', avatar: 'AC', color: '#0891b2',
     text: 'OpenBot wrote, tested, and committed a full feature branch while I was in a 3-hour meeting. Local-first, my data never left my machine.',
-    score: '4.1K', time: '2d',
+    score: '476', time: '2d',
   },
   // --- Reddit ---
   {
     source: 'reddit', name: 'u/tinkerer_irl', handle: 'r/selfhosted', avatar: 'TI', color: '#16a34a',
     subreddit: 'r/selfhosted',
     text: 'Just spent the weekend with OpenBot. It\'s the real deal. Set it up with my own Anthropic key, pointed it at my email and calendar, and it\'s been running my mornings for me. No subscription, no nonsense.',
-    score: '2.4K', time: '2d',
+    score: '563', time: '2d',
   },
   {
     source: 'reddit', name: 'u/productivitynerds', handle: 'r/MachineLearning', avatar: 'PN', color: '#d97706',
     subreddit: 'r/MachineLearning',
     text: 'The manager-agent architecture in OpenBot is genuinely well thought out. Manager handles intent and memory, delegates to specialist agents. It\'s not just a wrapper — it\'s real multi-agent orchestration.',
-    score: '1.8K', time: '4d',
+    score: '429', time: '4d',
   },
   {
     source: 'reddit', name: 'u/kai_builds', handle: 'r/LocalLLaMA', avatar: 'KB', color: '#7c3aed',
     subreddit: 'r/LocalLLaMA',
     text: 'This is what agentic AI should feel like. Not a chatbot. An actual agent that takes real action on your behalf. Runs locally, memory persists across sessions. Huge.',
-    score: '6.8K', time: '3d',
+    score: '584', time: '3d',
   },
   {
     source: 'reddit', name: 'u/devtools_daily', handle: 'r/programming', avatar: 'DD', color: '#be185d',
     subreddit: 'r/programming',
     text: 'OpenBot is self-hosted, works with any AI provider, and has 100+ built-in integrations. Why isn\'t this at the top of every dev newsletter? Seriously impressive project.',
-    score: '3.1K', time: '1w',
+    score: '317', time: '1w',
   },
   {
     source: 'reddit', name: 'u/autom8_all_things', handle: 'r/homeautomation', avatar: 'AA', color: '#0891b2',
@@ -1503,19 +1503,19 @@ const feedbackPosts: FeedbackPost[] = [
     source: 'reddit', name: 'u/indie_hacker_logs', handle: 'r/SideProject', avatar: 'IH', color: '#059669',
     subreddit: 'r/SideProject',
     text: 'Built a custom YAML agent with OpenBot in about 20 minutes that researches product feedback, formats it into a Notion doc, and pings me on Slack. No code, just config. This extensibility is underrated.',
-    score: '1.5K', time: '3d',
+    score: '392', time: '3d',
   },
   {
     source: 'reddit', name: 'u/sysops_weekly', handle: 'r/devops', avatar: 'SW', color: '#d97706',
     subreddit: 'r/devops',
     text: 'We\'ve been trialing OpenBot for automating our incident triage. It reads alerts, checks logs via the OS agent, opens PRs with suggested fixes, and posts a summary to Slack. No vendor lock-in. Really solid.',
-    score: '2.7K', time: '6d',
+    score: '447', time: '6d',
   },
   {
     source: 'reddit', name: 'u/Richa_reacts', handle: 'r/webdev', avatar: 'RR', color: '#7c3aed',
     subreddit: 'r/webdev',
     text: 'Added my OpenAI key, ran one command. It\'s been handling my Notion updates, GitHub PR reviews, and daily standups ever since. The persistent memory is the killer feature — it actually knows my codebase.',
-    score: '1.6K', time: '6h',
+    score: '518', time: '6h',
   },
 ]
 

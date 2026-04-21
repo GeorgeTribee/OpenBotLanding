@@ -1636,6 +1636,98 @@ function parseHash() {
   return { docs: false, page: undefined }
 }
 
+const heroPrompts = [
+  '@tavily research "best productivity tools 2025" @claude summarize the findings @slack send it to the team',
+  '@stitch design a landing page @claude build it in React @github push the code',
+  '@browser find the cheapest flight to NYC @calendar block my schedule @slack notify the team',
+  '@codex fix the bug in auth.ts @github open a PR @slack ping the reviewer',
+  '@tavily research our competitors @claude write a report @notion save it to the workspace',
+]
+
+const agentColors: Record<string, string> = {
+  '@tavily': '#60a5fa',
+  '@stitch': '#f472b6',
+  '@claude': '#a78bfa',
+  '@browser': '#34d399',
+  '@slack': '#fb923c',
+  '@codex': '#818cf8',
+  '@github': '#e2e8f0',
+  '@calendar': '#fbbf24',
+  '@notion': '#e2e8f0',
+}
+
+function renderPrompt(text: string) {
+  const parts = text.split(/(@\w+)/g)
+  return parts.map((part, i) => {
+    if (part.startsWith('@')) {
+      const color = agentColors[part.toLowerCase()] ?? '#a78bfa'
+      return <span key={i} style={{ color, fontWeight: 500 }}>{part}</span>
+    }
+    return <span key={i} className="text-zinc-300">{part}</span>
+  })
+}
+
+function HeroInput() {
+  const [text, setText] = useState('')
+  const promptIndex = useRef(0)
+  const charIndex = useRef(0)
+  const isDeleting = useRef(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const tick = () => {
+      const full = heroPrompts[promptIndex.current]
+      if (!isDeleting.current) {
+        charIndex.current++
+        setText(full.slice(0, charIndex.current))
+        if (charIndex.current === full.length) {
+          isDeleting.current = true
+          timeoutRef.current = setTimeout(tick, 2400)
+          return
+        }
+        timeoutRef.current = setTimeout(tick, 38)
+      } else {
+        charIndex.current--
+        setText(full.slice(0, charIndex.current))
+        if (charIndex.current === 0) {
+          isDeleting.current = false
+          promptIndex.current = (promptIndex.current + 1) % heroPrompts.length
+          timeoutRef.current = setTimeout(tick, 500)
+          return
+        }
+        timeoutRef.current = setTimeout(tick, 18)
+      }
+    }
+    timeoutRef.current = setTimeout(tick, 900)
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
+  }, [])
+
+  return (
+    <div className="relative z-10 w-full max-w-2xl mt-8 md:mt-12" style={{ background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+      <div className="px-5 pt-5 pb-4 min-h-22.5 flex items-start">
+        <p className="text-base leading-relaxed text-left">
+          {renderPrompt(text)}
+          <span className="inline-block w-0.5 h-[1em] bg-zinc-400 ml-0.5 align-middle" style={{ animation: 'pulse 1s ease-in-out infinite' }} />
+        </p>
+      </div>
+      <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+      <div className="px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <button aria-label="Upload file" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
+            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
+          </button>
+          <button aria-label="Attach document" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
+            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+          </button>
+        </div>
+        <button aria-label="Send message" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
+          <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [showDocs, setShowDocs] = useState(() => parseHash().docs)
   const [showAgents, setShowAgents] = useState(() => window.location.hash === '#agents')
@@ -1695,9 +1787,10 @@ function App() {
       <main id="main-content" aria-label="Main content">
 
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center" style={{ backgroundImage: `url('/background.webp')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="absolute inset-0 bg-black/70"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black to-transparent"></div>
+      <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center">
+        <img src="/background22.webp" alt="" aria-hidden="true" fetchPriority="high" decoding="async" className="absolute inset-0 w-full h-full object-cover" style={{ zIndex: 0 }} />
+        <div className="absolute inset-0 bg-black/70" style={{ zIndex: 1 }}></div>
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black to-transparent" style={{ zIndex: 1 }}></div>
 
         {/* Logo — centered top */}
         <div className="absolute top-0 left-0 right-0 flex justify-center pt-7 z-10 pointer-events-none">
@@ -1727,16 +1820,13 @@ function App() {
           </button>
         </div>
 
-        <h1 className="relative font-bold leading-[1.05] tracking-tight max-w-5xl px-4" style={{ fontSize: 'clamp(32px, 8vw, 88px)' }}>
-          An AI That Gets<br />Work Done for You.
+        <p className="relative z-10 text-xs font-semibold tracking-[0.3em] text-zinc-400 uppercase mb-5">The OS for AI Agents</p>
+
+        <h1 className="relative z-10 font-bold leading-[1.05] tracking-tight max-w-5xl px-4 text-white" style={{ fontSize: 'clamp(32px, 8vw, 88px)' }}>
+          The Last Tool<br />You'll Ever Need.
         </h1>
 
-        <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="relative mt-8 md:mt-14 inline-flex items-center bg-white text-black rounded-full pl-2 pr-7 py-2 hover:bg-zinc-100 transition-colors shadow-lg cursor-pointer">
-          <span className="w-10 h-10 rounded-full bg-black flex items-center justify-center shrink-0 mr-4">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-          </span>
-          <span className="text-base font-medium">Start using OpenBot</span>
-        </button>
+        <HeroInput />
       </section>
 
       <WhySection />

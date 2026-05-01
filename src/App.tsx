@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import TermsPage from './TermsPage'
+import PrivacyPage from './PrivacyPage'
 import { Button } from '@/components/ui/button'
-import { Copy, Check, Star } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 import { SiWhatsapp, SiTelegram, SiDiscord, SiSlack, SiSignal, SiImessage, SiInstagram, SiFacebook, SiLinkedin, SiAnthropic, SiOpenai, SiGooglegemini, SiPerplexity, SiHuggingface, SiGithub, SiX, SiGmail, SiGooglechrome, SiSpotify, SiYoutube, SiObsidian, SiGooglemeet, SiAirbnb, SiWizzair, SiRyanair, SiZoom, SiGooglecalendar, SiExpedia, SiTripadvisor, SiFigma, SiCanva, SiTrello, SiNotion, SiJira, SiAsana, SiLinear, SiDropbox, SiGoogledrive, SiAirtable, SiClickup, SiConfluence, SiUber, SiLyft, SiHotelsdotcom, SiAmazon, SiEbay, SiGlovo } from 'react-icons/si'
 import { TbBrandBooking, TbBrandVscode } from 'react-icons/tb'
 import openbotLogo from './assets/openbotlogo.svg'
@@ -13,109 +15,19 @@ const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: Reac
   </svg>
 )
 
-function TerminalCopyBtn({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-      className="p-1.5 rounded text-zinc-600 hover:text-zinc-300 hover:bg-zinc-800 transition-all"
-      aria-label="Copy"
-    >
-      {copied ? <Check className="w-4 h-4 text-purple-400" /> : <Copy className="w-4 h-4" />}
-    </button>
-  )
-}
 
 function QuickStartTerminal() {
-  const [tab, setTab] = useState<'npm' | 'pnpm'>('npm')
-
-  const commands = {
-    npm: [
-      { comment: '# Install the CLI', cmd: 'npm i -g openbot' },
-      { comment: '# Configure your model (OpenAI, Anthropic, etc.)', cmd: 'openbot configure' },
-      { comment: '# Start the agent server', cmd: 'openbot server', args: ['--openai-api-key', '--anthropic-api-key'] },
-      { comment: '# Start the Web Interface', cmd: 'npx openbot-web' },
-    ],
-    pnpm: [
-      { comment: '# Install the CLI', cmd: 'pnpm add -g openbot' },
-      { comment: '# Configure your model (OpenAI, Anthropic, etc.)', cmd: 'openbot configure' },
-      { comment: '# Start the agent server', cmd: 'openbot server', args: ['--openai-api-key', '--anthropic-api-key'] },
-      { comment: '# Start the Web Interface', cmd: 'npx openbot-web' },
-    ],
-  }
-
   return (
-    <div id="quick-start" className="mt-12">
-      <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-5">Quick Start</p>
-
-      <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.07)', background: '#000' }}>
-        {/* Terminal header */}
-        <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700"></div>
-          </div>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setTab('npm')}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${tab === 'npm' ? 'bg-white/10 text-white' : 'text-zinc-600 hover:text-zinc-400'}`}
-            >
-              npm
-            </button>
-            <button
-              onClick={() => setTab('pnpm')}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${tab === 'pnpm' ? 'bg-white/10 text-white' : 'text-zinc-600 hover:text-zinc-400'}`}
-            >
-              pnpm
-            </button>
-          </div>
-        </div>
-
-        {/* Terminal body */}
-        <div className="p-6 space-y-4 font-mono text-sm">
-          {commands[tab].map(({ comment, cmd, args }: { comment: string; cmd: string; args?: string[] }) => (
-            <div key={cmd}>
-              <div className="text-zinc-700 text-xs mb-1">{comment}</div>
-              <div className="flex items-center justify-between group">
-                <div>
-                  <span className="text-zinc-600">$ </span>
-                  <span className="text-zinc-300">{cmd}</span>
-                  {args && args.map((arg, i) => (
-                    <span key={arg}>
-                      {i > 0 && <span className="text-zinc-700"> or </span>}
-                      {i === 0 && <span> </span>}
-                      <span className="text-zinc-500">{arg}</span>
-                    </span>
-                  ))}
-                </div>
-                <TerminalCopyBtn text={cmd} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p className="text-center text-xs text-zinc-700 mt-4">
-        Works on macOS & Linux. Windows coming soon.
-      </p>
-
-      {/* GitHub Star */}
-      <div className="mt-6 text-center">
-        <a
-          href="https://github.com/meetopenbot/openbot"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2.5 transition-all rounded-full px-5 py-2.5 text-sm text-zinc-500 hover:text-zinc-300"
-          style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}
-        >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-          </svg>
-          <span>Star on GitHub</span>
-          <Star className="w-3.5 h-3.5 fill-yellow-400" stroke="#facc14" strokeWidth={2} strokeLinejoin="round" />
-        </a>
-      </div>
+    <div id="quick-start" className="mt-12 text-center">
+      <a
+        href="https://openbot.one"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-white text-sm font-medium rounded-full px-8 py-3 transition-all"
+        style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
+      >
+        Login
+      </a>
     </div>
   )
 }
@@ -143,7 +55,7 @@ function highlight(text: string, query: string): React.ReactNode {
   const qLower = query.toLowerCase()
   const idx = lower.indexOf(qLower)
   if (idx === -1) return <>{text}</>
-  return <>{text.slice(0, idx)}<span className="text-purple-400 font-semibold">{text.slice(idx, idx + query.length)}</span>{text.slice(idx + query.length)}</>
+  return <>{text.slice(0, idx)}<span className="text-zinc-200 font-semibold">{text.slice(idx, idx + query.length)}</span>{text.slice(idx + query.length)}</>
 }
 
 function getKeywordSnippet(keywords: string, query: string): string | null {
@@ -233,11 +145,11 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <p className="text-zinc-400 mb-3 text-sm">Install OpenBot globally using npm or pnpm:</p>
         <div className="space-y-2 mb-12">
           <DocTerminal copyText="npm install -g openbot">
-            <span className="text-purple-400">npm</span>
+            <span className="text-zinc-200">npm</span>
             <span className="text-zinc-300"> install -g openbot</span>
           </DocTerminal>
           <DocTerminal copyText="pnpm add -g openbot">
-            <span className="text-purple-400">pnpm</span>
+            <span className="text-zinc-200">pnpm</span>
             <span className="text-zinc-300"> add -g openbot</span>
           </DocTerminal>
         </div>
@@ -246,13 +158,13 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <p className="text-zinc-400 mb-3 text-sm">Start the server with your AI provider API key:</p>
         <div className="space-y-2 mb-5">
           <DocTerminal copyText="openbot server --openai-api-key YOUR_KEY">
-            <span className="text-purple-400">openbot</span>
+            <span className="text-zinc-200">openbot</span>
             <span className="text-zinc-300"> server </span>
             <span className="text-yellow-400">--openai-api-key</span>
             <span className="text-green-400"> YOUR_KEY</span>
           </DocTerminal>
           <DocTerminal copyText="openbot server --anthropic-api-key YOUR_KEY">
-            <span className="text-purple-400">openbot</span>
+            <span className="text-zinc-200">openbot</span>
             <span className="text-zinc-300"> server </span>
             <span className="text-yellow-400">--anthropic-api-key</span>
             <span className="text-green-400"> YOUR_KEY</span>
@@ -260,7 +172,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         </div>
         <p className="text-zinc-400 mb-3 text-sm">Then open the web interface in your browser:</p>
         <DocTerminal copyText="http://localhost:3000">
-          <span className="text-purple-400">http://localhost:3000</span>
+          <span className="text-zinc-200">http://localhost:3000</span>
         </DocTerminal>
       </div>
     ),
@@ -272,7 +184,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
     content: (
       <div>
         <h1 className="text-4xl font-bold mb-3">The "Manager-Agent" Philosophy</h1>
-        <p className="text-zinc-500 mb-8 pl-4 border-l-2 border-zinc-700 italic">OpenBot follows a <span className="text-purple-400 font-semibold">Delegate by Default</span> pattern.</p>
+        <p className="text-zinc-500 mb-8 pl-4 border-l-2 border-zinc-700 italic">OpenBot follows a <span className="text-zinc-200 font-semibold">Delegate by Default</span> pattern.</p>
         <div className="space-y-4">
           {[
             { title: 'Manager Agent', desc: 'Your primary interface. It analyzes your intent, manages long-term memory (via the brain plugin), and orchestrates specialized workers.' },
@@ -297,14 +209,14 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="flex items-center gap-3 mb-4">
           <div>
             <h1 className="text-4xl font-bold">Manager Agent</h1>
-            <code className="text-purple-400 text-sm">The Orchestrator</code>
+            <code className="text-zinc-200 text-sm">The Orchestrator</code>
           </div>
         </div>
-        <p className="text-zinc-400 mb-8">The central "brain" of the OpenBot ecosystem. It analyzes user intent, manages long-term memory (via the brain plugin), and coordinates other agents using the <code className="text-purple-300 bg-zinc-800 px-1.5 py-0.5 rounded text-sm">delegateTask</code> tool.</p>
+        <p className="text-zinc-400 mb-8">The central "brain" of the OpenBot ecosystem. It analyzes user intent, manages long-term memory (via the brain plugin), and coordinates other agents using the <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-sm">delegateTask</code> tool.</p>
         <h2 id="doc-ma-resp" className="text-xl font-semibold mb-3">Responsibilities</h2>
         <ul className="space-y-2 mb-8">
           {['Analyze user intent and determine which agent to delegate to', 'Manage long-term memory using the brain plugin (remember, recall)', 'Coordinate multiple specialized agents in parallel or sequence', 'Synthesize results and return a concise summary to the user'].map(r => (
-            <li key={r} className="flex gap-2 text-sm text-zinc-400"><span className="text-purple-400 mt-0.5">→</span>{r}</li>
+            <li key={r} className="flex gap-2 text-sm text-zinc-400"><span className="text-zinc-200 mt-0.5">→</span>{r}</li>
           ))}
         </ul>
         <h2 id="doc-ma-delegate" className="text-xl font-semibold mb-3">delegateTask tool</h2>
@@ -328,7 +240,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="flex items-center gap-3 mb-4">
           <div>
             <h1 className="text-4xl font-bold">OS Agent</h1>
-            <code className="text-purple-400 text-sm">os</code>
+            <code className="text-zinc-200 text-sm">os</code>
           </div>
         </div>
         <p className="text-zinc-400 mb-8">Your specialized terminal and file system companion. It has full access to your local machine (within the boundaries you set). It can execute shell commands, create/read/edit files, manage directories, and handle system-level operations.</p>
@@ -336,7 +248,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="grid sm:grid-cols-2 gap-3 mb-8">
           {['Execute shell commands', 'Create, read, edit files', 'Manage directories', 'Run git commands', 'Execute scripts', 'System-level operations'].map(c => (
             <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-purple-400">✓</span>{c}
+              <span className="text-zinc-200">✓</span>{c}
             </div>
           ))}
         </div>
@@ -354,7 +266,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="flex items-center gap-3 mb-4">
           <div>
             <h1 className="text-4xl font-bold">Browser Agent</h1>
-            <code className="text-purple-400 text-sm">browser · Stagehand</code>
+            <code className="text-zinc-200 text-sm">browser · Stagehand</code>
           </div>
         </div>
         <p className="text-zinc-400 mb-8">A powerful web automation specialist based on Stagehand. It can navigate the internet exactly like a human would — browsing websites, clicking buttons, filling forms, and extracting data.</p>
@@ -362,13 +274,13 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="grid sm:grid-cols-2 gap-3 mb-8">
           {['Navigate to any URL', 'Click buttons & links', 'Fill forms', 'Extract page data', 'Take screenshots', 'Multi-step web flows'].map(c => (
             <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-purple-400">✓</span>{c}
+              <span className="text-zinc-200">✓</span>{c}
             </div>
           ))}
         </div>
         <h2 className="text-xl font-semibold mb-3">Planned: browser-use Agent</h2>
         <div className="rounded-lg border border-dashed border-zinc-700 p-4 text-sm text-zinc-500">
-          We also plan to introduce a parallel agent based on <code className="text-purple-300">browser-use</code> for alternative autonomous web navigation strategies with higher-level reasoning.
+          We also plan to introduce a parallel agent based on <code className="text-zinc-300">browser-use</code> for alternative autonomous web navigation strategies with higher-level reasoning.
         </div>
       </div>
     ),
@@ -382,7 +294,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="flex items-center gap-3 mb-4">
           <div>
             <h1 className="text-4xl font-bold">Topic Agent</h1>
-            <code className="text-purple-400 text-sm">topic</code>
+            <code className="text-zinc-200 text-sm">topic</code>
           </div>
         </div>
         <p className="text-zinc-400 mb-8">A background utility that works silently to keep your workspace organized. It automatically analyzes the first few messages of a new conversation and generates a concise (3–5 word) title for the thread.</p>
@@ -390,7 +302,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="space-y-3">
           {['Listens for new conversation events via the Event Bus', 'Analyzes the first 2–3 messages for context', 'Generates a concise 3–5 word title', 'Updates the conversation thread label automatically'].map((s, i) => (
             <div key={s} className="flex gap-3 items-start rounded-lg border border-zinc-800 p-4 text-sm text-zinc-400">
-              <span className="text-purple-400 font-mono text-xs mt-0.5">{i + 1}.</span>{s}
+              <span className="text-zinc-200 font-mono text-xs mt-0.5">{i + 1}.</span>{s}
             </div>
           ))}
         </div>
@@ -406,7 +318,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="flex items-center gap-3 mb-4">
           <div>
             <h1 className="text-4xl font-bold">Codex Agent</h1>
-            <code className="text-purple-400 text-sm">codex</code>
+            <code className="text-zinc-200 text-sm">codex</code>
           </div>
         </div>
         <p className="text-zinc-400 mb-8">A world-class software engineer and coding assistant powered by OpenAI. It helps with high-level architectural decisions, code refactoring, complex logic implementation, and debugging.</p>
@@ -414,7 +326,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <div className="grid sm:grid-cols-2 gap-3 mb-8">
           {['Architectural decisions', 'Code refactoring', 'Complex logic implementation', 'Debugging & analysis', 'Explore & modify codebase', 'Shell & file system access'].map(c => (
             <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-purple-400">✓</span>{c}
+              <span className="text-zinc-200">✓</span>{c}
             </div>
           ))}
         </div>
@@ -467,7 +379,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
             { fn: 'journal', desc: 'Keep a daily log of activities, completed tasks, and insights.' },
           ].map(({ fn, desc }) => (
             <div key={fn} className="rounded-lg border border-zinc-800 p-5 bg-zinc-900/30">
-              <code className="text-purple-300 font-mono text-base">{fn}()</code>
+              <code className="text-zinc-300 font-mono text-base">{fn}()</code>
               <p className="text-sm text-zinc-500 mt-3">{desc}</p>
             </div>
           ))}
@@ -485,16 +397,16 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
         <p className="text-zinc-500 text-base mb-10 pl-4 border-l-2 border-zinc-700 italic">OpenBot is designed for power users and builders who want to create their own custom AI workflows without the complexity of building from scratch.</p>
 
         <h2 id="doc-ext-yaml" className="text-2xl font-bold mb-2">1. YAML Agents <span className="text-sm font-normal text-zinc-500 ml-2">(No Coding Required)</span></h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">Create specialized agents just by writing a simple YAML file in <code className="text-purple-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/researcher/agent.yaml</code>:</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-purple-400">name</span><span className="text-zinc-500">:</span> researcher{'\n'}<span className="text-purple-400">description</span><span className="text-zinc-500">:</span> <span className="text-green-400">A specialized agent for gathering information and summarizing articles.</span>{'\n'}<span className="text-purple-400">model</span><span className="text-zinc-500">:</span> <span className="text-green-400">anthropic/claude-3-5-sonnet-20240620</span>{'\n'}<span className="text-purple-400">plugins</span><span className="text-zinc-500">:</span>{'\n'}  <span className="text-zinc-500">-</span> <span className="text-purple-400">name</span><span className="text-zinc-500">:</span> browser{'\n'}  <span className="text-zinc-500">-</span> <span className="text-purple-400">name</span><span className="text-zinc-500">:</span> file-system{'\n'}    <span className="text-purple-400">config</span><span className="text-zinc-500">:</span>{'\n'}      <span className="text-purple-400">baseDir</span><span className="text-zinc-500">:</span> <span className="text-green-400">~/Documents/Research</span>{'\n'}<span className="text-purple-400">systemPrompt</span><span className="text-zinc-500">: |</span>{'\n'}  <span className="text-zinc-400">You are an expert researcher.</span>{'\n'}  <span className="text-zinc-400">Use the browser to gather information and the file-system to save detailed reports.</span>{'\n'}  <span className="text-zinc-400">Always cite your sources and provide a high-level summary.</span></pre>
+        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">Create specialized agents just by writing a simple YAML file in <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/researcher/agent.yaml</code>:</p>
+        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> researcher{'\n'}<span className="text-zinc-200">description</span><span className="text-zinc-500">:</span> <span className="text-green-400">A specialized agent for gathering information and summarizing articles.</span>{'\n'}<span className="text-zinc-200">model</span><span className="text-zinc-500">:</span> <span className="text-green-400">anthropic/claude-3-5-sonnet-20240620</span>{'\n'}<span className="text-zinc-200">plugins</span><span className="text-zinc-500">:</span>{'\n'}  <span className="text-zinc-500">-</span> <span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> browser{'\n'}  <span className="text-zinc-500">-</span> <span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> file-system{'\n'}    <span className="text-zinc-200">config</span><span className="text-zinc-500">:</span>{'\n'}      <span className="text-zinc-200">baseDir</span><span className="text-zinc-500">:</span> <span className="text-green-400">~/Documents/Research</span>{'\n'}<span className="text-zinc-200">systemPrompt</span><span className="text-zinc-500">: |</span>{'\n'}  <span className="text-zinc-400">You are an expert researcher.</span>{'\n'}  <span className="text-zinc-400">Use the browser to gather information and the file-system to save detailed reports.</span>{'\n'}  <span className="text-zinc-400">Always cite your sources and provide a high-level summary.</span></pre>
 
         <h2 id="doc-ext-ts" className="text-2xl font-bold mb-2">2. TS Agent Packages <span className="text-sm font-normal text-zinc-500 ml-2">(Advanced)</span></h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">For more complex agents that require custom logic beyond a prompt, you can create a full TypeScript package in <code className="text-purple-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/my-agent/</code>:</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-zinc-500">{'// ~/.openbot/agents/my-agent/index.ts'}</span>{'\n'}<span className="text-blue-400">export const</span> <span className="text-yellow-300">agent</span> = {'{'}{'\n'}  <span className="text-purple-400">name</span>: <span className="text-green-400">"custom-agent"</span>,{'\n'}  <span className="text-purple-400">description</span>: <span className="text-green-400">"An agent with custom TS logic"</span>,{'\n'}  <span className="text-purple-400">factory</span>: {'({ model }) => (builder) => {'}{'\n'}    <span className="text-zinc-500">{'// Compose plugins and add custom event handlers'}</span>{'\n'}    <span className="text-yellow-300">builder</span>.<span className="text-blue-400">use</span>(<span className="text-yellow-300">llmPlugin</span>({'({'}{'\n'}      <span className="text-purple-400">model</span>,{'\n'}      <span className="text-purple-400">system</span>: <span className="text-green-400">"You are a specialized assistant..."</span>,{'\n'}      <span className="text-zinc-500">{'// ...'}</span>{'\n'}    {'})'}));{'\n'}  {'}'}{'\n'}{'}'}{';'}</pre>
+        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">For more complex agents that require custom logic beyond a prompt, you can create a full TypeScript package in <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/my-agent/</code>:</p>
+        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-zinc-500">{'// ~/.openbot/agents/my-agent/index.ts'}</span>{'\n'}<span className="text-blue-400">export const</span> <span className="text-yellow-300">agent</span> = {'{'}{'\n'}  <span className="text-zinc-200">name</span>: <span className="text-green-400">"custom-agent"</span>,{'\n'}  <span className="text-zinc-200">description</span>: <span className="text-green-400">"An agent with custom TS logic"</span>,{'\n'}  <span className="text-zinc-200">factory</span>: {'({ model }) => (builder) => {'}{'\n'}    <span className="text-zinc-500">{'// Compose plugins and add custom event handlers'}</span>{'\n'}    <span className="text-yellow-300">builder</span>.<span className="text-blue-400">use</span>(<span className="text-yellow-300">llmPlugin</span>({'({'}{'\n'}      <span className="text-zinc-200">model</span>,{'\n'}      <span className="text-zinc-200">system</span>: <span className="text-green-400">"You are a specialized assistant..."</span>,{'\n'}      <span className="text-zinc-500">{'// ...'}</span>{'\n'}    {'})'}));{'\n'}  {'}'}{'\n'}{'}'}{';'}</pre>
 
         <h2 id="doc-ext-plugin" className="text-2xl font-bold mb-2">3. Custom Plugins</h2>
         <p className="text-zinc-400 text-sm mb-4 leading-relaxed">For those who want even more control, you can extend the AI's toolbox with custom logic. A plugin defines new tools and reacts to system events.</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-blue-400">export const</span> <span className="text-yellow-300">myPlugin</span> = <span className="text-blue-400">{`() => (builder) => {`}</span>{'\n'}  <span className="text-yellow-300">builder</span>.<span className="text-blue-400">on</span>(<span className="text-green-400">"action:myTool"</span>, <span className="text-blue-400">async function*</span> (event, {'{ state }'}) {'{'}{'\n'}    <span className="text-zinc-500">{'// Perform custom logic or interact with other systems'}</span>{'\n'}    <span className="text-blue-400">yield</span> {'{ '}<span className="text-purple-400">type</span>: <span className="text-green-400">"action:taskResult"</span>, <span className="text-purple-400">data</span>: {'{ '}<span className="text-purple-400">result</span>: <span className="text-green-400">"Done!"</span> {'}}'};{'\n'}  {'}'});{'\n'}{'}'}{';'}</pre>
+        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-blue-400">export const</span> <span className="text-yellow-300">myPlugin</span> = <span className="text-blue-400">{`() => (builder) => {`}</span>{'\n'}  <span className="text-yellow-300">builder</span>.<span className="text-blue-400">on</span>(<span className="text-green-400">"action:myTool"</span>, <span className="text-blue-400">async function*</span> (event, {'{ state }'}) {'{'}{'\n'}    <span className="text-zinc-500">{'// Perform custom logic or interact with other systems'}</span>{'\n'}    <span className="text-blue-400">yield</span> {'{ '}<span className="text-zinc-200">type</span>: <span className="text-green-400">"action:taskResult"</span>, <span className="text-zinc-200">data</span>: {'{ '}<span className="text-zinc-200">result</span>: <span className="text-green-400">"Done!"</span> {'}}'};{'\n'}  {'}'});{'\n'}{'}'}{';'}</pre>
 
       </div>
     ),
@@ -516,7 +428,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
             { prefix: '/browser', cmd: 'search for local weather' },
           ].map(({ prefix, cmd }) => (
             <div key={prefix} className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-3 font-mono text-sm">
-              <span className="text-purple-400 font-semibold">{prefix}</span>
+              <span className="text-zinc-200 font-semibold">{prefix}</span>
               <span className="text-zinc-300">{cmd}</span>
             </div>
           ))}
@@ -531,7 +443,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
             { name: 'SDUI', desc: 'Server-Driven UI — plugins can emit cards, logs, and status updates that render directly in the web dashboard.' },
           ].map(({ name, desc }) => (
             <div key={name} className="flex gap-4 rounded-lg border border-zinc-800 p-4 bg-zinc-900/30">
-              <span className="text-purple-400 font-mono text-sm font-semibold shrink-0 mt-0.5">{name}</span>
+              <span className="text-zinc-200 font-mono text-sm font-semibold shrink-0 mt-0.5">{name}</span>
               <p className="text-sm text-zinc-400">{desc}</p>
             </div>
           ))}
@@ -545,7 +457,7 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
             { path: '/docs', desc: 'Detailed guides on Architecture, Plugins, and Agents.' },
           ].map(({ path, desc }) => (
             <div key={path} className="flex items-start gap-3 rounded-lg border border-zinc-800 px-5 py-3">
-              <code className="text-purple-300 font-mono text-sm shrink-0">{path}</code>
+              <code className="text-zinc-300 font-mono text-sm shrink-0">{path}</code>
               <span className="text-zinc-500 text-sm">{desc}</span>
             </div>
           ))}
@@ -570,9 +482,9 @@ const docsContent: Record<string, { title: string; breadcrumb: string; toc: stri
             { name: 'social Agent', desc: 'Designed to manage social media interactions, schedule posts, and monitor mentions.' },
           ].map(({ name, desc }) => (
             <div key={name} className="flex gap-4 rounded-lg border border-dashed border-zinc-700 p-5">
-              <div className="w-2 h-2 rounded-full bg-purple-500 mt-1.5 shrink-0"></div>
+              <div className="w-2 h-2 rounded-full bg-white mt-1.5 shrink-0"></div>
               <div>
-                <code className="text-purple-400 font-mono text-sm font-semibold">{name}</code>
+                <code className="text-zinc-200 font-mono text-sm font-semibold">{name}</code>
                 <p className="text-sm text-zinc-500 mt-1">{desc}</p>
               </div>
             </div>
@@ -836,7 +748,7 @@ function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: s
               }`}
             >
               {label}
-              {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-500 rounded-t-full" />}
+              {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-t-full" />}
             </button>
           )
         })}
@@ -936,7 +848,7 @@ function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: s
                     }
                   }}
                   className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors mb-0.5 ${
-                    activeSidebarKey === id + ':' + (sectionId ?? '') ? 'bg-purple-500/10 text-purple-400 font-medium' : sidebarInactiveCls
+                    activeSidebarKey === id + ':' + (sectionId ?? '') ? 'bg-white/10 text-white font-medium' : sidebarInactiveCls
                   }`}
                 >
                   {label}
@@ -1629,6 +1541,266 @@ function TestimonialsSection() {
   )
 }
 
+const pricingPlans = [
+  {
+    name: 'Free',
+    price: { monthly: 0, yearly: 0 },
+    desc: 'Try OpenBot with your own API key.',
+    features: ['Bring your own API key', '3 agents', '100 tasks / month', '1 AI model', 'Basic integrations', 'Community support'],
+    cta: 'Get Started',
+    highlighted: false,
+  },
+  {
+    name: 'Plus',
+    price: { monthly: 20, yearly: 16 },
+    desc: 'For individuals getting started with automation.',
+    features: ['5 agents', '300 tasks / month', '3 AI models', '20+ integrations', 'Community support'],
+    cta: 'Buy Plus',
+    highlighted: false,
+  },
+  {
+    name: 'Pro',
+    price: { monthly: 60, yearly: 48 },
+    desc: 'For individuals who need more power.',
+    features: ['10 agents', '1,000 tasks / month', 'All AI models', '50+ integrations', 'Persistent memory', 'Email support'],
+    cta: 'Buy Pro',
+    highlighted: true,
+  },
+  {
+    name: 'Max',
+    price: { monthly: 200, yearly: 160 },
+    desc: 'For power users and small teams.',
+    features: ['Unlimited agents', '10,000 tasks / month', 'All AI models', '100+ integrations', 'Persistent memory', 'Custom agents', 'Advanced workflows', 'Priority support'],
+    cta: 'Buy Max',
+    highlighted: false,
+  },
+  {
+    name: 'Enterprise',
+    price: { monthly: null, yearly: null },
+    desc: 'For teams that need full control.',
+    features: ['Unlimited everything', 'Custom integrations', 'SSO & audit logs', 'On-premise option', 'SLA guarantee', 'Dedicated support'],
+    cta: 'Contact Us',
+    highlighted: false,
+  },
+]
+
+function EnterpriseModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKey)
+    }
+  }, [onClose])
+
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setSent(true)
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-md rounded-2xl p-8"
+        style={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.1)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Close */}
+        <button onClick={onClose} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors cursor-pointer">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+
+        {!sent ? (
+          <>
+            <p className="text-xs font-semibold tracking-[0.3em] text-zinc-600 uppercase mb-2">Enterprise</p>
+            <h2 className="text-2xl font-bold mb-1">Let's talk.</h2>
+            <p className="text-zinc-400 text-sm mb-6">Tell us about your team and we'll get back to you within 24 hours.</p>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs text-zinc-500">Name</label>
+                  <input
+                    required
+                    value={form.name}
+                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    placeholder="Jane Smith"
+                    className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs text-zinc-500">Company</label>
+                  <input
+                    value={form.company}
+                    onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+                    placeholder="Acme Inc."
+                    className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-500">Work email</label>
+                <input
+                  required
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="jane@company.com"
+                  className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs text-zinc-500">Tell us about your use case</label>
+                <textarea
+                  rows={3}
+                  value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                  placeholder="Team size, what you'd like to automate..."
+                  className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-full py-2.5 text-sm font-medium transition-all cursor-pointer mt-1"
+                style={{ background: '#fff', color: '#000' }}
+              >
+                Send message
+              </button>
+            </form>
+          </>
+        ) : (
+          <div className="text-center py-6">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h2 className="text-xl font-bold mb-2">Message sent!</h2>
+            <p className="text-zinc-400 text-sm mb-6">We'll get back to you within 24 hours.</p>
+            <button onClick={onClose} className="text-sm text-zinc-500 hover:text-white transition-colors cursor-pointer">Close</button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function PricingSection() {
+  const [yearly, setYearly] = useState(false)
+  const [displayYearly, setDisplayYearly] = useState(false)
+  const [priceOpacity, setPriceOpacity] = useState(1)
+  const [showEnterpriseModal, setShowEnterpriseModal] = useState(false)
+
+  const handleToggle = (val: boolean) => {
+    if (val === yearly) return
+    setYearly(val)
+    setPriceOpacity(0)
+    setTimeout(() => {
+      setDisplayYearly(val)
+      setPriceOpacity(1)
+    }, 140)
+  }
+
+  return (
+    <section id="pricing" className="container mx-auto px-6 py-12 md:py-20">
+      <div className="text-center mb-12">
+        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-4">Pricing</p>
+        <h2 className="text-3xl md:text-4xl font-bold mb-3">Simple, transparent pricing.</h2>
+        <p className="text-zinc-400 text-base mb-6">Start free. Scale as you grow.</p>
+        <div className="inline-flex items-center gap-3">
+          <div className="relative inline-flex items-center bg-zinc-900 border border-zinc-800 rounded-full p-1">
+            <div
+              className="absolute top-1 bottom-1 rounded-full bg-white"
+              style={{
+                width: 'calc(50% - 4px)',
+                left: yearly ? 'calc(50% + 2px)' : '4px',
+                transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+            <button onClick={() => handleToggle(false)} className={`relative z-10 text-sm px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-200 ${!yearly ? 'text-black font-medium' : 'text-zinc-400'}`}>Monthly</button>
+            <button onClick={() => handleToggle(true)} className={`relative z-10 text-sm px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-200 ${yearly ? 'text-black font-medium' : 'text-zinc-400'}`}>Yearly</button>
+          </div>
+          <span
+            className="text-xs text-emerald-400 font-medium"
+            style={{
+              opacity: yearly ? 1 : 0,
+              transform: yearly ? 'translateX(0)' : 'translateX(-6px)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+              pointerEvents: 'none',
+            }}
+          >Save 20%</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+        {pricingPlans.map((plan) => (
+          <div
+            key={plan.name}
+            className="relative flex flex-col rounded-2xl p-6"
+            style={{
+              background: plan.highlighted ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
+              border: plan.highlighted ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(255,255,255,0.07)',
+            }}
+          >
+            {plan.highlighted && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
+              </div>
+            )}
+
+            <p className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-3">{plan.name}</p>
+
+            <div className="mb-3" style={{ opacity: priceOpacity, transition: 'opacity 0.14s ease' }}>
+              {plan.price.monthly === null ? (
+                <span className="text-3xl font-bold text-white">Custom</span>
+              ) : (
+                <>
+                  <span className="text-3xl font-bold text-white">${displayYearly ? plan.price.yearly : plan.price.monthly}</span>
+                  <span className="text-zinc-500 text-sm ml-1">/ mo</span>
+                </>
+              )}
+            </div>
+
+            <p className="text-zinc-500 text-sm mb-5 leading-relaxed">{plan.desc}</p>
+
+            <ul className="flex flex-col gap-2.5 mb-6 flex-1">
+              {plan.features.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-zinc-300">
+                  <svg className="w-4 h-4 text-white shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={() => plan.name === 'Enterprise' && setShowEnterpriseModal(true)}
+              className="w-full rounded-full py-2.5 text-sm font-medium transition-all cursor-pointer"
+              style={plan.highlighted
+                ? { background: '#fff', color: '#000' }
+                : { background: 'rgba(255,255,255,0.06)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }
+              }
+            >
+              {plan.cta}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {showEnterpriseModal && <EnterpriseModal onClose={() => setShowEnterpriseModal(false)} />}
+    </section>
+  )
+}
+
 function parseHash() {
   const h = window.location.hash
   if (h === '#docs') return { docs: true, page: undefined }
@@ -1777,9 +1949,9 @@ function App() {
             <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" aria-label="OpenBot on GitHub" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
           </div>
-          <button onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })} className="text-white text-sm rounded-full px-4 md:px-5 py-1.5 ml-auto md:ml-2 transition-all cursor-pointer" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
-            Get Started
-          </button>
+          <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-white text-sm rounded-full px-4 md:px-5 py-1.5 ml-auto md:ml-2 transition-all inline-block" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            Login
+          </a>
         </nav>
       </header>
 
@@ -1801,9 +1973,9 @@ function App() {
         </div>
 
         {/* Left nav */}
-        <nav className="absolute top-8 left-8 z-10 hidden md:flex flex-col gap-4">
-          {[['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']].map(([label, id]) => (
-            <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-left text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px' }}>{label}</button>
+        <nav className="absolute top-8 left-8 z-10 hidden md:flex flex-col gap-4 items-start">
+          {([['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']] as [string,string][]).map(([label, id]) => (
+            <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-left p-0 text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
           ))}
           <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
           <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
@@ -1811,13 +1983,15 @@ function App() {
 
         {/* Top right CTA */}
         <div className="absolute top-6 right-8 z-10 hidden md:block">
-          <button
-            onClick={() => document.getElementById('quick-start')?.scrollIntoView({ behavior: 'smooth' })}
-            className="text-white text-sm rounded-full px-6 py-2.5 transition-all cursor-pointer"
+          <a
+            href="https://openbot.one"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white text-sm rounded-full px-6 py-2.5 transition-all inline-block"
             style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
-            Get Started
-          </button>
+            Login
+          </a>
         </div>
 
         <p className="relative z-10 text-xs font-semibold tracking-[0.3em] text-zinc-400 uppercase mb-5">The OS for AI Agents</p>
@@ -1939,6 +2113,8 @@ function App() {
 
       <TestimonialsSection />
 
+      {/* <PricingSection /> */}
+
       {/* Get Started / CTA Section */}
       <section id="get-started" className="container mx-auto px-6 py-12 md:py-20">
         <div className="max-w-4xl mx-auto border border-zinc-800 bg-zinc-950/50 backdrop-blur-sm rounded-3xl p-6 sm:p-10 md:p-16 text-center">
@@ -1946,7 +2122,7 @@ function App() {
             Get Started in Minutes.
           </h2>
           <p className="text-base md:text-xl mb-8 text-zinc-300">
-            Install OpenBot, plug in your model API key, and you're ready to automate anything - no subscriptions, no hidden fees.
+            Install OpenBot, plug in your model API key, and start automating — free to try, no credit card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer">
@@ -1964,11 +2140,11 @@ function App() {
       {/* Footer */}
       <footer style={{ background: '#050505', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Top gradient line */}
-        <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(139,92,246,0.5) 30%, rgba(99,102,241,0.5) 60%, transparent)', marginBottom: '-1px' }} />
+        <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.15) 60%, transparent)', marginBottom: '-1px' }} />
 
         <div className="container mx-auto px-6 pt-10 md:pt-16 pb-10">
           {/* Main grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-12 mb-10 md:mb-14">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-10 mb-10 md:mb-14">
 
             {/* Brand column */}
             <div className="md:col-span-2 flex flex-col gap-5">
@@ -1985,7 +2161,7 @@ function App() {
                   aria-label="OpenBot on GitHub"
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                   style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)', e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                 >
                   <svg aria-hidden="true" className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
@@ -1996,7 +2172,7 @@ function App() {
                   aria-label="OpenBot on Discord"
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                   style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)', e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                 >
                   <SiDiscord aria-hidden="true" size={15} className="text-zinc-400" />
@@ -2005,12 +2181,30 @@ function App() {
                   aria-label="OpenBot on X (Twitter)"
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                   style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)', e.currentTarget.style.background = 'rgba(139,92,246,0.08)')}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)', e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                 >
                   <svg aria-hidden="true" className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
+                </a>
+                <a href="https://linkedin.com/company/openbot" target="_blank" rel="noopener noreferrer"
+                  aria-label="OpenBot on LinkedIn"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)', e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                >
+                  <SiLinkedin aria-hidden="true" size={15} className="text-zinc-400" />
+                </a>
+                <a href="https://www.youtube.com/@meetopenbot" target="_blank" rel="noopener noreferrer"
+                  aria-label="OpenBot on YouTube"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                  style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)', e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)', e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                >
+                  <SiYoutube aria-hidden="true" size={15} className="text-zinc-400" />
                 </a>
               </div>
             </div>
@@ -2055,6 +2249,20 @@ function App() {
                   className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
               ))}
             </div>
+
+            {/* Company column */}
+            <div className="flex flex-col gap-4">
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Company</p>
+              {[
+                { label: 'About Us', href: '#' },
+                { label: 'Our Charter', href: '#' },
+                { label: 'Foundation', href: '#' },
+                { label: 'Careers', href: '#' },
+                { label: 'Brand', href: '#' },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
+              ))}
+            </div>
           </div>
 
           {/* Divider */}
@@ -2065,9 +2273,10 @@ function App() {
             <p className="text-zinc-600 text-xs">
               © {new Date().getFullYear()} OpenBot. All rights reserved.
             </p>
-            <p className="text-zinc-700 text-xs">
-              Built with love by the OpenBot team.
-            </p>
+            <div className="flex items-center gap-5">
+              <button onClick={() => { window.history.pushState({}, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-zinc-600 hover:text-zinc-400 text-xs transition-colors cursor-pointer">Terms of Service</button>
+              <button onClick={() => { window.history.pushState({}, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-zinc-600 hover:text-zinc-400 text-xs transition-colors cursor-pointer">Privacy Policy</button>
+            </div>
           </div>
         </div>
       </footer>
@@ -2076,4 +2285,20 @@ function App() {
   )
 }
 
-export default App
+function AppRouter() {
+  const [pathname, setPathname] = useState(() => window.location.pathname)
+
+  useEffect(() => {
+    const handlePop = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
+  }, [])
+
+  const goHome = () => { window.history.pushState({}, '', '/'); setPathname('/') }
+
+  if (pathname === '/terms') return <TermsPage onBack={goHome} />
+  if (pathname === '/privacy') return <PrivacyPage onBack={goHome} />
+  return <App />
+}
+
+export default AppRouter

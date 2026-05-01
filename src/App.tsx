@@ -16,21 +16,6 @@ const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: Reac
 )
 
 
-function QuickStartTerminal() {
-  return (
-    <div id="quick-start" className="mt-12 text-center">
-      <a
-        href="https://openbot.one"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-white text-sm font-medium rounded-full px-8 py-3 transition-all"
-        style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
-      >
-        Login
-      </a>
-    </div>
-  )
-}
 
 
 function DocTerminal({ children, copyText }: { children: React.ReactNode; copyText: string }) {
@@ -2107,7 +2092,6 @@ function App() {
             </div>
           </div>
 
-          <QuickStartTerminal />
         </div>
       </section>
 
@@ -2122,17 +2106,17 @@ function App() {
             Get Started in Minutes.
           </h2>
           <p className="text-base md:text-xl mb-8 text-zinc-300">
-            Install OpenBot, plug in your model API key, and start automating — free to try, no credit card required.
+            Login, add your API key, and start automating — free to try, no credit card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="border-zinc-600 text-white hover:bg-zinc-900 rounded-full px-8">
-                View on GitHub
+            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="bg-white text-black hover:bg-zinc-200 rounded-full px-8">
+                Login
               </Button>
             </a>
           </div>
           <p className="text-sm text-zinc-400 mt-6">
-            Install → Add API key → Start automating
+            Login → Add API key → Done
           </p>
         </div>
       </section>

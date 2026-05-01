@@ -1695,7 +1695,7 @@ function EnterpriseModal({ onClose }: { onClose: () => void }) {
   )
 }
 
-function PricingSection() {
+export function PricingSection() {
   const [yearly, setYearly] = useState(false)
   const [displayYearly, setDisplayYearly] = useState(false)
   const [priceOpacity, setPriceOpacity] = useState(1)

@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import TermsPage from './TermsPage'
 import PrivacyPage from './PrivacyPage'
+import AboutPage from './AboutPage'
+import CharterPage from './CharterPage'
+import FoundationPage from './FoundationPage'
+import CareersPage from './CareersPage'
+import BrandPage from './BrandPage'
 import { Button } from '@/components/ui/button'
 import { Copy, Check } from 'lucide-react'
 import { SiWhatsapp, SiTelegram, SiDiscord, SiSlack, SiSignal, SiImessage, SiInstagram, SiFacebook, SiLinkedin, SiAnthropic, SiOpenai, SiGooglegemini, SiPerplexity, SiHuggingface, SiGithub, SiX, SiGmail, SiGooglechrome, SiSpotify, SiYoutube, SiObsidian, SiGooglemeet, SiAirbnb, SiWizzair, SiRyanair, SiZoom, SiGooglecalendar, SiExpedia, SiTripadvisor, SiFigma, SiCanva, SiTrello, SiNotion, SiJira, SiAsana, SiLinear, SiDropbox, SiGoogledrive, SiAirtable, SiClickup, SiConfluence, SiUber, SiLyft, SiHotelsdotcom, SiAmazon, SiEbay, SiGlovo } from 'react-icons/si'
 import { TbBrandBooking, TbBrandVscode } from 'react-icons/tb'
 import openbotLogo from './assets/openbotlogo.svg'
-import demoVideo from './assets/PromoVideo.mp4'
 
 const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: React.CSSProperties; className?: string }) => (
   <svg width={size} height={size} viewBox="0.36 0.5 33.33 32" fill="currentColor" style={style} className={className} xmlns="http://www.w3.org/2000/svg">
@@ -871,14 +875,7 @@ function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: s
   )
 }
 
-const whyItems = [
-  'OpenBot is built for power users. Fast, private, and runs entirely on your machine.',
-  'It\'s agent-based. Real actions taken on your behalf, not just answers.',
-  '100+ built-in agents. From scheduling to coding, shopping to deploying.',
-  'Engineered to be efficient. Minimal tokens, maximum output.',
-  'Priced for everyone. Low cost, even with heavy daily use.',
-  'Built with security first. Controlled access and safe execution.',
-]
+
 
 function WaveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -994,276 +991,374 @@ function WaveCanvas() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} style={{ width: '100%', height: '230px', display: 'block', cursor: 'crosshair' }} />
+  return <canvas ref={canvasRef} style={{ width: '100%', height: '48px', display: 'block', cursor: 'crosshair' }} />
 }
 
-function WhySection() {
-  const introRef = useRef<HTMLDivElement>(null)
-  const itemRefs = useRef<(HTMLParagraphElement | null)[]>([])
-  const rafRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    const animateEl = (el: HTMLElement | null) => {
-      if (!el) return
-      const centerY = window.innerHeight / 2
-      const rect = el.getBoundingClientRect()
-      const itemCenterY = (rect.top + rect.bottom) / 2
-      const dist = Math.abs(itemCenterY - centerY)
-      const range = window.innerHeight * 0.45
-      const t = Math.max(0, 1 - dist / range)
-      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
-      el.style.opacity = String(0.08 + eased * 0.92)
-      el.style.transform = `scale(${0.96 + eased * 0.04})`
-    }
-
-    const update = () => {
-      animateEl(introRef.current)
-      itemRefs.current.forEach(animateEl)
-      rafRef.current = null
-    }
-
-    const onScroll = () => {
-      if (!rafRef.current) rafRef.current = requestAnimationFrame(update)
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    update()
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [])
-
-  const itemStyle: React.CSSProperties = {
-    fontSize: 'clamp(18px, 2vw, 32px)',
-    opacity: 0.08,
-    willChange: 'opacity, transform',
-    transformOrigin: 'center center',
-    maxWidth: '560px',
-    padding: '0 2rem',
-    lineHeight: 1.45,
-  }
-
+function SkyCard({ children }: { children: React.ReactNode }) {
   return (
-    <div id="why" className="bg-black">
-      {/* Intro panel */}
-      <div className="flex flex-col items-center justify-center" style={{ height: '100vh' }}>
-        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-8">Why OpenBot</p>
-        <div
-          ref={introRef}
-          style={{ opacity: 0.08, willChange: 'opacity, transform', transformOrigin: 'center center', textAlign: 'center', maxWidth: '580px', padding: '0 2rem' }}
-        >
-          <h2 className="text-white font-light leading-tight" style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}>
-            Here's what makes<br />it different.
-          </h2>
-        </div>
-      </div>
-
-      {/* Scroll items */}
-      {whyItems.map((text, i) => {
-        const isLast = i === whyItems.length - 1
-        if (isLast) {
-          return (
-            <div key={i} style={{ height: '50vh', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <p ref={el => { itemRefs.current[i] = el }} className="text-center text-white font-light" style={itemStyle}>
-                  {text}
-                </p>
-              </div>
-              <WaveCanvas />
-            </div>
-          )
-        }
-        return (
-          <div key={i} className="flex items-center justify-center" style={{ height: '50vh' }}>
-            <p ref={el => { itemRefs.current[i] = el }} className="text-center text-white font-light" style={itemStyle}>
-              {text}
-            </p>
-          </div>
-        )
-      })}
+    <div style={{ borderRadius: 15, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 48px', background: 'linear-gradient(135deg, #012a4a 0%, #01497c 20%, #0369a1 50%, #0284c7 75%, #0ea5e9 100%)' }}>
+      {children}
     </div>
   )
 }
 
-const canDoItems = [
-  { icon: '💬', title: 'Send Messages', desc: 'Message friends, colleagues, or clients on Telegram, WhatsApp, Slack, and more — automatically.' },
-  { icon: '📅', title: 'Schedule & Manage Calendar', desc: 'Book meetings, set reminders, and organize your day without lifting a finger.' },
-  { icon: '🖥️', title: 'Control Your Computer', desc: 'Run terminal commands, manage files, and automate OS-level tasks hands-free.' },
-  { icon: '🌐', title: 'Browse the Web', desc: 'Search, read articles, fill forms, and extract information from any website.' },
-  { icon: '💻', title: 'Write & Fix Code', desc: 'Generate, debug, review, and deploy code across any language or framework.' },
-  { icon: '🧠', title: 'Remember Everything', desc: 'Store facts, preferences, and context across sessions so it always knows you.' },
-  { icon: '📋', title: 'Research & Summarize', desc: 'Gather information from multiple sources and turn it into clear, concise reports.' },
-  { icon: '🔌', title: 'Connect Any Tool', desc: 'Plug in Notion, GitHub, Gmail, Google Drive, Jira, and 100+ more integrations.' },
-  { icon: '🛠️', title: 'Build Custom Agents', desc: 'Create your own agents with natural language, YAML, or TypeScript — and deploy them on any platform.' },
-]
+function WhySection() {
+  const font = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif'
+  const mono = '"SF Mono", "Fira Code", monospace'
+  const cardStyle: React.CSSProperties = { background: '#0d0d0d', borderRadius: 14, overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: font }
+  const inputBar = <div style={{ padding: '10px 16px 16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}><div style={{ background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px', color: '#333', fontSize: 13 }}>Ask OpenBot anything</div></div>
 
-function CanDoBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const actionRow = (label: string, file: string, done = true) => (
+    <div style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '6px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+      <span><span style={{ color: '#888' }}>{label}</span><span style={{ color: '#444' }}>  {file}</span></span>
+      <span style={{ color: done ? '#444' : '#666' }}>✓</span>
+    </div>
+  )
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+  const features = [
+    {
+      title: 'Built to drive real engineering work',
+      description: 'From routine pull requests to your hardest problems, OpenBot agents reliably complete tasks end to end — reading files, writing code, opening PRs, and more.',
+      flip: false,
+      mockup: (
+        <div style={{ ...cardStyle, width: 420 }}>
+          <div style={{ padding: '20px 22px' }}>
+            {/* User message */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+              <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '10px 14px', maxWidth: '88%', color: '#ddd', fontSize: 13, lineHeight: 1.6 }}>
+                <span style={{ color: '#a78bfa', fontWeight: 500 }}>@claude</span> check if <code style={{ background: '#252525', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#c4b5fd', fontFamily: mono }}>alex@acme.com</code> has access to the repo, then <span style={{ color: '#6ee7b7', fontWeight: 500 }}>@github</span> add them as a collaborator
+              </div>
+            </div>
+            {/* Claude response */}
+            <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#999', marginBottom: 10 }}>
+              I'll check the current collaborators list and hand off to <span style={{ color: '#6ee7b7' }}>@github</span> to add access.
+            </div>
+            <div style={{ marginBottom: 8, fontSize: 12 }}><span style={{ color: '#666' }}>Thought</span><span style={{ color: '#444' }}> 3s</span></div>
+            {actionRow('Fetched', 'repo collaborators list')}
+            {actionRow('Confirmed', 'alex@acme.com — no access yet')}
+            {/* GitHub agent picks up */}
+            <div style={{ margin: '12px 0 8px', fontSize: 12 }}>
+              <span style={{ color: '#6ee7b7', fontWeight: 600 }}>@github</span>
+              <span style={{ color: '#444' }}> — adding collaborator…</span>
+            </div>
+            {actionRow('Invited', 'alex@acme.com → write access')}
+            {actionRow('Sent', 'GitHub invitation email ✓')}
+            <p style={{ color: '#777', fontSize: 12.5, marginTop: 10, lineHeight: 1.6 }}>
+              Done. <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#6ee7b7', fontFamily: mono }}>alex@acme.com</code> has been invited with <span style={{ color: '#a78bfa' }}>write</span> access.
+            </p>
+          </div>
+          {inputBar}
+        </div>
+      ),
+    },
+    {
+      title: 'Designed for multi-agent workflows',
+      description: 'Channels keep your agents organized. Each one has full context, picks up where another left off, and completes work end-to-end — no micromanagement needed.',
+      flip: true,
+      mockup: (
+        <div style={{ ...cardStyle, width: 260, display: 'flex', flexDirection: 'column' }}>
+          {/* Workspace header */}
+          <div style={{ height: 46, padding: '0 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9, flexShrink: 0 }}>
+            <img src={openbotLogo} alt="" style={{ width: 22, height: 22 }} />
+            <span style={{ color: '#e0e0e0', fontSize: 13.5, fontWeight: 500 }}>Workspace 1</span>
+            <svg width="11" height="11" fill="none" stroke="#555" strokeWidth="2.2" viewBox="0 0 24 24" style={{ marginLeft: 'auto' }}><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+          </div>
+          {/* Channels */}
+          <div style={{ flex: 1, padding: '10px 8px', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 6px', marginBottom: 6 }}>
+              <span style={{ fontSize: 10.5, color: '#3a3a3a', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>Channels</span>
+              <button style={{ background: 'none', border: 'none', color: '#3a3a3a', fontSize: 16, cursor: 'pointer', lineHeight: 1 }}>+</button>
+            </div>
+            {[
+              { name: 'general', active: false },
+              { name: 'research', active: false },
+              { name: 'coding', active: true },
+              { name: 'browser', active: false, dot: true },
+            ].map(ch => (
+              <div key={ch.name} style={{ display: 'flex', alignItems: 'center', gap: 7, width: '100%', padding: '5px 8px', borderRadius: 6, cursor: 'pointer',
+                color: ch.active ? '#fff' : '#555',
+                background: ch.active ? 'rgba(255,255,255,0.09)' : 'none',
+              }}>
+                <span style={{ color: ch.active ? '#888' : '#3a3a3a' }}>#</span>
+                <span style={{ fontSize: 13, flex: 1 }}>{ch.name}</span>
+                {ch.dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#6366f1', flexShrink: 0 }} />}
+              </div>
+            ))}
+          </div>
+          {/* User row */}
+          <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9, flexShrink: 0 }}>
+            <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+            </div>
+            <span style={{ color: '#888', fontSize: 12.5, flex: 1 }}>User</span>
+            <svg width="11" height="11" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: 'Works with every tool your team uses',
+      description: 'Connect GitHub, Slack, Notion, Figma and more. OpenBot agents don\'t just generate — they act directly inside the tools your team already depends on.',
+      flip: false,
+      mockup: (
+        <div style={{ ...cardStyle, width: 440 }}>
+          <div style={{ padding: '20px 22px 18px' }}>
 
-    let animId: number
-    let time = 0
+            {/* Up next */}
+            <div style={{ fontSize: 12, color: '#555', marginBottom: 14, fontWeight: 500 }}>Up next</div>
+            {[
+              { task: 'Review PR changes', agent: '@claude', badge: 'Every 2 hours', status: 'In progress' },
+              { task: 'Run test suite', agent: '@codex', badge: 'After review', status: 'Starts in 5m' },
+              { task: 'Deploy to staging', agent: '@github', badge: 'After tests', status: 'Starts in 20m' },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
+                <div className="animate-spin" style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', flexShrink: 0 }} />
+                <span style={{ color: '#ddd', fontSize: 12.5, fontWeight: 600, flex: 1 }}>{item.task}</span>
+                <span style={{ color: '#555', fontSize: 11.5 }}>{item.agent}</span>
+                <span style={{ background: 'rgba(99,102,241,0.25)', color: '#a5b4fc', fontSize: 11, padding: '2px 9px', borderRadius: 20, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                  {item.badge}
+                </span>
+                <span style={{ color: '#444', fontSize: 11.5, minWidth: 70, textAlign: 'right' }}>{item.status}</span>
+              </div>
+            ))}
 
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = canvas.offsetWidth * dpr
-      canvas.height = canvas.offsetHeight * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-    resize()
+            {/* Unread */}
+            <div style={{ fontSize: 12, color: '#555', margin: '18px 0 14px', fontWeight: 500 }}>Unread</div>
+            {[
+              { task: 'Review PR changes', agent: '@claude', time: 'Just now' },
+              { task: 'Run test suite', agent: '@codex', time: '3m' },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#f87171', flexShrink: 0, margin: '0 4px' }} />
+                <span style={{ color: '#ddd', fontSize: 12.5, fontWeight: 600, flex: 1 }}>{item.task}</span>
+                <span style={{ color: '#555', fontSize: 11.5 }}>{item.agent}</span>
+                <span style={{ color: '#555', fontSize: 11.5, minWidth: 70, textAlign: 'right' }}>{item.time}</span>
+              </div>
+            ))}
 
-    const draw = () => {
-      const W = canvas.offsetWidth
-      const H = canvas.offsetHeight
-      ctx.clearRect(0, 0, W, H)
+            {/* Completed */}
+            <div style={{ fontSize: 12, color: '#555', margin: '18px 0 14px', fontWeight: 500 }}>Completed</div>
+            {[
+              { task: 'Fetch repo changes', agent: '@github', time: '1h' },
+              { task: 'Check for conflicts', agent: '@claude', time: '1h' },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
+                <div style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid #4ade80', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <span style={{ color: '#ddd', fontSize: 12.5, fontWeight: 600, flex: 1 }}>{item.task}</span>
+                <span style={{ color: '#555', fontSize: 11.5 }}>{item.agent}</span>
+                <span style={{ color: '#555', fontSize: 11.5, minWidth: 70, textAlign: 'right' }}>{item.time}</span>
+              </div>
+            ))}
 
-      const spacing = 13 // pixels between particles
-
-      // Draw a vertical wave line at baseX with a horizontal sine displacement
-      const drawVertical = (baseX: number, phase: number) => {
-        const count = Math.ceil(H / spacing)
-        for (let i = 0; i < count; i++) {
-          const y = i * spacing
-          const yNorm = y / H
-          const x = baseX + Math.sin(y * 0.007 + time + phase) * W * 0.016
-          const fade = Math.min(yNorm * 12, 1) * Math.min((1 - yNorm) * 12, 1)
-          const alpha = 0.2 * fade
-          if (alpha < 0.01) continue
-          ctx.globalAlpha = alpha
-          ctx.fillStyle = '#ffffff'
-          ctx.beginPath()
-          ctx.arc(x, y, 0.8, 0, Math.PI * 2)
-          ctx.fill()
-        }
-      }
-
-      // Draw a horizontal wave line at baseY with a vertical sine displacement
-      const drawHorizontal = (baseY: number, phase: number) => {
-        const count = Math.ceil(W / spacing)
-        for (let i = 0; i < count; i++) {
-          const x = i * spacing
-          const xNorm = x / W
-          const y = baseY + Math.sin(x * 0.009 + time + phase) * H * 0.008
-          const fade = Math.min(xNorm * 10, 1) * Math.min((1 - xNorm) * 10, 1)
-          const alpha = 0.2 * fade
-          if (alpha < 0.01) continue
-          ctx.globalAlpha = alpha
-          ctx.fillStyle = '#ffffff'
-          ctx.beginPath()
-          ctx.arc(x, y, 0.8, 0, Math.PI * 2)
-          ctx.fill()
-        }
-      }
-
-      // 1 vertical on left corner
-      drawVertical(W * 0.06, 0)
-      // 1 vertical on right corner
-      drawVertical(W * 0.94, 3.2)
-      // 1 horizontal at the bottom of the last item
-      drawHorizontal(H - spacing * 2, 0)
-
-      ctx.globalAlpha = 1
-      time += 0.008
-      animId = requestAnimationFrame(draw)
-    }
-
-    draw()
-    window.addEventListener('resize', resize)
-    return () => {
-      cancelAnimationFrame(animId)
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
+          </div>
+        </div>
+      ),
+    },
+  ]
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
-    />
+    <div id="why" style={{ background: '#000' }}>
+      {/* Chapter heading */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 72px 48px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: 35, fontWeight: 600, color: '#fff', lineHeight: 1, whiteSpace: 'nowrap', fontFamily: "'Raleway', sans-serif", letterSpacing: '0.01em' }}>
+          Why OpenBot is the best way to build with agents.
+        </h2>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 30, padding: '0 30px 30px' }}>
+        {features.map((feature, i) => (
+          <section key={i} style={{ display: 'flex', minHeight: '80vh', background: '#000' }}>
+            {feature.flip ? (
+              <>
+                {/* Sky card */}
+                <div style={{ flex: '0 0 58%', padding: '0 16px 0 0' }}>
+                  <SkyCard>{feature.mockup}</SkyCard>
+                </div>
+                {/* Text */}
+                <div style={{ flex: '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 72px 0 52px' }}>
+                  <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 20, fontFamily: font }}>{feature.title}</h2>
+                  <p style={{ fontSize: 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Text */}
+                <div style={{ flex: '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 52px 0 72px' }}>
+                  <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 20, fontFamily: font }}>{feature.title}</h2>
+                  <p style={{ fontSize: 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
+                </div>
+                {/* Sky card */}
+                <div style={{ flex: '0 0 58%', padding: '0 0 0 16px' }}>
+                  <SkyCard>{feature.mockup}</SkyCard>
+                </div>
+              </>
+            )}
+          </section>
+        ))}
+      </div>
+
+      <WaveCanvas />
+    </div>
   )
 }
 
-function CanDoSection() {
-  const introRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-  const rafRef = useRef<number | null>(null)
 
-  useEffect(() => {
-    const animateEl = (el: HTMLElement | null, fromRight: boolean) => {
-      if (!el) return
-      const centerY = window.innerHeight / 2
-      const rect = el.getBoundingClientRect()
-      const itemCenterY = (rect.top + rect.bottom) / 2
-      const dist = Math.abs(itemCenterY - centerY)
-      const range = window.innerHeight * 0.45
-      const t = Math.max(0, 1 - dist / range)
-      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
-      const opacity = 0.08 + eased * 0.92
-      const offset = window.innerWidth < 640 ? 25 : 60
-      const tx = (fromRight ? offset : -offset) * (1 - eased)
-      el.style.opacity = String(opacity)
-      el.style.transform = `translateX(${tx}px)`
-    }
+function CanDoSection({ onShowAgents }: { onShowAgents: () => void }) {
+  const cardGrad = 'linear-gradient(160deg, #012a4a 0%, #01497c 30%, #0369a1 60%, #0ea5e9 100%)'
 
-    const update = () => {
-      animateEl(introRef.current, false)
-      cardRefs.current.forEach((el, i) => animateEl(el, i % 2 === 0))
-      rafRef.current = null
-    }
+  const ChatMockup = () => {
+    const [step, setStep] = useState(0)
+    const actions = [
+      { label: 'Searched', detail: 'computer for PDF files' },
+      { label: 'Found', detail: 'projects_Q2_2024.pdf' },
+      { label: 'Sent', detail: 'to david@gmail.com' },
+    ]
+    useEffect(() => {
+      const delays = [700, 1000, 1100, 1100, 1100]
+      if (step > 5) { const t = setTimeout(() => setStep(0), 100); return () => clearTimeout(t) }
+      const t = setTimeout(() => setStep(s => s + 1), delays[step] ?? 1800)
+      return () => clearTimeout(t)
+    }, [step])
 
-    const onScroll = () => {
-      if (!rafRef.current) rafRef.current = requestAnimationFrame(update)
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    update()
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [])
-
-  return (
-    <div id="what-it-can-do" className="bg-black" style={{ position: 'relative' }}>
-      <CanDoBackground />
-      {/* Intro panel */}
-      <div className="flex flex-col items-center justify-center" style={{ height: '100vh', position: 'relative', zIndex: 1 }}>
-        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-8">What it can do</p>
-        <div
-          ref={introRef}
-          style={{ opacity: 0.08, willChange: 'opacity, transform', textAlign: 'center', maxWidth: '580px', padding: '0 2rem' }}
-        >
-          <h2 className="text-white font-light leading-tight" style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}>
-            Your AI assistant doesn't just answer questions.<br />It takes real action.
-          </h2>
+    return (
+      <div style={{ background: '#0a0a0a', borderRadius: 10, padding: '14px 16px', width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+        <div style={{ marginBottom: 12, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <span style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>OpenBot Chat</span>
         </div>
-      </div>
-
-      {/* Cards stacked vertically, alternating left/right */}
-      {canDoItems.map(({ title, desc }, i) => (
-        <div key={title} className="flex items-center justify-center" style={{ height: '50vh', position: 'relative', zIndex: 1 }}>
-          <div
-            ref={(el) => { cardRefs.current[i] = el }}
-            style={{
-              opacity: 0.08,
-              willChange: 'opacity, transform',
-              maxWidth: '480px',
-              width: '100%',
-              margin: '0 2rem',
-              transform: i % 2 === 0 ? 'translateX(60px)' : 'translateX(-60px)',
-            }}
-          >
-            <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
-            <p className="text-sm text-zinc-500 leading-relaxed">{desc}</p>
+        {/* User message */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10, opacity: step >= 1 ? 1 : 0, transition: 'opacity 0.4s ease' }}>
+          <div style={{ background: '#0369a1', borderRadius: '12px 12px 2px 12px', padding: '8px 12px', maxWidth: '80%' }}>
+            <span style={{ fontSize: 11, color: '#e0f2fe', lineHeight: 1.4 }}>Find projects PDF and send to David on Gmail</span>
           </div>
         </div>
+        {/* Agent action rows */}
+        {actions.map((action, i) => {
+          const visible = step >= i + 2
+          const done = step >= i + 3
+          return (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 12px', marginBottom: 7, opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(6px)', transition: 'opacity 0.35s ease, transform 0.35s ease', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 11, color: '#ddd', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span style={{ fontWeight: 700 }}>{action.label}</span>
+                <span style={{ color: '#666', marginLeft: 5 }}>{action.detail}</span>
+              </span>
+              {visible && !done
+                ? <div className="animate-spin" style={{ width: 11, height: 11, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.15)', borderTopColor: '#aaa', flexShrink: 0, marginLeft: 8 }} />
+                : <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginLeft: 8, opacity: done ? 1 : 0 }}><path stroke="#555" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+              }
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const AutomateMockup = () => (
+    <div style={{ background: '#0a0a0a', borderRadius: 10, padding: '14px 16px', width: '100%', maxWidth: 300, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <span style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>Task Pipeline</span>
+      </div>
+      {[
+        { label: 'Scrape product listings', status: 'done' },
+        { label: 'Format data to CSV', status: 'done' },
+        { label: 'Upload to Google Sheets', status: 'running' },
+        { label: 'Send summary email', status: 'pending' },
+        { label: 'Notify on Slack', status: 'pending' },
+      ].map((task, i) => (
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          {task.status === 'done' && (
+            <div style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid #4ade80', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          )}
+          {task.status === 'running' && (
+            <div className="animate-spin" style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', flexShrink: 0 }} />
+          )}
+          {task.status === 'pending' && (
+            <div style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          )}
+          <span style={{ fontSize: 11, color: task.status === 'done' ? '#888' : task.status === 'running' ? '#ddd' : '#555' }}>{task.label}</span>
+        </div>
       ))}
+    </div>
+  )
+
+  const IntegrationsMockup = () => (
+    <div style={{ background: '#0a0a0a', borderRadius: 10, padding: '14px 16px', width: '100%', maxWidth: 300, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <span style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>Connected Tools</span>
+      </div>
+      {[
+        { name: 'GitHub', desc: 'PRs, issues, repos' },
+        { name: 'Notion', desc: 'Docs, databases' },
+        { name: 'Slack', desc: 'Messages, channels' },
+        { name: 'Gmail', desc: 'Email, drafts' },
+        { name: 'Linear', desc: 'Tasks, projects' },
+        { name: 'Figma', desc: 'Designs, comments' },
+      ].map((tool, i) => (
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <span style={{ fontSize: 11, color: '#ddd', fontWeight: 600, minWidth: 52 }}>{tool.name}</span>
+          <span style={{ fontSize: 10, color: '#555' }}>{tool.desc}</span>
+        </div>
+      ))}
+    </div>
+  )
+
+  const cards = [
+    {
+      mockup: <ChatMockup />,
+      title: 'Chat with your agents',
+      desc: 'Talk to your AI in plain English. It reads emails, sends replies, searches the web, and reports back — all in one thread.',
+      cta: 'Get started',
+      onClick: () => window.open('https://openbot.one', '_blank'),
+    },
+    {
+      mockup: <AutomateMockup />,
+      title: 'Automate anything',
+      desc: 'Build multi-step pipelines that run on a schedule or on demand. Agents hand off tasks to each other automatically.',
+      cta: 'See automations',
+      onClick: () => window.open('https://openbot.one', '_blank'),
+    },
+    {
+      mockup: <IntegrationsMockup />,
+      title: 'Connect your plugins',
+      desc: 'Plug in GitHub, Notion, Slack, Gmail, Linear, and 100+ more. Your agent works across all of them at once.',
+      cta: 'View integrations',
+      onClick: () => { window.location.hash = '#agents'; onShowAgents() },
+    },
+  ]
+
+  return (
+    <div id="what-it-can-do" style={{ background: '#000', padding: '100px 32px 100px' }}>
+      <div style={{ textAlign: 'center', marginBottom: 60 }}>
+        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.25em', color: '#555', textTransform: 'uppercase', marginBottom: 16 }}>What it can do</p>
+        <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 300, color: '#fff', lineHeight: 1.2, fontFamily: "'Raleway', sans-serif" }}>
+          Your AI doesn't just answer questions.<br />It takes real action.
+        </h2>
+      </div>
+
+      <div style={{ display: 'flex', gap: 20, maxWidth: 1100, margin: '0 auto', flexWrap: 'wrap' }}>
+        {cards.map((card, i) => (
+          <div key={i} style={{ flex: '1 1 0', minWidth: 0, borderRadius: 16, background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            {/* Top gradient area with mockup */}
+            <div style={{ background: cardGrad, padding: '36px 28px 28px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', height: 320 }}>
+              {card.mockup}
+            </div>
+            {/* Bottom text area */}
+            <div style={{ padding: '28px 28px 32px', display: 'flex', flexDirection: 'column', gap: 12, flexGrow: 1 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 600, color: '#fff', margin: 0, fontFamily: "'Raleway', sans-serif" }}>{card.title}</h3>
+              <p style={{ fontSize: 14, color: '#777', lineHeight: 1.6, margin: 0, flexGrow: 1 }}>{card.desc}</p>
+              <div>
+                <button onClick={card.onClick} style={{ marginTop: 8, background: '#fff', color: '#000', border: 'none', borderRadius: 999, padding: '9px 22px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                  {card.cta} →
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -1489,6 +1584,163 @@ function FeedbackCard({ post }: { post: FeedbackPost }) {
         <span className="ml-auto text-xs text-zinc-700">{post.time}</span>
       </div>
     </div>
+  )
+}
+
+const useCaseTabs = [
+  {
+    label: 'For Developers',
+    id: 'developers',
+    headline: 'Ship faster. Let agents handle the busywork.',
+    desc: 'From debugging to deployment, OpenBot coordinates your dev workflow so you can stay in flow.',
+    steps: [
+      '@codex finds the bug and @claude writes a test to reproduce it',
+      '@codex applies the fix and @github opens a PR with the diff',
+      '@claude writes the PR description, changelog, and reviewer notes',
+      '@slack pings the reviewer and @linear updates the ticket to "In Review"',
+    ],
+    workflows: ['Bug fix → PR → review notify', 'Research docs → generate boilerplate', 'Run tests → deploy → post results'],
+  },
+  {
+    label: 'For Founders',
+    id: 'founders',
+    headline: 'Move at the speed of thought.',
+    desc: 'Research, write, analyze, and communicate — all delegated to agents while you focus on decisions.',
+    steps: [
+      '@tavily researches your top 5 competitors and @browser scrapes their pricing pages',
+      '@claude writes a full competitive analysis from the gathered data',
+      '@notion saves the report and @figma creates a one-page visual summary',
+      '@gmail drafts an investor update and @slack shares a summary with the team',
+    ],
+    workflows: ['Research → report → publish', 'Monitor metrics → draft update → send', 'Idea → landing page → deploy'],
+  },
+  {
+    label: 'For Teams',
+    id: 'teams',
+    headline: 'Automate the coordination. Keep the collaboration.',
+    desc: 'OpenBot handles repetitive team workflows so your people can focus on the work that matters.',
+    steps: [
+      '@calendar finds a time that works for everyone and @slack sends the invite',
+      '@claude generates the meeting agenda and @notion creates the notes doc',
+      '@slack posts the agenda to the channel and @gmail sends it to external attendees',
+      '@claude writes the follow-up summary and @linear creates action item tickets',
+    ],
+    workflows: ['Schedule → agenda → notes → recap', 'Task created → assigned → tracked', 'Report due → gathered → formatted → sent'],
+  },
+  {
+    label: 'For Marketing',
+    id: 'marketing',
+    headline: 'Launch campaigns while you sleep.',
+    desc: 'From research to copy to scheduling — OpenBot runs your marketing workflows end to end.',
+    steps: [
+      '@tavily researches trending topics and @browser scrapes top-performing competitor content',
+      '@claude writes blog posts, ad copy, and social captions from the research',
+      '@figma generates visual assets and @notion organizes the content calendar',
+      '@gmail schedules the newsletter and @slack notifies the team when it goes live',
+    ],
+    workflows: ['Research → write → publish → report', 'Trend spotted → content drafted → scheduled', 'Campaign brief → copy → visuals → launch'],
+  },
+  {
+    label: 'For Designers',
+    id: 'designers',
+    headline: 'Focus on design. Automate everything else.',
+    desc: 'Let agents handle feedback loops, file management, and handoffs so you can stay in the creative zone.',
+    steps: [
+      '@browser collects design inspiration and @claude summarizes key patterns and trends',
+      '@figma organizes components and @notion documents the design system changes',
+      '@claude writes copy for UI components and @github commits the updated design tokens',
+      '@slack sends the design handoff summary and @linear creates dev tickets from specs',
+    ],
+    workflows: ['Brief → research → concept → present', 'Design done → tokens exported → dev handed off', 'Feedback received → changes logged → iterated'],
+  },
+]
+
+function UseCasesSection() {
+  const [activeTab, setActiveTab] = useState(0)
+  const [animating, setAnimating] = useState(false)
+
+  const handleTab = (i: number) => {
+    if (i === activeTab) return
+    setAnimating(true)
+    setTimeout(() => { setActiveTab(i); setAnimating(false) }, 180)
+  }
+
+  const tab = useCaseTabs[activeTab]
+
+  return (
+    <section id="use-cases" className="container mx-auto px-6 py-12 md:py-20">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-4">Use Cases</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">Built for everyone who gets things done.</h2>
+          <p className="text-zinc-400 text-base">Pick your role and see OpenBot in action.</p>
+        </div>
+
+        {/* Tab switcher */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex items-center rounded-full p-1" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            {useCaseTabs.map((t, i) => (
+              <button
+                key={t.id}
+                onClick={() => handleTab(i)}
+                className="text-sm px-5 py-2 rounded-full transition-all duration-200 cursor-pointer"
+                style={activeTab === i
+                  ? { background: '#fff', color: '#000', fontWeight: 500 }
+                  : { color: '#71717a' }
+                }
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div
+          className="rounded-2xl p-8 md:p-10"
+          style={{
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px solid rgba(255,255,255,0.07)',
+            opacity: animating ? 0 : 1,
+            transform: animating ? 'translateY(6px)' : 'translateY(0)',
+            transition: 'opacity 0.18s ease, transform 0.18s ease',
+          }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+            {/* Left: headline + workflow chips */}
+            <div>
+              <h3 className="text-2xl font-bold mb-3">{tab.headline}</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed mb-8">{tab.desc}</p>
+
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase mb-4">Example workflows</p>
+              <div className="flex flex-col gap-2">
+                {tab.workflows.map(w => (
+                  <div key={w} className="flex items-center gap-2.5 text-sm text-zinc-400">
+                    <svg className="w-3.5 h-3.5 text-zinc-600 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    {w}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: agent step sequence */}
+            <div className="flex flex-col gap-3">
+              <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase mb-1">Live example</p>
+              {tab.steps.map((step, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-xl px-4 py-3"
+                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+                >
+                  <span className="text-zinc-700 font-mono text-xs mt-0.5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                  <p className="text-sm leading-relaxed">{renderPrompt(step)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -1793,13 +2045,6 @@ function parseHash() {
   return { docs: false, page: undefined }
 }
 
-const heroPrompts = [
-  '@tavily research "best productivity tools 2025" @claude summarize the findings @slack send it to the team',
-  '@stitch design a landing page @claude build it in React @github push the code',
-  '@browser find the cheapest flight to NYC @calendar block my schedule @slack notify the team',
-  '@codex fix the bug in auth.ts @github open a PR @slack ping the reviewer',
-  '@tavily research our competitors @claude write a report @notion save it to the workspace',
-]
 
 const agentColors: Record<string, string> = {
   '@tavily': '#60a5fa',
@@ -1811,6 +2056,10 @@ const agentColors: Record<string, string> = {
   '@github': '#e2e8f0',
   '@calendar': '#fbbf24',
   '@notion': '#e2e8f0',
+  '@linear': '#5e6ad2',
+  '@figma': '#f24e1e',
+  '@gmail': '#ea4335',
+  '@browser-use': '#34d399',
 }
 
 function renderPrompt(text: string) {
@@ -1824,64 +2073,594 @@ function renderPrompt(text: string) {
   })
 }
 
-function HeroInput() {
-  const [text, setText] = useState('')
-  const promptIndex = useRef(0)
-  const charIndex = useRef(0)
-  const isDeleting = useRef(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  useEffect(() => {
-    const tick = () => {
-      const full = heroPrompts[promptIndex.current]
-      if (!isDeleting.current) {
-        charIndex.current++
-        setText(full.slice(0, charIndex.current))
-        if (charIndex.current === full.length) {
-          isDeleting.current = true
-          timeoutRef.current = setTimeout(tick, 2400)
-          return
-        }
-        timeoutRef.current = setTimeout(tick, 38)
-      } else {
-        charIndex.current--
-        setText(full.slice(0, charIndex.current))
-        if (charIndex.current === 0) {
-          isDeleting.current = false
-          promptIndex.current = (promptIndex.current + 1) % heroPrompts.length
-          timeoutRef.current = setTimeout(tick, 500)
-          return
-        }
-        timeoutRef.current = setTimeout(tick, 18)
-      }
-    }
-    timeoutRef.current = setTimeout(tick, 900)
-    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
-  }, [])
+function AppMockup() {
+  const [activeThread, setActiveThread] = useState('coding')
+  const [inputText, setInputText] = useState('')
+  const [showLeft, setShowLeft] = useState(true)
+  const [showRight, setShowRight] = useState(true)
+  const [activeRightTab, setActiveRightTab] = useState<'Specification' | 'State' | 'Files'>('Specification')
+
+  const font = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif'
+  const mono = '"SF Mono", "Fira Code", "Cascadia Code", monospace'
+  const iconBtn: React.CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3px 5px', borderRadius: 4 }
+
+  type DiffLine = { type: string; code: string }
+  type DiffFile = { name: string; added: number; removed: number; lines: DiffLine[] }
+  type StateRow = { label: string; value: string; color?: string }
+  type PanelData = {
+    spec: { title: string; points: string[] } | null
+    state: StateRow[] | null
+    files: DiffFile[]
+  }
+
+  const panelData: Record<string, PanelData> = {
+    coding: {
+      spec: {
+        title: 'Fix auth null-token bug',
+        points: [
+          'Replace null check with empty string guard',
+          'Return structured { valid, reason } error object',
+          'Update validateSession() unit tests',
+          'Open PR against main branch',
+        ],
+      },
+      state: [
+        { label: 'Status', value: 'Completed', color: '#4ade80' },
+        { label: 'Agent', value: '@codex' },
+        { label: 'Files changed', value: '2' },
+        { label: 'Lines added', value: '+5', color: '#4ade80' },
+        { label: 'Lines removed', value: '-3', color: '#f87171' },
+        { label: 'PR', value: '#47 fix/auth-null-token', color: '#818cf8' },
+      ],
+      files: [
+        {
+          name: 'src/auth.ts', added: 4, removed: 2,
+          lines: [
+            { type: 'ctx', code: 'export function validateSession(token: string) {' },
+            { type: 'del', code: '  if (token === null) {' },
+            { type: 'del', code: '    return false;' },
+            { type: 'add', code: '  if (!token || token.trim() === \'\') {' },
+            { type: 'add', code: '    return { valid: false, reason: \'missing_token\' };' },
+            { type: 'ctx', code: '  }' },
+            { type: 'ctx', code: '  return verifyJWT(token);' },
+            { type: 'ctx', code: '}' },
+          ],
+        },
+        {
+          name: 'src/auth.test.ts', added: 1, removed: 1,
+          lines: [
+            { type: 'ctx', code: 'describe(\'validateSession\', () => {' },
+            { type: 'del', code: '  it(\'returns false for null\', () => {' },
+            { type: 'add', code: '  it(\'returns false for missing token\', () => {' },
+            { type: 'ctx', code: '    expect(validateSession(null)).toBe(false);' },
+            { type: 'ctx', code: '  });' },
+            { type: 'ctx', code: '});' },
+          ],
+        },
+      ],
+    },
+    browser: {
+      spec: {
+        title: 'Browser agent tasks',
+        points: [
+          'Play "Blinding Lights" by The Weeknd on Spotify',
+          'Find cheapest NYC → Paris round-trip flights',
+          'Compare results across Google Flights & Kayak',
+          'Return best deal with booking link',
+        ],
+      },
+      state: [
+        { label: 'Status', value: 'Completed', color: '#4ade80' },
+        { label: 'Agent', value: '/browser' },
+        { label: 'Spotify', value: 'Now playing ♫', color: '#1db954' },
+        { label: 'Best flight', value: 'Air France $389', color: '#4ade80' },
+        { label: 'Departure', value: 'Fri 22:10 JFK → CDG' },
+        { label: 'Return', value: 'Sun 18:40 CDG → JFK' },
+      ],
+      files: [],
+    },
+    research: {
+      spec: {
+        title: 'Byzantine Empire — fall research',
+        points: [
+          'Key causes of the fall (economic, military, political)',
+          'Timeline from 1204 Crusader sack to 1453 siege',
+          'Modern historical consensus across scholars',
+          'Academic papers via @exa (Gibbon, Norwich, Ostrogorsky)',
+          'Web synthesis via @perplexity',
+        ],
+      },
+      state: [
+        { label: 'Status', value: 'Completed', color: '#4ade80' },
+        { label: 'Agents', value: '@perplexity + @exa' },
+        { label: 'Web sources', value: '8' },
+        { label: 'Academic papers', value: '12' },
+        { label: 'Key themes', value: '3 identified' },
+        { label: 'Output', value: 'research/byzantine.md', color: '#a78bfa' },
+      ],
+      files: [
+        {
+          name: 'research/byzantine.md', added: 9, removed: 0,
+          lines: [
+            { type: 'add', code: '# Fall of the Byzantine Empire' },
+            { type: 'add', code: '' },
+            { type: 'add', code: '## Key Causes' },
+            { type: 'add', code: '- Economic exhaustion & trade loss' },
+            { type: 'add', code: '- Territorial erosion (Crusades + Turks)' },
+            { type: 'add', code: '- Succession crises & civil wars' },
+            { type: 'add', code: '' },
+            { type: 'add', code: '## Final Event' },
+            { type: 'add', code: '1453 — Ottoman siege under Mehmed II' },
+          ],
+        },
+      ],
+    },
+    general: {
+      spec: null,
+      state: null,
+      files: [],
+    },
+  }
 
   return (
-    <div className="relative z-10 w-full max-w-2xl mt-8 md:mt-12" style={{ background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
-      <div className="px-5 pt-5 pb-4 min-h-22.5 flex items-start">
-        <p className="text-base leading-relaxed text-left">
-          {renderPrompt(text)}
-          <span className="inline-block w-0.5 h-[1em] bg-zinc-400 ml-0.5 align-middle" style={{ animation: 'pulse 1s ease-in-out infinite' }} />
-        </p>
-      </div>
-      <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-      <div className="px-4 py-2.5 flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <button aria-label="Upload file" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
-            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
-          </button>
-          <button aria-label="Attach document" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
-            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
-          </button>
+    <div style={{ background: '#0a0a0a', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', fontFamily: font }}>
+
+      {/* macOS title bar */}
+      <div style={{ height: 40, background: '#111', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 14px' }}>
+        <div style={{ display: 'flex', gap: 6, marginRight: 14 }}>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
+          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
+          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
         </div>
-        <button aria-label="Send message" className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-600 hover:text-zinc-400 transition-colors cursor-pointer">
-          <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
-        </button>
+        <span style={{ color: '#555', fontSize: 12.5, margin: '0 auto' }}>openbot.one</span>
+      </div>
+
+      {/* Body */}
+      <div style={{ display: 'flex', height: 660 }}>
+
+        {/* Sidebar — OpenBot style */}
+        <div style={{ width: showLeft ? 240 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#0a0a0a', borderRight: showLeft ? '1px solid rgba(255,255,255,0.07)' : 'none', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+
+          {/* Top: workspace */}
+          <div style={{ height: 46, padding: '0 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9 }}>
+            <img src={openbotLogo} alt="" style={{ width: 22, height: 22 }} />
+            <span style={{ color: '#e0e0e0', fontSize: 13.5, fontWeight: 500 }}>GeorgeTribee</span>
+            <svg width="11" height="11" fill="none" stroke="#555" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+            <button style={{ ...iconBtn, marginLeft: 'auto' }}>
+              <svg width="15" height="15" fill="none" stroke="#666" strokeWidth="1.8" viewBox="0 0 24 24">
+                <line x1="3" y1="7" x2="21" y2="7" strokeLinecap="round"/>
+                <circle cx="8" cy="7" r="2.5" fill="#0a0a0a" stroke="#666" strokeWidth="1.8"/>
+                <line x1="3" y1="17" x2="21" y2="17" strokeLinecap="round"/>
+                <circle cx="16" cy="17" r="2.5" fill="#0a0a0a" stroke="#666" strokeWidth="1.8"/>
+              </svg>
+            </button>
+          </div>
+          {/* Channels */}
+          <div style={{ flex: 1, padding: '10px 8px', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 6px', marginBottom: 6 }}>
+              <span style={{ fontSize: 10.5, color: '#3a3a3a', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>Channels</span>
+              <button style={{ ...iconBtn, color: '#3a3a3a', fontSize: 16, lineHeight: 1 }}>+</button>
+            </div>
+            {['general', 'research', 'coding', 'browser'].map(ch => (
+              <button key={ch} onClick={() => setActiveThread(ch)}
+                style={{ display: 'flex', alignItems: 'center', gap: 7, width: '100%', textAlign: 'left', padding: '5px 8px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 13,
+                  color: activeThread === ch ? '#fff' : '#555',
+                  background: activeThread === ch ? 'rgba(255,255,255,0.09)' : 'none',
+                }}>
+                <span style={{ color: activeThread === ch ? '#888' : '#3a3a3a' }}>#</span>{ch}
+              </button>
+            ))}
+          </div>
+          {/* User row */}
+          <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9 }}>
+            <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+            </div>
+            <span style={{ color: '#888', fontSize: 12.5, flex: 1 }}>Giorgi Daraselia</span>
+            <svg width="11" height="11" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        {/* Chat column */}
+        <div style={{ flex: 1, background: '#080808', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(255,255,255,0.06)', minWidth: 0 }}>
+          {/* Channel sub-header */}
+          <div style={{ height: 38, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 12px', flexShrink: 0 }}>
+            <button style={iconBtn} onClick={() => setShowLeft(v => !v)}>
+              <svg width="14" height="14" fill="none" stroke={showLeft ? '#aaa' : '#555'} strokeWidth="1.7" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            </button>
+            <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 10px' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <span style={{ color: '#666', fontSize: 14 }}>#</span>
+              <span style={{ color: '#bbb', fontSize: 13 }}>{activeThread}</span>
+            </div>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <button style={iconBtn}>
+                <svg width="14" height="14" fill="none" stroke="#555" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+              </button>
+              <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 6px' }} />
+              <button style={iconBtn} onClick={() => setShowRight(v => !v)}>
+                <svg width="14" height="14" fill="none" stroke={showRight ? '#aaa' : '#555'} strokeWidth="1.7" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+              </button>
+            </div>
+          </div>
+          {/* Messages */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '22px 28px 10px' }}>
+
+            {/* ── coding ── */}
+            {activeThread === 'coding' && <>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  <span style={{ color: '#818cf8', fontWeight: 500 }}>@codex</span> fix the auth bug in auth.ts,{' '}
+                  <span style={{ color: '#34d399', fontWeight: 500 }}>@browser</span> find the error logs, then{' '}
+                  <span style={{ color: '#e2e8f0', fontWeight: 500 }}>@github</span> open a PR
+                </div>
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
+                <p style={{ marginBottom: 12 }}>I'll inspect the auth module, trace the bug from error logs, apply the fix, and open a pull request.</p>
+                <div style={{ marginBottom: 5 }}><span style={{ color: '#777', fontWeight: 600 }}>Thought</span><span style={{ color: '#444' }}> 5s</span></div>
+                <div style={{ marginBottom: 8 }}><span style={{ color: '#777', fontWeight: 600 }}>Explored</span><span style={{ color: '#444' }}> 4 files</span></div>
+                {[
+                  { label: 'Read', file: 'auth.ts' },
+                  { label: 'Edited', file: 'auth.ts' },
+                  { label: 'Edited', file: 'auth.test.ts' },
+                  { label: 'Opened PR', file: 'fix/auth-null-token #47' },
+                ].map(({ label, file }, i) => (
+                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
+                    <span style={{ color: '#444' }}>✓</span>
+                  </div>
+                ))}
+                <p style={{ color: '#bbb', marginTop: 10, fontSize: 12.5 }}>
+                  Fixed null token check in <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#a5b4fc', fontFamily: mono }}>validateSession()</code> — missing early return when token header absent. PR #47 open for review.
+                </p>
+              </div>
+            </>}
+
+            {/* ── browser ── */}
+            {activeThread === 'browser' && <>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  <span style={{ color: '#34d399', fontWeight: 500 }}>/browser</span> play "Blinding Lights" by The Weeknd on Spotify
+                </div>
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb', marginBottom: 22 }}>
+                <p style={{ marginBottom: 10 }}>Opening Spotify and searching for the track…</p>
+                {[
+                  { label: 'Navigated', file: 'open.spotify.com' },
+                  { label: 'Searched', file: '"Blinding Lights" — The Weeknd' },
+                  { label: 'Clicked', file: 'Play button' },
+                ].map(({ label, file }, i) => (
+                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
+                    <span style={{ color: '#444' }}>✓</span>
+                  </div>
+                ))}
+                <p style={{ color: '#bbb', marginTop: 8, fontSize: 12.5 }}>Playing now on Spotify. Enjoy!</p>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  <span style={{ color: '#34d399', fontWeight: 500 }}>/browser</span> find cheapest flights from NYC to Paris for next weekend, round trip
+                </div>
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
+                <p style={{ marginBottom: 10 }}>Searching Google Flights and Kayak for the best fares…</p>
+                {[
+                  { label: 'Navigated', file: 'flights.google.com' },
+                  { label: 'Searched', file: 'NYC → CDG, May 10–12' },
+                  { label: 'Navigated', file: 'kayak.com' },
+                  { label: 'Compared', file: '14 results across 6 airlines' },
+                ].map(({ label, file }, i) => (
+                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
+                    <span style={{ color: '#444' }}>✓</span>
+                  </div>
+                ))}
+                <p style={{ color: '#bbb', marginTop: 8, fontSize: 12.5 }}>
+                  Best deal: <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#4ade80', fontFamily: mono }}>Air France $389</code> depart Fri 22:10, return Sun 18:40. Link copied to clipboard.
+                </p>
+              </div>
+            </>}
+
+            {/* ── research ── */}
+            {activeThread === 'research' && <>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  <span style={{ color: '#f59e0b', fontWeight: 500 }}>@perplexity</span> <span style={{ color: '#a78bfa', fontWeight: 500 }}>@exa</span> research the fall of the Byzantine Empire — key causes, timeline, and modern historical consensus
+                </div>
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
+                <p style={{ marginBottom: 10 }}>Running parallel searches across academic sources and the live web…</p>
+                <div style={{ marginBottom: 8 }}><span style={{ color: '#f59e0b', fontWeight: 600 }}>@perplexity</span><span style={{ color: '#444' }}> — web synthesis</span></div>
+                {[
+                  { label: 'Queried', file: 'Fall of Byzantine Empire causes' },
+                  { label: 'Queried', file: 'Ottoman siege of Constantinople 1453' },
+                  { label: 'Summarised', file: '8 sources → 3 key themes' },
+                ].map(({ label, file }, i) => (
+                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
+                    <span style={{ color: '#444' }}>✓</span>
+                  </div>
+                ))}
+                <div style={{ margin: '14px 0 8px' }}><span style={{ color: '#a78bfa', fontWeight: 600 }}>@exa</span><span style={{ color: '#444' }}> — academic deep-dive</span></div>
+                {[
+                  { label: 'Found', file: '12 peer-reviewed papers' },
+                  { label: 'Extracted', file: 'Gibbon, Norwich, Ostrogorsky' },
+                  { label: 'Ranked', file: 'by citation count' },
+                ].map(({ label, file }, i) => (
+                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
+                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
+                    <span style={{ color: '#444' }}>✓</span>
+                  </div>
+                ))}
+                <p style={{ color: '#bbb', marginTop: 10, fontSize: 12.5 }}>
+                  Three consensus causes: economic exhaustion, territorial losses to Crusaders &amp; Turks, and internal succession crises. The 1453 Ottoman conquest under Mehmed II was the final blow. Full report saved to <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#a78bfa', fontFamily: mono }}>research/byzantine.md</code>.
+                </p>
+              </div>
+            </>}
+
+            {/* ── general ── */}
+            {activeThread === 'general' && <>
+              <div style={{ display: 'flex', gap: 9, marginBottom: 16, alignItems: 'flex-start' }}>
+                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+                </div>
+                <div>
+                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:12 AM</span></span>
+                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>Good morning! Ready when you are. What's on the agenda today?</div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '75%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  Morning! What's the weather in Tbilisi today?
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 9, marginBottom: 20, alignItems: 'flex-start' }}>
+                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+                </div>
+                <div>
+                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:12 AM</span></span>
+                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>
+                    Right now in Tbilisi: <span style={{ color: '#fbbf24' }}>☀ 22°C, mostly sunny.</span> Light wind, low humidity. Great day to be outside!
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '75%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
+                  Nice! I have a team meeting at 3pm and then I want to work on the landing page redesign later.
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+                </div>
+                <div>
+                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:13 AM</span></span>
+                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>
+                    Got it — I'll remind you at 2:50 PM for the meeting. After that, want me to pull up your latest mockup branch so you can jump straight into the redesign?
+                  </div>
+                </div>
+              </div>
+            </>}
+
+          </div>
+          {/* Input */}
+          <div style={{ padding: '10px 16px 16px', flexShrink: 0 }}>
+            <div style={{ background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 10, padding: '11px 14px' }}>
+              <input value={inputText} onChange={e => setInputText(e.target.value)}
+                placeholder={
+                  activeThread === 'browser' ? 'Start with /browser to browse the web…' :
+                  activeThread === 'research' ? 'Tag @perplexity or @exa to research…' :
+                  activeThread === 'general' ? 'Chat with OpenBot…' :
+                  'Type a message, or start with @ to choose an agent..'
+                }
+                className="placeholder-zinc-700"
+                style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: 13 }}
+              />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                <button style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)', border: 'none', borderRadius: 5, padding: '4px 10px', color: '#555', fontSize: 11.5, cursor: 'pointer' }}>
+                  @ <span style={{ color: '#666' }}>Default Agent</span> <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <button style={{ width: 28, height: 28, borderRadius: '50%', background: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="12" height="12" fill="none" stroke="#000" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right panel */}
+        <div style={{ width: showRight ? 340 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#0a0a0a', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          {/* Tabs */}
+          <div style={{ height: 38, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 10px', gap: 2, flexShrink: 0 }}>
+            {(['Specification', 'State', 'Files'] as const).map(tab => (
+              <button key={tab} onClick={() => setActiveRightTab(tab)} style={{ fontSize: 12.5, padding: '4px 10px', borderRadius: 7, border: 'none', cursor: 'pointer', background: 'none',
+                color: activeRightTab === tab ? '#fff' : '#555',
+                fontWeight: activeRightTab === tab ? 600 : 400,
+              }}>{tab}</button>
+            ))}
+          </div>
+
+          {/* Scrollable body */}
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            {(() => {
+              const panel = panelData[activeThread] ?? panelData['general']
+
+              /* ── Specification ── */
+              if (activeRightTab === 'Specification') {
+                if (!panel.spec) return (
+                  <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No specification for this channel.</div>
+                )
+                return (
+                  <div style={{ padding: '16px 16px' }}>
+                    <div style={{ color: '#ccc', fontSize: 13, fontWeight: 600, marginBottom: 12 }}>{panel.spec.title}</div>
+                    {panel.spec.points.map((pt, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
+                        <span style={{ color: '#444', fontSize: 12, marginTop: 1, flexShrink: 0 }}>•</span>
+                        <span style={{ color: '#888', fontSize: 12.5, lineHeight: 1.55 }}>{pt}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              }
+
+              /* ── State ── */
+              if (activeRightTab === 'State') {
+                if (!panel.state) return (
+                  <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No state to display.</div>
+                )
+                return (
+                  <div style={{ padding: '12px 0' }}>
+                    {panel.state.map((row, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '7px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <span style={{ color: '#555', fontSize: 12 }}>{row.label}</span>
+                        <span style={{ color: row.color ?? '#888', fontSize: 12, fontFamily: row.color ? mono : 'inherit', fontWeight: row.color ? 500 : 400 }}>{row.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              }
+
+              /* ── Files ── */
+              if (panel.files.length === 0) return (
+                <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No file changes.</div>
+              )
+              const totalAdded = panel.files.reduce((s, f) => s + f.added, 0)
+              const totalRemoved = panel.files.reduce((s, f) => s + f.removed, 0)
+              return (
+                <>
+                  <div style={{ padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+                    <span style={{ color: '#aaa', fontSize: 12.5, fontWeight: 500 }}>
+                      {panel.files.length} file{panel.files.length > 1 ? 's' : ''} changed{' '}
+                      <span style={{ color: '#4ade80' }}>+{totalAdded}</span>{' '}
+                      <span style={{ color: '#f87171' }}>-{totalRemoved}</span>
+                    </span>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button style={{ ...iconBtn, color: '#555', fontSize: 14 }}>×</button>
+                      <button style={{ ...iconBtn, color: '#555', fontSize: 14 }}>✓</button>
+                    </div>
+                  </div>
+                  {panel.files.map((file: DiffFile, fi: number) => (
+                    <div key={fi} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#0e0e0e' }}>
+                        <span style={{ color: '#888', fontSize: 12, fontFamily: mono, fontWeight: 600 }}>
+                          {file.name}{' '}
+                          <span style={{ color: '#4ade80', fontWeight: 400 }}>+{file.added}</span>{' '}
+                          <span style={{ color: '#f87171', fontWeight: 400 }}>-{file.removed}</span>
+                        </span>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          <button style={{ ...iconBtn, color: '#555', fontSize: 13 }}>×</button>
+                          <button style={{ ...iconBtn, color: '#555', fontSize: 13 }}>✓</button>
+                        </div>
+                      </div>
+                      <div style={{ padding: '6px 0' }}>
+                        {file.lines.map((line: DiffLine, li: number) => (
+                          <div key={li} style={{ display: 'flex', alignItems: 'flex-start',
+                            background: line.type === 'del' ? 'rgba(248,113,113,0.08)' : line.type === 'add' ? 'rgba(74,222,128,0.08)' : 'transparent',
+                            padding: '1px 14px',
+                          }}>
+                            <span style={{ color: line.type === 'del' ? '#f87171' : line.type === 'add' ? '#4ade80' : '#3a3a3a', fontSize: 12, fontFamily: mono, marginRight: 8, flexShrink: 0, userSelect: 'none' }}>
+                              {line.type === 'del' ? '−' : line.type === 'add' ? '+' : ' '}
+                            </span>
+                            <span style={{ color: line.type === 'del' ? '#fca5a5' : line.type === 'add' ? '#86efac' : '#666', fontSize: 11.5, fontFamily: mono, whiteSpace: 'pre', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {line.code}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )
+            })()}
+          </div>
+        </div>
+
       </div>
     </div>
+  )
+}
+
+const OPENAI_SVG = `M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.843-3.372 2.02-1.164a.08.08 0 0 1 .071 0l4.83 2.786a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.402-.677zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z`
+
+const SLACK_SVG = `M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z`
+
+function TrustedBySection() {
+  const companies: { name: string; slug?: string; svgPath?: string; textOnly?: boolean }[] = [
+    { name: 'Miro',      slug: 'miro' },
+    { name: 'Google',    slug: 'google' },
+    { name: 'OpenAI',    svgPath: OPENAI_SVG },
+    { name: 'ANTHROP\\C', slug: 'anthropic' },
+    { name: 'Slack',     svgPath: SLACK_SVG },
+    { name: 'Vercel',    slug: 'vercel' },
+    { name: 'GitHub',    slug: 'github' },
+    { name: 'Notion',    slug: 'notion' },
+    { name: 'Figma',     slug: 'figma' },
+    { name: 'Linear',    slug: 'linear' },
+    { name: 'Perplexity', slug: 'perplexity' },
+    { name: 'Cisco',     slug: 'cisco' },
+  ]
+
+  const perPage = 6
+  const totalPages = Math.ceil(companies.length / perPage)
+  const [page, setPage] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setPage(p => (p + 1) % totalPages)
+        setVisible(true)
+      }, 350)
+    }, 3000)
+    return () => clearInterval(id)
+  }, [totalPages])
+
+  const current = companies.slice(page * perPage, (page + 1) * perPage)
+
+  const logoStyle: React.CSSProperties = { width: 40, height: 40, filter: 'brightness(0) invert(1)', opacity: 0.85, flexShrink: 0 }
+
+  return (
+    <section style={{ background: '#000', padding: '80px 0 88px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <p style={{ textAlign: 'center', color: '#3a3a3a', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 56, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+        Available Official Agents
+      </p>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 64,
+        opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease',
+        padding: '0 60px',
+      }}>
+        {current.map(c => (
+          <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+            {!c.textOnly && (c.svgPath ? (
+              <svg viewBox="0 0 24 24" style={logoStyle} aria-hidden="true">
+                <path d={c.svgPath} fill="white" />
+              </svg>
+            ) : (
+              <img src={`https://cdn.simpleicons.org/${c.slug}`} alt={c.name} width={40} height={40} style={logoStyle} />
+            ))}
+            <span style={{
+              color: '#ffffff',
+              fontSize: c.textOnly ? 22 : 26,
+              fontWeight: c.textOnly ? 700 : 500,
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
+              letterSpacing: c.textOnly ? '0.08em' : '0.01em',
+              userSelect: 'none',
+            }}>{c.name}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 7, marginTop: 48 }}>
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <div key={i} style={{ width: i === page ? 20 : 6, height: 6, borderRadius: 3, background: i === page ? '#555' : '#1e1e1e', transition: 'all 0.35s ease' }} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -1920,21 +2699,21 @@ function App() {
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
 
 
-      {/* Sticky navbar — appears on scroll */}
-      <header role="banner" aria-label="Site navigation" className={`fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-6 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-        <nav aria-label="Primary navigation" className="flex items-center gap-2 md:gap-6 rounded-full px-4 md:px-6 py-3" style={{ background: 'rgba(15,15,15,0.75)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
-          <a href="/" aria-label="OpenBot home" className="flex items-center gap-2 mr-1 md:mr-2 cursor-pointer">
+      {/* Fixed navbar — appears on scroll */}
+      <header role="banner" aria-label="Site navigation" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)', transition: 'opacity 0.3s ease, transform 0.3s ease' }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+        <nav aria-label="Primary navigation" className="flex items-center justify-between px-8 md:px-12" style={{ height: 56 }}>
+          <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
             <img src={openbotLogo} alt="" aria-hidden="true" width="20" height="20" className="w-5 h-5" />
-            <span style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
+            <span className="text-white" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
           </a>
-          <div className="hidden md:flex items-center gap-6">
-            {[['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']].map(([label, id]) => (
-              <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px' }}>{label}</button>
+          <div className="hidden md:flex items-center gap-8">
+            {([['Why OpenBot','why'],['What it can do','what-it-can-do']] as [string,string][]).map(([label, id]) => (
+              <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-zinc-400 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
             ))}
-            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" aria-label="OpenBot on GitHub" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
           </div>
-          <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-white text-sm rounded-full px-4 md:px-5 py-1.5 ml-auto md:ml-2 transition-all inline-block" style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-black text-sm font-medium rounded-full px-5 py-2 transition-colors bg-white hover:bg-zinc-200 inline-block">
             Login
           </a>
         </nav>
@@ -1944,53 +2723,68 @@ function App() {
       <main id="main-content" aria-label="Main content">
 
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center">
-        <img src="/background22.webp" alt="" aria-hidden="true" fetchPriority="high" decoding="async" className="absolute inset-0 w-full h-full object-cover" style={{ zIndex: 0 }} />
-        <div className="absolute inset-0 bg-black/70" style={{ zIndex: 1 }}></div>
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-linear-to-t from-black to-transparent" style={{ zIndex: 1 }}></div>
+      <section className="relative flex flex-col items-center overflow-hidden" style={{ minHeight: '100vh' }}>
+        {/* Cinematic black background */}
+        <div className="absolute inset-0" style={{ background: '#000000', zIndex: 0 }} />
+        {/* Bottom fade — seamless into dark sections */}
+        <div className="absolute bottom-0 left-0 right-0 h-48" style={{ background: 'linear-gradient(to bottom, transparent, #000)', zIndex: 2 }} />
 
-        {/* Logo — centered top */}
-        <div className="absolute top-0 left-0 right-0 flex justify-center pt-7 z-10 pointer-events-none">
-          <a href="/" className="flex items-center gap-2.5 pointer-events-auto">
-            <img src={openbotLogo} alt="" aria-hidden="true" width="28" height="28" className="w-7 h-7" />
-            <span className="text-xl" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500 }}>OpenBot</span>
+        {/* Horizontal Navbar */}
+        <nav aria-label="Primary navigation" className="relative z-10 w-full flex items-center justify-between px-6 md:px-10 pt-6 pb-2">
+          <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
+            <img src={openbotLogo} alt="" aria-hidden="true" width="22" height="22" className="w-5 h-5" />
+            <span className="text-white" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
           </a>
-        </div>
-
-        {/* Left nav */}
-        <nav className="absolute top-8 left-8 z-10 hidden md:flex flex-col gap-4 items-start">
-          {([['Why OpenBot','why'],['What it can do','what-it-can-do'],['How It Works','how-it-works']] as [string,string][]).map(([label, id]) => (
-            <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-left p-0 text-zinc-300 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
-          ))}
-          <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-          <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-300 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+          <div className="hidden md:flex items-center gap-7">
+            {([['Why OpenBot','why'],['What it can do','what-it-can-do']] as [string,string][]).map(([label, id]) => (
+              <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-white hover:text-zinc-300 transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
+            ))}
+            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+          </div>
+          <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-black text-sm font-medium rounded-full px-5 py-2 transition-colors bg-white hover:bg-zinc-200 inline-block">
+            Login
+          </a>
         </nav>
 
-        {/* Top right CTA */}
-        <div className="absolute top-6 right-8 z-10 hidden md:block">
+        {/* Center content */}
+        <div className="relative z-10 flex flex-col items-center text-center px-6 mt-24 md:mt-32">
+          {/* App icon */}
+          <img src={openbotLogo} alt="OpenBot" width="60" height="60" className="w-15 h-15 mb-8" style={{ filter: 'none', boxShadow: 'none' }} />
+
+          {/* Title */}
+          <h1 className="text-white leading-none tracking-tight mb-5" style={{ fontSize: '49px', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
+            OpenBot
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-white max-w-lg mb-9 leading-relaxed mt-4" style={{ fontSize: '16px', textShadow: 'none', filter: 'none' }}>
+            The OS for AI Agents — The Last Tool You'll Ever Need.
+          </p>
+
+          {/* CTA */}
           <a
             href="https://openbot.one"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-sm rounded-full px-6 py-2.5 transition-all inline-block"
-            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            className="text-black text-sm font-medium rounded-full px-8 py-3.5 bg-white hover:bg-zinc-200 transition-colors inline-flex items-center gap-2 mb-14"
           >
-            Login
+            Get Started
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
           </a>
         </div>
 
-        <p className="relative z-10 text-xs font-semibold tracking-[0.3em] text-zinc-400 uppercase mb-5">The OS for AI Agents</p>
-
-        <h1 className="relative z-10 font-bold leading-[1.05] tracking-tight max-w-5xl px-4 text-white" style={{ fontSize: 'clamp(32px, 8vw, 88px)' }}>
-          The Last Tool<br />You'll Ever Need.
-        </h1>
-
-        <HeroInput />
+        {/* App mockup preview */}
+        <div className="relative z-10 mx-auto" style={{ width: 1100 }}>
+          <AppMockup />
+        </div>
       </section>
+
+      <TrustedBySection />
 
       <WhySection />
 
-      <CanDoSection />
+      <CanDoSection onShowAgents={() => { window.location.hash = '#agents'; setShowAgents(true) }} />
 
       {/* Use Cases Section */}
       <section id="use-cases" className="container mx-auto px-6 py-12 md:py-20">
@@ -2050,50 +2844,8 @@ function App() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="container mx-auto px-6 py-12 md:py-20">
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-          <p className="text-base md:text-xl text-zinc-400">Just tell OpenBot what to do</p>
-        </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-16 rounded-2xl overflow-hidden border border-zinc-700 shadow-2xl shadow-black/60">
-            <div className="flex items-center gap-3 px-4 py-3 bg-zinc-800 border-b border-zinc-700">
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              </div>
-              <div className="flex items-center gap-2 ml-2">
-                <svg className="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                <svg className="w-4 h-4 text-zinc-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-              </div>
-              <div className="flex-1 mx-3">
-                <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-700 rounded-md px-3 py-1 max-w-sm mx-auto">
-                  <svg className="w-3 h-3 text-zinc-500 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                  <span className="text-xs text-zinc-400 truncate">openbot.ai/demo</span>
-                </div>
-              </div>
-            </div>
-            <div className="aspect-video bg-black">
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="none"
-                onLoadedData={(e) => e.currentTarget.play().catch(() => {})}
-                src={demoVideo}
-              >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <UseCasesSection />
 
       <TestimonialsSection />
 
@@ -2199,7 +2951,6 @@ function App() {
               {[
                 { label: 'Why OpenBot', onClick: () => document.getElementById('why')?.scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'What It Can Do', onClick: () => document.getElementById('what-it-can-do')?.scrollIntoView({ behavior: 'smooth' }) },
-                { label: 'How It Works', onClick: () => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'Agents & Plugins', onClick: () => { window.location.hash = '#agents' } },
               ].map(({ label, onClick }) => (
                 <button key={label} onClick={onClick} className="text-left text-sm text-zinc-500 hover:text-white transition-colors cursor-pointer">{label}</button>
@@ -2238,13 +2989,17 @@ function App() {
             <div className="flex flex-col gap-4">
               <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Company</p>
               {[
-                { label: 'About Us', href: '#' },
-                { label: 'Our Charter', href: '#' },
-                { label: 'Foundation', href: '#' },
-                { label: 'Careers', href: '#' },
-                { label: 'Brand', href: '#' },
+                { label: 'About Us', href: '/about' },
+                { label: 'Our Charter', href: '/charter' },
+                { label: 'Foundation', href: '/foundation' },
+                { label: 'Careers', href: '/careers' },
+                { label: 'Brand', href: '/brand' },
               ].map(({ label, href }) => (
-                <a key={label} href={href} className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
+                href.startsWith('/') ? (
+                  <button key={label} onClick={() => { window.history.pushState({}, '', href); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-left text-sm text-zinc-500 hover:text-white transition-colors cursor-pointer">{label}</button>
+                ) : (
+                  <a key={label} href={href} className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
+                )
               ))}
             </div>
           </div>
@@ -2282,6 +3037,11 @@ function AppRouter() {
 
   if (pathname === '/terms') return <TermsPage onBack={goHome} />
   if (pathname === '/privacy') return <PrivacyPage onBack={goHome} />
+  if (pathname === '/about') return <AboutPage onBack={goHome} />
+  if (pathname === '/charter') return <CharterPage onBack={goHome} />
+  if (pathname === '/foundation') return <FoundationPage onBack={goHome} />
+  if (pathname === '/careers') return <CareersPage onBack={goHome} />
+  if (pathname === '/brand') return <BrandPage onBack={goHome} />
   return <App />
 }
 

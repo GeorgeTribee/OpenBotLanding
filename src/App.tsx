@@ -22,6 +22,16 @@ const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: Reac
 
 
 
+function useWindowWidth() {
+  const [width, setWidth] = useState(() => window.innerWidth)
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', handler, { passive: true })
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+  return width
+}
+
 function DocTerminal({ children, copyText }: { children: React.ReactNode; copyText: string }) {
   const [copied, setCopied] = useState(false)
   return (
@@ -1003,6 +1013,9 @@ function SkyCard({ children }: { children: React.ReactNode }) {
 }
 
 function WhySection() {
+  const vw = useWindowWidth()
+  const isMobile = vw < 768
+  const isTablet = vw < 1024
   const font = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif'
   const mono = '"SF Mono", "Fira Code", monospace'
   const cardStyle: React.CSSProperties = { background: '#0d0d0d', borderRadius: 14, overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: font }
@@ -1021,7 +1034,7 @@ function WhySection() {
       description: 'From routine pull requests to your hardest problems, OpenBot agents reliably complete tasks end to end — reading files, writing code, opening PRs, and more.',
       flip: false,
       mockup: (
-        <div style={{ ...cardStyle, width: 420 }}>
+        <div style={{ ...cardStyle, width: '100%', maxWidth: 420 }}>
           <div style={{ padding: '20px 22px' }}>
             {/* User message */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
@@ -1056,7 +1069,7 @@ function WhySection() {
       description: 'Channels keep your agents organized. Each one has full context, picks up where another left off, and completes work end-to-end — no micromanagement needed.',
       flip: true,
       mockup: (
-        <div style={{ ...cardStyle, width: 260, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ ...cardStyle, width: '100%', maxWidth: 260, display: 'flex', flexDirection: 'column' }}>
           {/* Workspace header */}
           <div style={{ height: 46, padding: '0 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9, flexShrink: 0 }}>
             <img src={openbotLogo} alt="" style={{ width: 22, height: 22 }} />
@@ -1101,7 +1114,7 @@ function WhySection() {
       description: 'Connect GitHub, Slack, Notion, Figma and more. OpenBot agents don\'t just generate — they act directly inside the tools your team already depends on.',
       flip: false,
       mockup: (
-        <div style={{ ...cardStyle, width: 440 }}>
+        <div style={{ ...cardStyle, width: '100%', maxWidth: 440 }}>
           <div style={{ padding: '20px 22px 18px' }}>
 
             {/* Up next */}
@@ -1162,36 +1175,32 @@ function WhySection() {
   return (
     <div id="why" style={{ background: '#000' }}>
       {/* Chapter heading */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 72px 48px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 35, fontWeight: 600, color: '#fff', lineHeight: 1, whiteSpace: 'nowrap', fontFamily: "'Raleway', sans-serif", letterSpacing: '0.01em' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '60px 24px 36px' : '80px 72px 48px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: isMobile ? 26 : isTablet ? 28 : 35, fontWeight: 600, color: '#fff', lineHeight: 1.2, fontFamily: "'Raleway', sans-serif", letterSpacing: '0.01em' }}>
           Why OpenBot is the best way to build with agents.
         </h2>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 30, padding: '0 30px 30px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: isMobile ? '0 16px 24px' : '0 30px 30px' }}>
         {features.map((feature, i) => (
-          <section key={i} style={{ display: 'flex', minHeight: '80vh', background: '#000' }}>
-            {feature.flip ? (
+          <section key={i} style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', minHeight: isMobile ? 'auto' : '80vh', background: '#000', gap: isMobile ? 24 : 0 }}>
+            {feature.flip && !isMobile ? (
               <>
-                {/* Sky card */}
                 <div style={{ flex: '0 0 58%', padding: '0 16px 0 0' }}>
                   <SkyCard>{feature.mockup}</SkyCard>
                 </div>
-                {/* Text */}
-                <div style={{ flex: '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 72px 0 52px' }}>
-                  <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 20, fontFamily: font }}>{feature.title}</h2>
-                  <p style={{ fontSize: 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
+                <div style={{ flex: '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: isTablet ? '0 32px 0 28px' : '0 72px 0 52px' }}>
+                  <h2 style={{ fontSize: 'clamp(22px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 20, fontFamily: font }}>{feature.title}</h2>
+                  <p style={{ fontSize: isTablet ? 15 : 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
                 </div>
               </>
             ) : (
               <>
-                {/* Text */}
-                <div style={{ flex: '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 52px 0 72px' }}>
-                  <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 20, fontFamily: font }}>{feature.title}</h2>
-                  <p style={{ fontSize: 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
+                <div style={{ flex: isMobile ? 'none' : '0 0 42%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: isMobile ? '32px 8px 0' : isTablet ? '0 28px 0 32px' : '0 52px 0 72px' }}>
+                  <h2 style={{ fontSize: isMobile ? 22 : 'clamp(22px, 2.6vw, 44px)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: 16, fontFamily: font }}>{feature.title}</h2>
+                  <p style={{ fontSize: isMobile ? 15 : isTablet ? 15 : 17, color: '#666', lineHeight: 1.75, fontFamily: font }}>{feature.description}</p>
                 </div>
-                {/* Sky card */}
-                <div style={{ flex: '0 0 58%', padding: '0 0 0 16px' }}>
+                <div style={{ flex: isMobile ? 'none' : '0 0 58%', padding: isMobile ? '0' : '0 0 0 16px', overflow: 'hidden' }}>
                   <SkyCard>{feature.mockup}</SkyCard>
                 </div>
               </>
@@ -1207,6 +1216,8 @@ function WhySection() {
 
 
 function CanDoSection({ onShowAgents }: { onShowAgents: () => void }) {
+  const vw = useWindowWidth()
+  const isMobile = vw < 640
   const cardGrad = 'linear-gradient(160deg, #012a4a 0%, #01497c 30%, #0369a1 60%, #0ea5e9 100%)'
 
   const ChatMockup = () => {
@@ -1331,17 +1342,17 @@ function CanDoSection({ onShowAgents }: { onShowAgents: () => void }) {
   ]
 
   return (
-    <div id="what-it-can-do" style={{ background: '#000', padding: '100px 32px 100px' }}>
-      <div style={{ textAlign: 'center', marginBottom: 60 }}>
+    <div id="what-it-can-do" style={{ background: '#000', padding: isMobile ? '60px 16px 60px' : '100px 32px 100px' }}>
+      <div style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 60 }}>
         <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.25em', color: '#555', textTransform: 'uppercase', marginBottom: 16 }}>What it can do</p>
-        <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', fontWeight: 300, color: '#fff', lineHeight: 1.2, fontFamily: "'Raleway', sans-serif" }}>
+        <h2 style={{ fontSize: 'clamp(24px, 3vw, 44px)', fontWeight: 300, color: '#fff', lineHeight: 1.2, fontFamily: "'Raleway', sans-serif" }}>
           Your AI doesn't just answer questions.<br />It takes real action.
         </h2>
       </div>
 
-      <div style={{ display: 'flex', gap: 20, maxWidth: 1100, margin: '0 auto', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 16, maxWidth: 1100, margin: '0 auto', flexWrap: 'wrap' }}>
         {cards.map((card, i) => (
-          <div key={i} style={{ flex: '1 1 0', minWidth: 0, borderRadius: 16, background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div key={i} style={{ flex: isMobile ? '1 1 100%' : '1 1 0', minWidth: 0, borderRadius: 16, background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.07)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             {/* Top gradient area with mockup */}
             <div style={{ background: cardGrad, padding: '36px 28px 28px', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', height: 320 }}>
               {card.mockup}
@@ -1683,11 +1694,14 @@ function UseCasesSection() {
               <button
                 key={t.id}
                 onClick={() => handleTab(i)}
-                className="text-sm px-5 py-2 rounded-full transition-all duration-200 cursor-pointer"
-                style={activeTab === i
-                  ? { background: '#fff', color: '#000', fontWeight: 500 }
-                  : { color: '#71717a' }
-                }
+                className="rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap"
+                style={{
+                  fontSize: 'clamp(10px, 2.5vw, 14px)',
+                  padding: 'clamp(4px, 1vw, 8px) clamp(8px, 2vw, 20px)',
+                  ...(activeTab === i
+                    ? { background: '#fff', color: '#000', fontWeight: 500 }
+                    : { color: '#71717a' })
+                }}
               >
                 {t.label}
               </button>
@@ -2625,28 +2639,31 @@ function TrustedBySection() {
 
   const logoStyle: React.CSSProperties = { width: 40, height: 40, filter: 'brightness(0) invert(1)', opacity: 0.85, flexShrink: 0 }
 
+  const tvw = useWindowWidth()
+  const tMobile = tvw < 640
+
   return (
-    <section style={{ background: '#000', padding: '80px 0 88px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <p style={{ textAlign: 'center', color: '#3a3a3a', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 56, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+    <section style={{ background: '#000', padding: tMobile ? '52px 0 60px' : '80px 0 88px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <p style={{ textAlign: 'center', color: '#3a3a3a', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: tMobile ? 36 : 56, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
         Available Official Agents
       </p>
       <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 64,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: tMobile ? 28 : 64,
         opacity: visible ? 1 : 0, transition: 'opacity 0.35s ease',
-        padding: '0 60px',
+        padding: tMobile ? '0 24px' : '0 60px',
       }}>
         {current.map(c => (
-          <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+          <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
             {!c.textOnly && (c.svgPath ? (
-              <svg viewBox="0 0 24 24" style={logoStyle} aria-hidden="true">
+              <svg viewBox="0 0 24 24" style={{ ...logoStyle, width: tMobile ? 28 : 40, height: tMobile ? 28 : 40 }} aria-hidden="true">
                 <path d={c.svgPath} fill="white" />
               </svg>
             ) : (
-              <img src={`https://cdn.simpleicons.org/${c.slug}`} alt={c.name} width={40} height={40} style={logoStyle} />
+              <img src={`https://cdn.simpleicons.org/${c.slug}`} alt={c.name} width={tMobile ? 28 : 40} height={tMobile ? 28 : 40} style={{ ...logoStyle, width: tMobile ? 28 : 40, height: tMobile ? 28 : 40 }} />
             ))}
             <span style={{
               color: '#ffffff',
-              fontSize: c.textOnly ? 22 : 26,
+              fontSize: c.textOnly ? (tMobile ? 16 : 22) : (tMobile ? 18 : 26),
               fontWeight: c.textOnly ? 700 : 500,
               fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
               letterSpacing: c.textOnly ? '0.08em' : '0.01em',
@@ -2669,6 +2686,7 @@ function App() {
   const [showAgents, setShowAgents] = useState(() => window.location.hash === '#agents')
   const [docsInitialPage, setDocsInitialPage] = useState<string | undefined>(() => parseHash().page)
   const [scrolled, setScrolled] = useState(false)
+  const windowWidth = useWindowWidth()
 
   useEffect(() => {
     const handleHash = () => {
@@ -2753,12 +2771,12 @@ function App() {
           <img src={openbotLogo} alt="OpenBot" width="60" height="60" className="w-15 h-15 mb-8" style={{ filter: 'none', boxShadow: 'none' }} />
 
           {/* Title */}
-          <h1 className="text-white leading-none tracking-tight mb-5" style={{ fontSize: '49px', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
+          <h1 className="text-white leading-none tracking-tight mb-5" style={{ fontSize: 'clamp(34px, 7vw, 49px)', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
             OpenBot
           </h1>
 
           {/* Subtitle */}
-          <p className="text-white max-w-lg mb-9 leading-relaxed mt-4" style={{ fontSize: '16px', textShadow: 'none', filter: 'none' }}>
+          <p className="text-white max-w-lg mb-9 leading-relaxed mt-4" style={{ fontSize: 'clamp(14px, 3vw, 16px)', textShadow: 'none', filter: 'none' }}>
             The OS for AI Agents — The Last Tool You'll Ever Need.
           </p>
 
@@ -2775,9 +2793,22 @@ function App() {
         </div>
 
         {/* App mockup preview */}
-        <div className="relative z-10 mx-auto" style={{ width: 1100 }}>
-          <AppMockup />
-        </div>
+        {(() => {
+          const scale = Math.min(1, (windowWidth - 32) / 1100)
+          return (
+            <div className="relative z-10" style={{ width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+              <div style={{
+                width: 1100,
+                flexShrink: 0,
+                transformOrigin: 'top center',
+                transform: scale < 1 ? `scale(${scale})` : 'none',
+                marginBottom: scale < 1 ? `${(scale - 1) * 700}px` : 0,
+              }}>
+                <AppMockup />
+              </div>
+            </div>
+          )
+        })()}
       </section>
 
       <TrustedBySection />

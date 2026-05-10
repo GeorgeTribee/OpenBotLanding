@@ -20,27 +20,6 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
     },
   ]
 
-  const team = [
-    {
-      name: 'George Tribee',
-      role: 'Co-Founder & CEO',
-      bio: 'Obsessed with automation and building tools that give people leverage. Previously built products used by thousands of developers.',
-      avatar: 'GT',
-    },
-    {
-      name: 'David Dataselia',
-      role: 'Co-Founder & CTO',
-      bio: 'Drives the technical vision behind OpenBot. Passionate about building systems that give people real leverage through AI.',
-      avatar: 'DD',
-    },
-    {
-      name: 'Mate Tsirekidze',
-      role: 'Software Engineer',
-      bio: 'Builds the core of OpenBot. Focused on reliability, performance, and making the agent runtime feel effortless.',
-      avatar: 'MT',
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "'Outfit', Arial, sans-serif" }}>
       {/* Nav */}
@@ -111,40 +90,6 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
             >
               <h3 className="text-white font-semibold mb-2">{v.title}</h3>
               <p className="text-zinc-500 text-sm leading-relaxed">{v.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="container mx-auto px-6 max-w-4xl">
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-      </div>
-
-      {/* Team */}
-      <div className="container mx-auto px-6 py-16 max-w-4xl">
-        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-600 uppercase mb-4">The Team</p>
-        <h2 className="text-3xl font-bold mb-10">Built by people who care.</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {team.map((member) => (
-            <div
-              key={member.name}
-              className="rounded-2xl p-6 flex flex-col gap-4"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
-            >
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
-                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
-                >
-                  {member.avatar}
-                </div>
-                <div>
-                  <p className="font-semibold text-white">{member.name}</p>
-                  <p className="text-zinc-500 text-sm">{member.role}</p>
-                </div>
-              </div>
-              <p className="text-zinc-500 text-sm leading-relaxed">{member.bio}</p>
             </div>
           ))}
         </div>

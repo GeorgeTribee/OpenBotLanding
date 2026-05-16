@@ -7,10 +7,11 @@ import FoundationPage from './FoundationPage'
 import CareersPage from './CareersPage'
 import BrandPage from './BrandPage'
 import { Button } from '@/components/ui/button'
-import { Copy, Check } from 'lucide-react'
 import { SiWhatsapp, SiTelegram, SiDiscord, SiSlack, SiSignal, SiImessage, SiInstagram, SiFacebook, SiLinkedin, SiAnthropic, SiOpenai, SiGooglegemini, SiPerplexity, SiHuggingface, SiGithub, SiX, SiGmail, SiGooglechrome, SiSpotify, SiYoutube, SiObsidian, SiGooglemeet, SiAirbnb, SiWizzair, SiRyanair, SiZoom, SiGooglecalendar, SiExpedia, SiTripadvisor, SiFigma, SiCanva, SiTrello, SiNotion, SiJira, SiAsana, SiLinear, SiDropbox, SiGoogledrive, SiAirtable, SiClickup, SiConfluence, SiUber, SiLyft, SiHotelsdotcom, SiAmazon, SiEbay, SiGlovo } from 'react-icons/si'
 import { TbBrandBooking, TbBrandVscode } from 'react-icons/tb'
 import openbotLogo from './assets/openbotlogo.svg'
+
+const DOCS_URL = 'https://docs.getopenbot.com'
 
 const GrokIcon = ({ size = 16, style, className }: { size?: number; style?: React.CSSProperties; className?: string }) => (
   <svg width={size} height={size} viewBox="0.36 0.5 33.33 32" fill="currentColor" style={style} className={className} xmlns="http://www.w3.org/2000/svg">
@@ -30,468 +31,6 @@ function useWindowWidth() {
     return () => window.removeEventListener('resize', handler)
   }, [])
   return width
-}
-
-function DocTerminal({ children, copyText }: { children: React.ReactNode; copyText: string }) {
-  const [copied, setCopied] = useState(false)
-  return (
-    <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 font-mono text-sm">
-      <span>{children}</span>
-      <button
-        onClick={() => { navigator.clipboard.writeText(copyText); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-        className="text-zinc-600 hover:text-zinc-300 transition-colors ml-4 shrink-0"
-      >
-        {copied
-          ? <Check className="w-4 h-4 text-green-400" />
-          : <Copy className="w-4 h-4" />}
-      </button>
-    </div>
-  )
-}
-
-function highlight(text: string, query: string): React.ReactNode {
-  const lower = text.toLowerCase()
-  const qLower = query.toLowerCase()
-  const idx = lower.indexOf(qLower)
-  if (idx === -1) return <>{text}</>
-  return <>{text.slice(0, idx)}<span className="text-zinc-200 font-semibold">{text.slice(idx, idx + query.length)}</span>{text.slice(idx + query.length)}</>
-}
-
-function getKeywordSnippet(keywords: string, query: string): string | null {
-  const lower = keywords.toLowerCase()
-  const idx = lower.indexOf(query.toLowerCase())
-  if (idx === -1) return null
-  const start = Math.max(0, idx - 25)
-  const end = Math.min(keywords.length, idx + query.length + 60)
-  return (start > 0 ? '…' : '') + keywords.slice(start, end) + (end < keywords.length ? '…' : '')
-}
-
-const searchIndex: { id: string; title: string; section: string; keywords: string; sectionId?: string }[] = [
-  { id: 'introduction', title: 'Get Started', section: 'Get started', keywords: 'openbot what is orchestrator local privacy extensible event-driven terminal browser' },
-  { id: 'introduction', title: 'What is OpenBot?', section: 'Get started', keywords: 'what is openbot open source assistant actions messages code web files multi-agent architecture', sectionId: 'doc-what' },
-  { id: 'introduction', title: 'Why OpenBot?', section: 'Get started', keywords: 'why privacy automation memory model openai anthropic local first', sectionId: 'doc-why' },
-  { id: 'introduction', title: 'Installation', section: 'Get started', keywords: 'install npm pnpm package global install-g add openbot', sectionId: 'doc-install' },
-  { id: 'introduction', title: 'Running OpenBot', section: 'Get started', keywords: 'run running server openai api key anthropic localhost 3000 start', sectionId: 'doc-run' },
-  { id: 'philosophy', title: 'Manager-Agent Philosophy', section: 'Core Concepts', keywords: 'manager agent delegate event bus specialized workers orchestrate philosophy pattern delegate by default' },
-  { id: 'manager-agent', title: 'Manager Agent', section: 'Agents', keywords: 'manager orchestrator brain delegateTask coordinate intent analyze summarize' },
-  { id: 'manager-agent', title: 'Responsibilities', section: 'Agents · Manager Agent', keywords: 'responsibilities delegate memory coordinate synthesize results', sectionId: 'doc-ma-resp' },
-  { id: 'manager-agent', title: 'delegateTask tool', section: 'Agents · Manager Agent', keywords: 'delegateTask tool agent os browser codex task string', sectionId: 'doc-ma-delegate' },
-  { id: 'manager-agent', title: 'Memory integration', section: 'Agents · Manager Agent', keywords: 'memory integration brain plugin persist sessions recall context', sectionId: 'doc-ma-memory' },
-  { id: 'os-agent', title: 'OS Agent', section: 'Agents', keywords: 'os terminal shell files commands git execute scripts system sandbox' },
-  { id: 'os-agent', title: 'OS Agent Capabilities', section: 'Agents · OS Agent', keywords: 'shell commands files directories git scripts system operations', sectionId: 'doc-os-cap' },
-  { id: 'browser-agent', title: 'Browser Agent', section: 'Agents', keywords: 'browser web stagehand navigate click forms extract screenshots automation internet' },
-  { id: 'browser-agent', title: 'Browser Agent Capabilities', section: 'Agents · Browser Agent', keywords: 'navigate url click buttons fill forms extract data screenshots multi-step', sectionId: 'doc-br-cap' },
-  { id: 'topic-agent', title: 'Topic Agent', section: 'Agents', keywords: 'topic title conversation label background utility thread name auto generate' },
-  { id: 'codex-agent', title: 'Codex Agent', section: 'Agents', keywords: 'codex code engineer openai refactor debug architecture codebase software' },
-  { id: 'codex-agent', title: 'Codex Capabilities', section: 'Agents · Codex Agent', keywords: 'architectural decisions refactoring logic debugging explore modify codebase', sectionId: 'doc-codex-cap' },
-  { id: 'mobile', title: 'OpenBot Mobile', section: 'Agents', keywords: 'mobile app HITL notifications pocket coming soon human in the loop' },
-  { id: 'memory', title: 'Persistent Brain & Memory', section: 'Memory', keywords: 'memory remember recall journal identity brain persistent store retrieve sessions long-term' },
-  { id: 'roadmap', title: 'Planned Agents', section: 'Roadmap', keywords: 'roadmap browser-use researcher devops data scientist social planned future agents' },
-  { id: 'extending', title: 'Built to be Extended', section: 'Extending', keywords: 'extend custom yaml agent typescript plugin builder workflow power user' },
-  { id: 'extending', title: 'YAML Agents', section: 'Extending', keywords: 'yaml agent no code config file researcher browser file-system system prompt model', sectionId: 'doc-ext-yaml' },
-  { id: 'extending', title: 'TS Agent Packages', section: 'Extending', keywords: 'typescript ts agent package custom logic index factory builder llmPlugin event handler', sectionId: 'doc-ext-ts' },
-  { id: 'extending', title: 'Custom Plugins', section: 'Extending', keywords: 'plugin custom tool toolbox extend action builder event yield result', sectionId: 'doc-ext-plugin' },
-  { id: 'reference', title: 'Direct Command Routing', section: 'Reference', keywords: 'routing direct command prefix slash /os /browser /codex skip manager', sectionId: 'doc-ref-routing' },
-  { id: 'reference', title: 'Core Architecture', section: 'Reference', keywords: 'architecture manager plugin registry agent registry SDUI server driven ui dashboard', sectionId: 'doc-ref-arch' },
-  { id: 'reference', title: 'Project Structure', section: 'Reference', keywords: 'project structure server web docs folder directory api guides', sectionId: 'doc-ref-structure' },
-]
-
-const docsContent: Record<string, { title: string; breadcrumb: string; toc: string[]; content: React.ReactNode }> = {
-  introduction: {
-    title: 'Get Started',
-    breadcrumb: 'Get started',
-    toc: ['What is OpenBot?', 'Why OpenBot?', 'Installation', 'Running OpenBot'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">Get Started</h1>
-        <p className="text-zinc-500 text-base mb-10 pl-4 border-l-2 border-zinc-700 italic">Meet OpenBot. Your own personal AI assistant.</p>
-
-        <h2 id="doc-what" className="text-2xl font-bold mb-4">What is OpenBot?</h2>
-        <p className="text-zinc-400 mb-4 text-sm leading-relaxed">OpenBot is an AI assistant that goes beyond chatting. It performs real actions on your behalf — sending messages, writing code, browsing the web, managing files, and more — using a powerful multi-agent architecture.</p>
-        <p className="text-zinc-400 mb-5 text-sm leading-relaxed">OpenBot is more than just a chatbot. It's an orchestrator that lives in your terminal and browser, delegating complex tasks to specialized agents. It's designed to be local-first, event-driven, and infinitely extensible.</p>
-        <div className="grid md:grid-cols-3 gap-3 mb-12">
-          {[
-            { title: 'Local & Private', desc: 'Runs entirely on your machine. Your data never leaves your device.' },
-            { title: 'Multi-Agent', desc: 'A Manager Agent orchestrates specialized workers to handle complex tasks.' },
-            { title: 'Local-First', desc: 'Runs on your machine. Your data stays private and never leaves your environment.' },
-          ].map(({ title, desc }) => (
-            <div key={title} className="rounded-lg border border-zinc-800 p-4 bg-zinc-900/30">
-              <div className="font-semibold text-white text-sm mb-2">{title}</div>
-              <p className="text-xs text-zinc-500">{desc}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 id="doc-why" className="text-2xl font-bold mb-4">Why OpenBot?</h2>
-        <ul className="space-y-3 mb-12">
-          {[
-            { title: 'Complete Privacy', desc: 'Unlike cloud-based AI, OpenBot runs locally. No data is sent to third-party servers.' },
-            { title: 'Real Automation', desc: 'Not just a chatbot — it executes tasks like running shell commands, browsing the web, and writing code.' },
-            { title: 'Persistent Memory', desc: 'Remembers your preferences, past conversations, and context across sessions.' },
-            { title: 'Any AI Model', desc: 'Works with OpenAI, Anthropic, Google Gemini, and more. You choose the model.' },
-          ].map(({ title, desc }) => (
-            <li key={title} className="flex gap-3 items-start text-sm">
-              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-zinc-500 shrink-0" />
-              <div>
-                <span className="font-semibold text-white">{title}</span>
-                <span className="text-zinc-500"> — {desc}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <h2 id="doc-install" className="text-2xl font-bold mb-4">Installation</h2>
-        <p className="text-zinc-400 mb-3 text-sm">Install OpenBot globally using npm or pnpm:</p>
-        <div className="space-y-2 mb-12">
-          <DocTerminal copyText="npm install -g openbot">
-            <span className="text-zinc-200">npm</span>
-            <span className="text-zinc-300"> install -g openbot</span>
-          </DocTerminal>
-          <DocTerminal copyText="pnpm add -g openbot">
-            <span className="text-zinc-200">pnpm</span>
-            <span className="text-zinc-300"> add -g openbot</span>
-          </DocTerminal>
-        </div>
-
-        <h2 id="doc-run" className="text-2xl font-bold mb-4">Running OpenBot</h2>
-        <p className="text-zinc-400 mb-3 text-sm">Start the server with your AI provider API key:</p>
-        <div className="space-y-2 mb-5">
-          <DocTerminal copyText="openbot server --openai-api-key YOUR_KEY">
-            <span className="text-zinc-200">openbot</span>
-            <span className="text-zinc-300"> server </span>
-            <span className="text-yellow-400">--openai-api-key</span>
-            <span className="text-green-400"> YOUR_KEY</span>
-          </DocTerminal>
-          <DocTerminal copyText="openbot server --anthropic-api-key YOUR_KEY">
-            <span className="text-zinc-200">openbot</span>
-            <span className="text-zinc-300"> server </span>
-            <span className="text-yellow-400">--anthropic-api-key</span>
-            <span className="text-green-400"> YOUR_KEY</span>
-          </DocTerminal>
-        </div>
-        <p className="text-zinc-400 mb-3 text-sm">Then open the web interface in your browser:</p>
-        <DocTerminal copyText="http://localhost:3000">
-          <span className="text-zinc-200">http://localhost:3000</span>
-        </DocTerminal>
-      </div>
-    ),
-  },
-  philosophy: {
-    title: 'Manager-Agent Philosophy',
-    breadcrumb: 'Core Concepts',
-    toc: ['Delegate by Default', 'Manager Agent', 'Specialized Agents', 'Event Bus'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">The "Manager-Agent" Philosophy</h1>
-        <p className="text-zinc-500 mb-8 pl-4 border-l-2 border-zinc-700 italic">OpenBot follows a <span className="text-zinc-200 font-semibold">Delegate by Default</span> pattern.</p>
-        <div className="space-y-4">
-          {[
-            { title: 'Manager Agent', desc: 'Your primary interface. It analyzes your intent, manages long-term memory (via the brain plugin), and orchestrates specialized workers.' },
-            { title: 'Specialized Agents', desc: 'Workers dedicated to specific domains like os (shell & files), browser (web automation), or any custom agent you define.' },
-            { title: 'Event Bus', desc: 'All communication happens asynchronously via events, allowing for complex multi-agent choreography and real-time UI updates.' },
-          ].map(({ title, desc }) => (
-            <div key={title} className="rounded-lg border border-zinc-800 p-5 bg-zinc-900/30">
-              <div className="font-semibold text-white mb-2">{title}</div>
-              <p className="text-sm text-zinc-400">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  'manager-agent': {
-    title: 'Manager Agent',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'Responsibilities', 'delegateTask tool', 'Memory integration'],
-    content: (
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">Manager Agent</h1>
-            <code className="text-zinc-200 text-sm">The Orchestrator</code>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">The central "brain" of the OpenBot ecosystem. It analyzes user intent, manages long-term memory (via the brain plugin), and coordinates other agents using the <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-sm">delegateTask</code> tool.</p>
-        <h2 id="doc-ma-resp" className="text-xl font-semibold mb-3">Responsibilities</h2>
-        <ul className="space-y-2 mb-8">
-          {['Analyze user intent and determine which agent to delegate to', 'Manage long-term memory using the brain plugin (remember, recall)', 'Coordinate multiple specialized agents in parallel or sequence', 'Synthesize results and return a concise summary to the user'].map(r => (
-            <li key={r} className="flex gap-2 text-sm text-zinc-400"><span className="text-zinc-200 mt-0.5">→</span>{r}</li>
-          ))}
-        </ul>
-        <h2 id="doc-ma-delegate" className="text-xl font-semibold mb-3">delegateTask tool</h2>
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 font-mono text-sm text-zinc-300 mb-8">
-          <span className="text-blue-400">delegateTask</span>({'{'}<br/>
-          &nbsp;&nbsp;<span className="text-yellow-300">agent</span>: <span className="text-green-400">"os"</span> | <span className="text-green-400">"browser"</span> | <span className="text-green-400">"codex"</span> | ...<br/>
-          &nbsp;&nbsp;<span className="text-yellow-300">task</span>: <span className="text-green-400">string</span><br/>
-          {'}'})
-        </div>
-        <h2 id="doc-ma-memory" className="text-xl font-semibold mb-3">Memory integration</h2>
-        <p className="text-sm text-zinc-400">The Manager Agent uses the brain plugin to persist information across sessions — automatically recalling relevant context before responding to new requests.</p>
-      </div>
-    ),
-  },
-  'os-agent': {
-    title: 'OS Agent',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'Capabilities', 'Access boundaries'],
-    content: (
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">OS Agent</h1>
-            <code className="text-zinc-200 text-sm">os</code>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">Your specialized terminal and file system companion. It has full access to your local machine (within the boundaries you set). It can execute shell commands, create/read/edit files, manage directories, and handle system-level operations.</p>
-        <h2 id="doc-os-cap" className="text-xl font-semibold mb-3">Capabilities</h2>
-        <div className="grid sm:grid-cols-2 gap-3 mb-8">
-          {['Execute shell commands', 'Create, read, edit files', 'Manage directories', 'Run git commands', 'Execute scripts', 'System-level operations'].map(c => (
-            <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-zinc-200">✓</span>{c}
-            </div>
-          ))}
-        </div>
-        <h2 className="text-xl font-semibold mb-3">Access boundaries</h2>
-        <p className="text-sm text-zinc-400">The OS Agent operates within configurable sandboxing rules. You define which directories and operations are permitted in your OpenBot config.</p>
-      </div>
-    ),
-  },
-  'browser-agent': {
-    title: 'Browser Agent',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'Powered by Stagehand', 'Capabilities', 'Planned: browser-use'],
-    content: (
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">Browser Agent</h1>
-            <code className="text-zinc-200 text-sm">browser · Stagehand</code>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">A powerful web automation specialist based on Stagehand. It can navigate the internet exactly like a human would — browsing websites, clicking buttons, filling forms, and extracting data.</p>
-        <h2 id="doc-br-cap" className="text-xl font-semibold mb-3">Capabilities</h2>
-        <div className="grid sm:grid-cols-2 gap-3 mb-8">
-          {['Navigate to any URL', 'Click buttons & links', 'Fill forms', 'Extract page data', 'Take screenshots', 'Multi-step web flows'].map(c => (
-            <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-zinc-200">✓</span>{c}
-            </div>
-          ))}
-        </div>
-        <h2 className="text-xl font-semibold mb-3">Planned: browser-use Agent</h2>
-        <div className="rounded-lg border border-dashed border-zinc-700 p-4 text-sm text-zinc-500">
-          We also plan to introduce a parallel agent based on <code className="text-zinc-300">browser-use</code> for alternative autonomous web navigation strategies with higher-level reasoning.
-        </div>
-      </div>
-    ),
-  },
-  'topic-agent': {
-    title: 'Topic Agent',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'How it works'],
-    content: (
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">Topic Agent</h1>
-            <code className="text-zinc-200 text-sm">topic</code>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">A background utility that works silently to keep your workspace organized. It automatically analyzes the first few messages of a new conversation and generates a concise (3–5 word) title for the thread.</p>
-        <h2 className="text-xl font-semibold mb-3">How it works</h2>
-        <div className="space-y-3">
-          {['Listens for new conversation events via the Event Bus', 'Analyzes the first 2–3 messages for context', 'Generates a concise 3–5 word title', 'Updates the conversation thread label automatically'].map((s, i) => (
-            <div key={s} className="flex gap-3 items-start rounded-lg border border-zinc-800 p-4 text-sm text-zinc-400">
-              <span className="text-zinc-200 font-mono text-xs mt-0.5">{i + 1}.</span>{s}
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  'codex-agent': {
-    title: 'Codex Agent',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'Capabilities', 'File system access'],
-    content: (
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">Codex Agent</h1>
-            <code className="text-zinc-200 text-sm">codex</code>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">A world-class software engineer and coding assistant powered by OpenAI. It helps with high-level architectural decisions, code refactoring, complex logic implementation, and debugging.</p>
-        <h2 id="doc-codex-cap" className="text-xl font-semibold mb-3">Capabilities</h2>
-        <div className="grid sm:grid-cols-2 gap-3 mb-8">
-          {['Architectural decisions', 'Code refactoring', 'Complex logic implementation', 'Debugging & analysis', 'Explore & modify codebase', 'Shell & file system access'].map(c => (
-            <div key={c} className="flex gap-2 items-center rounded-lg border border-zinc-800 p-3 text-sm text-zinc-400">
-              <span className="text-zinc-200">✓</span>{c}
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  mobile: {
-    title: 'OpenBot Mobile',
-    breadcrumb: 'Agents',
-    toc: ['Overview', 'Planned features'],
-    content: (
-      <div className="opacity-70">
-        <div className="flex items-center gap-3 mb-4">
-          <div>
-            <h1 className="text-4xl font-bold">OpenBot Mobile</h1>
-            <span className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded-full px-2 py-0.5">Coming Soon</span>
-          </div>
-        </div>
-        <p className="text-zinc-400 mb-8">We're bringing the power of OpenBot to your pocket! The upcoming mobile app will keep you connected to your agents anywhere.</p>
-        <h2 className="text-xl font-semibold mb-3">Planned features</h2>
-        <div className="space-y-3">
-          {[
-            { title: 'HITL (Human-In-The-Loop)', desc: 'Review and approve sensitive actions on the go.' },
-            { title: 'Real-time Notifications', desc: 'Get notified when long-running tasks or agent operations complete.' },
-            { title: 'Always-on Agents', desc: 'Your specialized coding and OS agents, always accessible from anywhere.' },
-            { title: 'Multi-modal Interaction', desc: 'Seamlessly switch between text, voice, and file uploads.' },
-          ].map(({ title, desc }) => (
-            <div key={title} className="rounded-lg border border-zinc-800 p-4">
-              <div className="font-semibold text-white text-sm mb-1">{title}</div>
-              <p className="text-xs text-zinc-500">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  memory: {
-    title: 'Persistent Brain & Memory',
-    breadcrumb: 'Memory',
-    toc: ['Overview', 'remember', 'recall', 'updateIdentity', 'journal'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">Persistent Brain & Memory</h1>
-        <p className="text-zinc-400 mb-8">Unlike most chatbots, OpenBot has long-term memory. It can store and retrieve information across sessions.</p>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {[
-            { fn: 'remember', desc: 'Store facts, snippets, or preferences for later use in any future conversation.' },
-            { fn: 'recall', desc: 'Search its past experiences to provide relevant context for new tasks.' },
-            { fn: 'updateIdentity', desc: 'Maintain its own persona and "soul" in a persistent markdown file.' },
-            { fn: 'journal', desc: 'Keep a daily log of activities, completed tasks, and insights.' },
-          ].map(({ fn, desc }) => (
-            <div key={fn} className="rounded-lg border border-zinc-800 p-5 bg-zinc-900/30">
-              <code className="text-zinc-300 font-mono text-base">{fn}()</code>
-              <p className="text-sm text-zinc-500 mt-3">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  extending: {
-    title: 'Built to be Extended',
-    breadcrumb: 'Extending',
-    toc: ['YAML Agents', 'TS Agent Packages', 'Custom Plugins'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">Built to be Extended</h1>
-        <p className="text-zinc-500 text-base mb-10 pl-4 border-l-2 border-zinc-700 italic">OpenBot is designed for power users and builders who want to create their own custom AI workflows without the complexity of building from scratch.</p>
-
-        <h2 id="doc-ext-yaml" className="text-2xl font-bold mb-2">1. YAML Agents <span className="text-sm font-normal text-zinc-500 ml-2">(No Coding Required)</span></h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">Create specialized agents just by writing a simple YAML file in <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/researcher/agent.yaml</code>:</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> researcher{'\n'}<span className="text-zinc-200">description</span><span className="text-zinc-500">:</span> <span className="text-green-400">A specialized agent for gathering information and summarizing articles.</span>{'\n'}<span className="text-zinc-200">model</span><span className="text-zinc-500">:</span> <span className="text-green-400">anthropic/claude-3-5-sonnet-20240620</span>{'\n'}<span className="text-zinc-200">plugins</span><span className="text-zinc-500">:</span>{'\n'}  <span className="text-zinc-500">-</span> <span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> browser{'\n'}  <span className="text-zinc-500">-</span> <span className="text-zinc-200">name</span><span className="text-zinc-500">:</span> file-system{'\n'}    <span className="text-zinc-200">config</span><span className="text-zinc-500">:</span>{'\n'}      <span className="text-zinc-200">baseDir</span><span className="text-zinc-500">:</span> <span className="text-green-400">~/Documents/Research</span>{'\n'}<span className="text-zinc-200">systemPrompt</span><span className="text-zinc-500">: |</span>{'\n'}  <span className="text-zinc-400">You are an expert researcher.</span>{'\n'}  <span className="text-zinc-400">Use the browser to gather information and the file-system to save detailed reports.</span>{'\n'}  <span className="text-zinc-400">Always cite your sources and provide a high-level summary.</span></pre>
-
-        <h2 id="doc-ext-ts" className="text-2xl font-bold mb-2">2. TS Agent Packages <span className="text-sm font-normal text-zinc-500 ml-2">(Advanced)</span></h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">For more complex agents that require custom logic beyond a prompt, you can create a full TypeScript package in <code className="text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded text-xs">~/.openbot/agents/my-agent/</code>:</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-zinc-500">{'// ~/.openbot/agents/my-agent/index.ts'}</span>{'\n'}<span className="text-blue-400">export const</span> <span className="text-yellow-300">agent</span> = {'{'}{'\n'}  <span className="text-zinc-200">name</span>: <span className="text-green-400">"custom-agent"</span>,{'\n'}  <span className="text-zinc-200">description</span>: <span className="text-green-400">"An agent with custom TS logic"</span>,{'\n'}  <span className="text-zinc-200">factory</span>: {'({ model }) => (builder) => {'}{'\n'}    <span className="text-zinc-500">{'// Compose plugins and add custom event handlers'}</span>{'\n'}    <span className="text-yellow-300">builder</span>.<span className="text-blue-400">use</span>(<span className="text-yellow-300">llmPlugin</span>({'({'}{'\n'}      <span className="text-zinc-200">model</span>,{'\n'}      <span className="text-zinc-200">system</span>: <span className="text-green-400">"You are a specialized assistant..."</span>,{'\n'}      <span className="text-zinc-500">{'// ...'}</span>{'\n'}    {'})'}));{'\n'}  {'}'}{'\n'}{'}'}{';'}</pre>
-
-        <h2 id="doc-ext-plugin" className="text-2xl font-bold mb-2">3. Custom Plugins</h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">For those who want even more control, you can extend the AI's toolbox with custom logic. A plugin defines new tools and reacts to system events.</p>
-        <pre className="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-4 text-sm font-mono text-zinc-300 mb-10 overflow-x-auto leading-relaxed"><span className="text-blue-400">export const</span> <span className="text-yellow-300">myPlugin</span> = <span className="text-blue-400">{`() => (builder) => {`}</span>{'\n'}  <span className="text-yellow-300">builder</span>.<span className="text-blue-400">on</span>(<span className="text-green-400">"action:myTool"</span>, <span className="text-blue-400">async function*</span> (event, {'{ state }'}) {'{'}{'\n'}    <span className="text-zinc-500">{'// Perform custom logic or interact with other systems'}</span>{'\n'}    <span className="text-blue-400">yield</span> {'{ '}<span className="text-zinc-200">type</span>: <span className="text-green-400">"action:taskResult"</span>, <span className="text-zinc-200">data</span>: {'{ '}<span className="text-zinc-200">result</span>: <span className="text-green-400">"Done!"</span> {'}}'};{'\n'}  {'}'});{'\n'}{'}'}{';'}</pre>
-
-      </div>
-    ),
-  },
-  reference: {
-    title: 'Reference',
-    breadcrumb: 'Reference',
-    toc: ['Direct Command Routing', 'Core Architecture', 'Project Structure'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">Reference</h1>
-        <p className="text-zinc-500 text-base mb-10 pl-4 border-l-2 border-zinc-700 italic">Low-level details on how OpenBot routes commands, its internal architecture, and project layout.</p>
-
-        <h2 id="doc-ref-routing" className="text-2xl font-bold mb-3">Direct Command Routing</h2>
-        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">Skip the manager's reasoning and talk directly to an agent using prefixes:</p>
-        <div className="space-y-2 mb-10">
-          {[
-            { prefix: '/os', cmd: 'list files in current directory' },
-            { prefix: '/browser', cmd: 'search for local weather' },
-          ].map(({ prefix, cmd }) => (
-            <div key={prefix} className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-3 font-mono text-sm">
-              <span className="text-zinc-200 font-semibold">{prefix}</span>
-              <span className="text-zinc-300">{cmd}</span>
-            </div>
-          ))}
-        </div>
-
-        <h2 id="doc-ref-arch" className="text-2xl font-bold mb-3">Core Architecture</h2>
-        <div className="space-y-3 mb-10">
-          {[
-            { name: 'Manager', desc: 'Central brain, handles /remember and /recall.' },
-            { name: 'Plugin Registry', desc: 'Centralized tool discovery across all agents.' },
-            { name: 'Agent Registry', desc: 'Dynamic loading of built-in and user-defined agents.' },
-            { name: 'SDUI', desc: 'Server-Driven UI — plugins can emit cards, logs, and status updates that render directly in the web dashboard.' },
-          ].map(({ name, desc }) => (
-            <div key={name} className="flex gap-4 rounded-lg border border-zinc-800 p-4 bg-zinc-900/30">
-              <span className="text-zinc-200 font-mono text-sm font-semibold shrink-0 mt-0.5">{name}</span>
-              <p className="text-sm text-zinc-400">{desc}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 id="doc-ref-structure" className="text-2xl font-bold mb-3">Project Structure</h2>
-        <div className="space-y-2">
-          {[
-            { path: '/server', desc: 'Core assistant logic and API server.' },
-            { path: '/web', desc: 'Interactive dashboard for your bots.' },
-            { path: '/docs', desc: 'Detailed guides on Architecture, Plugins, and Agents.' },
-          ].map(({ path, desc }) => (
-            <div key={path} className="flex items-start gap-3 rounded-lg border border-zinc-800 px-5 py-3">
-              <code className="text-zinc-300 font-mono text-sm shrink-0">{path}</code>
-              <span className="text-zinc-500 text-sm">{desc}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  roadmap: {
-    title: 'Planned Agents',
-    breadcrumb: 'Roadmap',
-    toc: ['browser-use Agent', 'researcher Agent', 'devops Agent', 'data-scientist Agent', 'social Agent'],
-    content: (
-      <div>
-        <h1 className="text-4xl font-bold mb-3">Roadmap: Planned Agents</h1>
-        <p className="text-zinc-400 mb-8">We are constantly expanding the OpenBot ecosystem with specialized agents.</p>
-        <div className="space-y-4">
-          {[
-            { name: 'browser-use Agent', desc: 'A high-level web agent leveraging the browser-use library for more autonomous, multi-step web tasks.' },
-            { name: 'researcher Agent', desc: 'An information-gathering specialist that can browse multiple sources, synthesize long-form reports, and cite its findings.' },
-            { name: 'devops Agent', desc: 'Focused on CI/CD pipelines, container orchestration (Docker/K8s), and cloud infrastructure management.' },
-            { name: 'data-scientist Agent', desc: 'Capable of running local notebooks, performing statistical analysis, and generating visualizations.' },
-            { name: 'social Agent', desc: 'Designed to manage social media interactions, schedule posts, and monitor mentions.' },
-          ].map(({ name, desc }) => (
-            <div key={name} className="flex gap-4 rounded-lg border border-dashed border-zinc-700 p-5">
-              <div className="w-2 h-2 rounded-full bg-white mt-1.5 shrink-0"></div>
-              <div>
-                <code className="text-zinc-200 font-mono text-sm font-semibold">{name}</code>
-                <p className="text-sm text-zinc-500 mt-1">{desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
 }
 
 const allCategories: { label: string; description: string; items: { name: string; icon: React.ElementType; color: string; capability: string }[] }[] = [
@@ -589,303 +128,6 @@ const allCategories: { label: string; description: string; items: { name: string
     ],
   },
 ]
-
-
-function DocsPage({ onBack, initialPage }: { onBack: () => void; initialPage?: string }) {
-  const [activeItem, setActiveItem] = useState(initialPage ?? 'introduction')
-  const [activeSidebarKey, setActiveSidebarKey] = useState(initialPage ? initialPage + ':' : 'introduction:')
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [darkMode, setDarkMode] = useState(true)
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const page = docsContent[activeItem] ?? docsContent['introduction']
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        setSearchOpen(true)
-      }
-      if (e.key === 'Escape') { setSearchOpen(false); setSearchQuery('') }
-    }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [])
-
-  useEffect(() => {
-    if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 50)
-  }, [searchOpen])
-
-  useEffect(() => {
-    document.body.style.overflow = searchOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [searchOpen])
-
-  const sidebar = [
-    { heading: 'Overview', items: [{ id: 'introduction', label: 'Introduction' }] },
-    { heading: 'Core Concepts', items: [{ id: 'philosophy', label: 'Manager-Agent Philosophy' }] },
-    { heading: 'Agents', items: [
-      { id: 'manager-agent', label: 'Manager Agent' },
-      { id: 'os-agent', label: 'OS Agent' },
-      { id: 'browser-agent', label: 'Browser Agent' },
-      { id: 'topic-agent', label: 'Topic Agent' },
-      { id: 'codex-agent', label: 'Codex Agent' },
-      { id: 'mobile', label: 'Mobile (Coming Soon)' },
-    ]},
-    { heading: 'Memory', items: [{ id: 'memory', label: 'Persistent Brain' }] },
-    { heading: 'Extending', items: [
-      { id: 'extending', label: 'Built to be Extended' },
-      { id: 'extending', label: 'YAML Agents', sectionId: 'doc-ext-yaml' },
-      { id: 'extending', label: 'TS Agent Packages', sectionId: 'doc-ext-ts' },
-      { id: 'extending', label: 'Custom Plugins', sectionId: 'doc-ext-plugin' },
-    ]},
-    { heading: 'Reference', items: [
-      { id: 'reference', label: 'Direct Command Routing', sectionId: 'doc-ref-routing' },
-      { id: 'reference', label: 'Core Architecture', sectionId: 'doc-ref-arch' },
-      { id: 'reference', label: 'Project Structure', sectionId: 'doc-ref-structure' },
-    ]},
-    { heading: 'Roadmap', items: [{ id: 'roadmap', label: 'Planned Agents' }] },
-  ]
-
-  const bg = darkMode ? '#0a0a0a' : '#ffffff'
-  const sidebarBg = darkMode ? '#0a0a0a' : '#f8fafc'
-  const borderCls = darkMode ? 'border-zinc-800/80' : 'border-zinc-200'
-  const searchCls = darkMode
-    ? 'border-zinc-800 bg-zinc-900 text-zinc-500 hover:border-zinc-700'
-    : 'border-zinc-200 bg-zinc-50 text-zinc-500 hover:border-zinc-300'
-  const searchKbdCls = darkMode ? 'bg-zinc-800 text-zinc-500' : 'bg-zinc-200 text-zinc-500'
-  const githubCls = darkMode ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-900'
-  const themeBtnCls = darkMode
-    ? 'text-zinc-400 hover:text-white hover:bg-zinc-800'
-    : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100'
-  const sidebarHeadingCls = darkMode ? 'text-zinc-500' : 'text-zinc-400'
-  const sidebarInactiveCls = darkMode
-    ? 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
-    : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
-  const separatorCls = darkMode ? 'text-zinc-700' : 'text-zinc-300'
-  const tocItemCls = darkMode
-    ? 'text-zinc-500 hover:text-white hover:border-zinc-600'
-    : 'text-zinc-500 hover:text-zinc-900 hover:border-zinc-400'
-
-  const navItems = [
-    { label: 'Get started', ids: ['introduction'], sidebarKeys: ['introduction:'], pageId: 'introduction', scrollTo: '' },
-    { label: 'Core Concepts', ids: ['philosophy'], sidebarKeys: ['philosophy:'], pageId: 'philosophy', scrollTo: '' },
-    { label: 'Agents', ids: ['manager-agent', 'os-agent', 'browser-agent', 'topic-agent', 'codex-agent', 'mobile'], sidebarKeys: ['manager-agent:', 'os-agent:', 'browser-agent:', 'topic-agent:', 'codex-agent:', 'mobile:'], pageId: 'manager-agent', scrollTo: '' },
-    { label: 'Memory', ids: ['memory'], sidebarKeys: ['memory:'], pageId: 'memory', scrollTo: '' },
-    { label: 'Extending', ids: ['extending'], sidebarKeys: ['extending:', 'extending:doc-ext-yaml', 'extending:doc-ext-ts', 'extending:doc-ext-plugin'], pageId: 'extending', scrollTo: '' },
-    { label: 'Reference', ids: ['reference'], sidebarKeys: ['reference:doc-ref-routing', 'reference:doc-ref-arch', 'reference:doc-ref-structure'], pageId: 'reference', scrollTo: '' },
-    { label: 'Roadmap', ids: ['roadmap'], sidebarKeys: ['roadmap:'], pageId: 'roadmap', scrollTo: '' },
-  ]
-  const activeNav = navItems.find(n => n.sidebarKeys.includes(activeSidebarKey))?.label
-
-  return (
-    <div className={`min-h-screen ${darkMode ? 'text-white' : 'text-zinc-900'}`} style={{ background: bg }}>
-      {!darkMode && (
-        <style>{`
-          .docs-content [class*="text-white"]:not([class*="hover:"]) { color: #1e293b !important; }
-          .docs-content [class*="text-zinc-300"] { color: #374151 !important; }
-          .docs-content [class*="text-zinc-400"] { color: #4b5563 !important; }
-          .docs-content [class*="text-zinc-500"] { color: #6b7280 !important; }
-          .docs-content [class*="bg-zinc-900"] { background-color: #f1f5f9 !important; }
-          .docs-content [class*="bg-zinc-800"] { background-color: #e2e8f0 !important; }
-          .docs-content [class*="border-zinc-800"] { border-color: #cbd5e1 !important; }
-          .docs-content [class*="border-zinc-700"] { border-color: #cbd5e1 !important; }
-        `}</style>
-      )}
-      <header className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-14 border-b ${borderCls}`} style={{ background: bg }}>
-        <div className="flex items-center gap-3">
-          <button onClick={onBack} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={openbotLogo} alt="OpenBot" className="w-5 h-5" style={darkMode ? {} : { filter: 'invert(1)' }} />
-            <span className="text-sm font-medium" style={{ fontFamily: "'Raleway', sans-serif" }}>OpenBot</span>
-          </button>
-          <span className={`${separatorCls} text-lg`}>|</span>
-          <span className="text-zinc-500 text-sm">Docs</span>
-        </div>
-        <button
-          onClick={() => setSearchOpen(true)}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm w-72 cursor-pointer select-none transition-colors ${searchCls}`}
-        >
-          <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          <span>Search...</span>
-          <span className={`ml-auto text-xs px-1.5 py-0.5 rounded ${searchKbdCls}`}>⌘K</span>
-        </button>
-        <div className="flex items-center gap-3">
-          <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-sm transition-colors ${githubCls}`}>
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
-            GitHub
-          </a>
-          <button
-            onClick={() => setDarkMode(d => !d)}
-            className={`p-1.5 rounded-md transition-colors ${themeBtnCls}`}
-            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {darkMode ? (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
-            ) : (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-            )}
-          </button>
-        </div>
-      </header>
-
-      {/* Secondary nav */}
-      <nav className={`fixed top-14 left-0 right-0 z-40 flex items-center gap-1 px-6 border-b ${borderCls}`} style={{ background: bg }}>
-        {navItems.map(({ label, pageId, sidebarKeys, scrollTo }) => {
-          const isActive = label === activeNav
-          return (
-            <button
-              key={label}
-              onClick={() => {
-                setActiveItem(pageId)
-                setActiveSidebarKey(sidebarKeys[0])
-                if (scrollTo) setTimeout(() => document.getElementById(scrollTo)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80)
-              }}
-              className={`relative px-3 py-2.5 text-sm transition-colors whitespace-nowrap ${
-                isActive
-                  ? darkMode ? 'text-white font-medium' : 'text-zinc-900 font-medium'
-                  : darkMode ? 'text-zinc-500 hover:text-zinc-300' : 'text-zinc-500 hover:text-zinc-700'
-              }`}
-            >
-              {label}
-              {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-t-full" />}
-            </button>
-          )
-        })}
-      </nav>
-
-      {searchOpen && (
-        <div
-          className="fixed inset-0 z-100 flex items-start justify-center pt-24"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
-          onClick={() => { setSearchOpen(false); setSearchQuery('') }}
-        >
-          <div
-            className="w-full max-w-lg rounded-xl border border-zinc-700 overflow-hidden shadow-2xl"
-            style={{ background: '#18181b' }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-700">
-              <svg className="w-4 h-4 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search documentation..."
-                className="flex-1 bg-transparent text-white placeholder-zinc-500 text-sm outline-none"
-              />
-              <button onClick={() => { setSearchOpen(false); setSearchQuery('') }} className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors bg-zinc-800 px-1.5 py-0.5 rounded">
-                Esc
-              </button>
-            </div>
-            {(() => {
-              const results = searchQuery.length >= 3
-                ? searchIndex.filter(item =>
-                    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    item.keywords.toLowerCase().includes(searchQuery.toLowerCase())
-                  )
-                : []
-              if (searchQuery.length >= 3 && results.length === 0) return (
-                <div className="px-4 py-8 text-center text-zinc-500 text-sm">No results for "<span className="text-zinc-300">{searchQuery}</span>"</div>
-              )
-              if (results.length > 0) return (
-                <div className="max-h-80 overflow-y-auto">
-                  {results.map(result => (
-                    <button
-                      key={result.id}
-                      onClick={() => {
-                        setActiveItem(result.id)
-                        setActiveSidebarKey(result.id + ':' + (result.sectionId ?? ''))
-                        setSearchOpen(false)
-                        setSearchQuery('')
-                        if (result.sectionId) {
-                          setTimeout(() => {
-                            document.getElementById(result.sectionId!)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                          }, 80)
-                        }
-                      }}
-                      className="w-full text-left px-4 py-3 hover:bg-zinc-800 transition-colors border-b border-zinc-800 last:border-0 flex items-center justify-between gap-3"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs text-zinc-500 mb-0.5 font-mono">{result.section}</div>
-                        <div className="text-sm text-white font-medium flex items-center gap-1.5">
-                          <span className="text-zinc-600 text-xs font-mono">#</span>
-                          <span>{highlight(result.title, searchQuery)}</span>
-                        </div>
-                        {(() => {
-                          const snippet = getKeywordSnippet(result.keywords, searchQuery)
-                          if (!snippet) return null
-                          return <div className="text-xs text-zinc-500 mt-0.5 truncate font-mono">{highlight(snippet, searchQuery)}</div>
-                        })()}
-                      </div>
-                      <svg className="w-3.5 h-3.5 text-zinc-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                    </button>
-                  ))}
-                </div>
-              )
-              return <div className="px-4 py-8 text-center text-zinc-600 text-sm">Start typing to search the docs...</div>
-            })()}
-          </div>
-        </div>
-      )}
-
-      <div className="flex pt-24">
-        <aside className={`fixed left-0 top-24 bottom-0 w-60 overflow-y-auto border-r ${borderCls} py-8 px-3`} style={{ background: sidebarBg }}>
-          {sidebar.map(({ heading, items }, si) => (
-            <div key={si} className="mb-6">
-              <div className={`text-xs font-semibold ${sidebarHeadingCls} uppercase tracking-widest px-3 mb-1`}>{heading}</div>
-              {items.map(({ id, label, sectionId }: { id: string; label: string; sectionId?: string }, ii) => (
-                <button
-                  key={si * 100 + ii}
-                  onClick={() => {
-                    setActiveItem(id)
-                    setActiveSidebarKey(id + ':' + (sectionId ?? ''))
-                    if (sectionId) {
-                      setTimeout(() => {
-                        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                      }, 80)
-                    }
-                  }}
-                  className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors mb-0.5 ${
-                    activeSidebarKey === id + ':' + (sectionId ?? '') ? 'bg-white/10 text-white font-medium' : sidebarInactiveCls
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          ))}
-        </aside>
-
-        <main className="ml-60 mr-52 flex-1 px-14 py-10 min-w-0">
-          <div className="max-w-2xl mx-auto">
-            <div className={`text-sm mb-6 ${darkMode ? 'text-zinc-600' : 'text-zinc-400'}`}>
-              <button onClick={onBack} className={`transition-colors ${darkMode ? 'hover:text-zinc-400' : 'hover:text-zinc-600'}`}>Home</button>
-              <span className="mx-2">/</span>
-              <span className="text-zinc-500">{page.breadcrumb}</span>
-              <span className="mx-2">/</span>
-              <span className={darkMode ? 'text-zinc-300' : 'text-zinc-700'}>{page.title}</span>
-            </div>
-            <div className="docs-content">{page.content}</div>
-          </div>
-        </main>
-
-        <aside className={`fixed right-0 top-24 bottom-0 w-52 overflow-y-auto py-8 px-4 border-l ${borderCls}`} style={{ background: sidebarBg }}>
-          <div className={`text-xs font-semibold ${sidebarHeadingCls} uppercase tracking-widest mb-3 flex items-center gap-1.5`}>
-            <span>≡</span> On this page
-          </div>
-          {page.toc.map((label) => (
-            <div key={label} className={`block w-full text-left text-xs transition-colors py-1.5 pl-2 border-l border-transparent cursor-default ${tocItemCls}`}>
-              {label}
-            </div>
-          ))}
-        </aside>
-      </div>
-    </div>
-  )
-}
-
-
 
 function WaveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -2052,14 +1294,6 @@ export function PricingSection() {
   )
 }
 
-function parseHash() {
-  const h = window.location.hash
-  if (h === '#docs') return { docs: true, page: undefined }
-  if (h.startsWith('#docs/')) return { docs: true, page: h.slice(6) || undefined }
-  return { docs: false, page: undefined }
-}
-
-
 const agentColors: Record<string, string> = {
   '@tavily': '#60a5fa',
   '@stitch': '#f472b6',
@@ -2682,19 +1916,12 @@ function TrustedBySection() {
 }
 
 function App() {
-  const [showDocs, setShowDocs] = useState(() => parseHash().docs)
   const [showAgents, setShowAgents] = useState(() => window.location.hash === '#agents')
-  const [docsInitialPage, setDocsInitialPage] = useState<string | undefined>(() => parseHash().page)
   const [scrolled, setScrolled] = useState(false)
   const windowWidth = useWindowWidth()
 
   useEffect(() => {
-    const handleHash = () => {
-      const { docs, page } = parseHash()
-      setShowDocs(docs)
-      if (page) setDocsInitialPage(page)
-      setShowAgents(window.location.hash === '#agents')
-    }
+    const handleHash = () => setShowAgents(window.location.hash === '#agents')
     window.addEventListener('hashchange', handleHash)
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
@@ -2704,10 +1931,6 @@ function App() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  if (showDocs) {
-    return <DocsPage onBack={() => { window.location.hash = ''; setShowDocs(false); setDocsInitialPage(undefined) }} initialPage={docsInitialPage} />
-  }
 
   if (showAgents) {
     return <AgentsPage />
@@ -2728,7 +1951,7 @@ function App() {
             {([['Why OpenBot','why'],['What it can do','what-it-can-do']] as [string,string][]).map(([label, id]) => (
               <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-zinc-400 hover:text-white transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
             ))}
-            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
           </div>
           <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-black text-sm font-medium rounded-full px-5 py-2 transition-colors bg-white hover:bg-zinc-200 inline-block">
@@ -2757,7 +1980,7 @@ function App() {
             {([['Why OpenBot','why'],['What it can do','what-it-can-do']] as [string,string][]).map(([label, id]) => (
               <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })} className="text-white hover:text-zinc-300 transition-colors cursor-pointer" style={{ fontSize: '14px', background: 'none', border: 'none' }}>{label}</button>
             ))}
-            <a href="#docs" target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
           </div>
           <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-black text-sm font-medium rounded-full px-5 py-2 transition-colors bg-white hover:bg-zinc-200 inline-block">
@@ -2866,9 +2089,9 @@ function App() {
               View all Agents & Plugins →
             </button>
             <span className="hidden sm:inline text-zinc-700">·</span>
-            <button onClick={() => window.open('#docs/extending', '_blank')} className="text-white hover:text-zinc-300 text-sm transition-colors cursor-pointer text-center">
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-white hover:text-zinc-300 text-sm transition-colors text-center">
               Build your own agents →
-            </button>
+            </a>
           </div>
         </div>
 
@@ -2992,12 +2215,12 @@ function App() {
             <div className="flex flex-col gap-4">
               <p className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">Developers</p>
               {[
-                { label: 'Documentation', href: '#docs' },
-                { label: 'Quick Start', href: '#docs/introduction' },
-                { label: 'Build Agents', href: '#docs/extending' },
+                { label: 'Documentation', href: DOCS_URL },
+                { label: 'Quick Start', href: DOCS_URL },
+                { label: 'Build Agents', href: DOCS_URL },
                 { label: 'GitHub', href: 'https://github.com/meetopenbot/openbot' },
               ].map(({ label, href }) => (
-                <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className="text-sm text-zinc-500 hover:text-white transition-colors">{label}</a>
               ))}
             </div>

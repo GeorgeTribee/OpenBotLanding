@@ -140,11 +140,6 @@ body {
   animation-play-state: paused;
 }
 
-/* Docs section scroll offset for fixed header (h-14=56px + secondary nav=40px) */
-[id^="doc-"] {
-  scroll-margin-top: 112px;
-}
-
 .orb-3d-6 {
   width: 190px;
   height: 190px;

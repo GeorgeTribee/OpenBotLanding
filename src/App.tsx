@@ -788,6 +788,46 @@ export function AppMockup() {
   )
 }
 
+export function HowItWorksSection() {
+  const steps = [
+    { title: 'Compose', desc: 'Describe your task in natural language.' },
+    { title: 'Orchestrate', desc: 'OpenBot coordinates agents to solve complex workflows.' },
+    { title: 'Deliver', desc: 'Results delivered directly to your environment.' },
+  ]
+
+  return (
+    <section id="how-it-works" className="py-32 border-t border-white/5">
+      <div className="container mx-auto px-6 max-w-3xl">
+        <div className="flex flex-col md:flex-row gap-16 md:gap-24">
+          <div className="md:w-1/3">
+            <h2 className="text-3xl font-medium text-white sticky top-32" style={{ fontFamily: "'Raleway', sans-serif" }}>
+              How it works
+            </h2>
+            <p className="mt-4 text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+              OpenBot simplifies complex automation by orchestrating specialized AI agents.
+            </p>
+          </div>
+          
+          <div className="md:w-2/3 flex flex-col gap-16">
+            {steps.map((step, i) => (
+              <div key={i} className="flex flex-col gap-4 relative">
+                <div className="flex items-center gap-4">
+                  <span className="text-[oklch(0.65_0.004_80)] text-xs font-medium tabular-nums tracking-widest uppercase opacity-50">Step 0{i + 1}</span>
+                  <div className="h-px flex-1 bg-white/5" />
+                </div>
+                <h3 className="text-white text-2xl font-medium" style={{ fontFamily: "'Raleway', sans-serif" }}>{step.title}</h3>
+                <p className="text-[oklch(0.65_0.004_80)] text-base leading-relaxed max-w-md">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function App() {
   const [registry, setRegistry] = useState<Registry | null>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -806,19 +846,40 @@ function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Global Cinematic Background */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        {/* Cinematic background base gradient */}
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, oklch(0.17 0.006 80 / 0.4) 0%, var(--background) 100%)' }} />
+        {/* Soft top glow */}
+        <div className="hero-glow" aria-hidden="true" />
+        {/* Masked grid */}
+        <div className="hero-grid" aria-hidden="true" />
+        {/* Drifting glowing orbs */}
+        <div className="background-3d" aria-hidden="true">
+          <div className="orb-3d orb-3d-1" />
+          <div className="orb-3d orb-3d-2" />
+          <div className="orb-3d orb-3d-3" />
+          <div className="orb-3d orb-3d-4" />
+          <div className="orb-3d orb-3d-5" />
+        </div>
+      </div>
 
 
       {/* Fixed navbar — appears on scroll */}
       <header role="banner" aria-label="Site navigation" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'oklch(0.13 0.005 80 / 0.85)', borderBottom: '1px solid var(--border)', transition: 'opacity 0.3s ease, transform 0.3s ease' }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
-        <nav aria-label="Primary navigation" className="flex items-center px-8 md:px-12" style={{ height: 56 }}>
+        <nav aria-label="Primary navigation" className="relative flex items-center px-8 md:px-12" style={{ height: 56 }}>
           <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
             <img src={openbotLogo} alt="" aria-hidden="true" width="20" height="20" className="w-5 h-5" />
             <span className="text-[var(--foreground)]" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
           </a>
-          <div className="ml-auto flex items-center gap-8">
-            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="hidden md:inline text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="hidden md:inline text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+          <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
+            <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
+            <a href="https://docs.getopenbot.com/guides/first-agent/" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Build your agent</a>
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+          </div>
+          <div className="ml-auto">
             <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
               Login
             </a>
@@ -827,36 +888,24 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main id="main-content" aria-label="Main content">
+      <main id="main-content" aria-label="Main content" className="relative z-10">
 
         {/* Hero Section */}
-        <section className="relative flex flex-col items-center justify-center overflow-hidden" style={{ minHeight: '100vh', background: 'var(--background)' }}>
-          {/* Cinematic background */}
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, oklch(0.17 0.006 80 / 0.4) 0%, var(--background) 100%)', zIndex: 0 }} />
-          {/* Soft top glow */}
-          <div className="hero-glow" aria-hidden="true" />
-          {/* Masked grid */}
-          <div className="hero-grid" aria-hidden="true" />
-          {/* Drifting glowing orbs */}
-          <div className="background-3d" aria-hidden="true">
-            <div className="orb-3d orb-3d-1" />
-            <div className="orb-3d orb-3d-2" />
-            <div className="orb-3d orb-3d-3" />
-            <div className="orb-3d orb-3d-4" />
-            <div className="orb-3d orb-3d-5" />
-          </div>
-          {/* Bottom fade — seamless into dark sections */}
-          <div className="absolute bottom-0 left-0 right-0 h-48" style={{ background: 'linear-gradient(to bottom, transparent, var(--background))', zIndex: 2 }} />
-
+        <section className="relative flex flex-col items-center justify-center overflow-hidden pt-20" style={{ background: 'transparent' }}>
+          
           {/* Horizontal Navbar */}
-          <nav aria-label="Primary navigation" className="absolute top-0 left-0 right-0 z-20 w-full flex items-center px-6 md:px-10 pt-6 pb-2">
+          <nav aria-label="Primary navigation" className="absolute top-0 left-0 right-0 z-20 flex items-center px-6 md:px-10 pt-6 pb-2 w-full">
             <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
               <img src={openbotLogo} alt="" aria-hidden="true" width="22" height="22" className="w-5 h-5" />
               <span className="text-[var(--foreground)]" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
             </a>
-            <div className="ml-auto flex items-center gap-7">
-              <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="hidden md:inline text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="hidden md:inline text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+            <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-7">
+              <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
+              <a href="https://docs.getopenbot.com/guides/first-agent/" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Build your agent</a>
+              <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
+            </div>
+            <div className="ml-auto">
               <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
                 Login
               </a>
@@ -864,16 +913,16 @@ function App() {
           </nav>
 
           {/* Center content */}
-          <div className="relative z-10 flex flex-col items-center text-center px-6 py-24 w-full max-w-4xl mx-auto">
+          <div className="relative z-10 flex flex-col items-center text-center px-6 py-20 w-full max-w-4xl mx-auto">
             {/* App icon */}
-            <img src={openbotLogo} alt="OpenBot" width="60" height="60" className="w-15 h-15 mb-8" style={{ filter: 'none', boxShadow: 'none' }} />
+            <img src={openbotLogo} alt="OpenBot" width="48" height="48" className="w-12 h-12 mb-6" style={{ filter: 'none', boxShadow: 'none' }} />
 
             {/* Title */}
-            <h1 className="text-[var(--foreground)] leading-none tracking-tight mb-5" style={{ fontSize: 'clamp(34px, 7vw, 49px)', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
+            <h1 className="text-[var(--foreground)] leading-none tracking-tight mb-4" style={{ fontSize: 'clamp(30px, 7vw, 40px)', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
               What should we work on?
             </h1>
-            <p className="mb-12 max-w-2xl text-base text-[var(--muted-foreground)] md:text-lg">
-              OpenBot is a local-first platform for multi-agent coordination and automation.
+            <p className="mb-8 max-w-2xl text-base text-[var(--muted-foreground)] md:text-lg">
+              Stop running agents in isolation. Coordinate specialized agents in one shared, local-first, open-source workspace.
             </p>
 
             <AgentComposer registry={registry} />
@@ -881,15 +930,10 @@ function App() {
         </section>
 
         {/* Continuous ambient background for the lower sections */}
-        <div className="section-band">
-          <div className="band-bg" aria-hidden="true">
-            <div className="band-grid" />
-            <div className="band-glow band-glow-1" />
-            <div className="band-glow band-glow-2" />
-          </div>
-
+        <div className="relative">
           <div className="relative z-10">
             <AgentCarousel agents={registry?.agents ?? []} />
+            <HowItWorksSection />
 
             {/* <PricingSection /> */}
 
@@ -934,7 +978,7 @@ function App() {
         </div>
 
         {/* Footer */}
-        <footer style={{ background: 'var(--background)', borderTop: '1px solid var(--border)' }}>
+        <footer style={{ background: 'transparent', borderTop: '1px solid var(--border)' }}>
           {/* Top gradient line */}
           <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, var(--border) 30%, var(--border) 60%, transparent)', marginBottom: '-1px' }} />
 

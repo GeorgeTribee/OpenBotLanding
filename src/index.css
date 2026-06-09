@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --background: oklch(0.13 0.005 80);
   --foreground: oklch(0.94 0.004 80);
@@ -172,61 +176,6 @@ body {
   z-index: 0;
   pointer-events: none;
   animation: heroGlowPulse 12s ease-in-out infinite;
-}
-
-/* One continuous ambient background spanning the lower sections */
-.section-band {
-  position: relative;
-  overflow: hidden;
-}
-
-.band-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Full-height masked grid — fades only at the top & bottom edges for continuity */
-.band-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 86%, transparent 100%);
-}
-
-.band-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform, opacity;
-}
-
-.band-glow-1 {
-  top: 6%;
-  left: 50%;
-  width: 760px;
-  height: 460px;
-  max-width: 92vw;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.06) 0%, rgba(168, 178, 255, 0.04) 42%, transparent 72%);
-  animation: float3 24s ease-in-out infinite;
-}
-
-.band-glow-2 {
-  bottom: 4%;
-  left: 22%;
-  width: 620px;
-  height: 420px;
-  max-width: 90vw;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(180, 255, 220, 0.045) 0%, rgba(255, 255, 255, 0.04) 45%, transparent 72%);
-  animation: float5 28s ease-in-out infinite;
-  animation-delay: -6s;
 }
 
 /* Marquee animations */

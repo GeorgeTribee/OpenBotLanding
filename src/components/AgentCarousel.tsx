@@ -25,7 +25,7 @@ export function AgentCarousel({ agents }: { agents: Agent[] }) {
     <section className="relative w-full overflow-hidden py-20">
       <div className="relative z-10 container mx-auto px-6 mb-12 text-center">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-600">Registry</p>
-        <h2 className="text-3xl font-bold md:text-4xl text-white">Available Official Agents</h2>
+        <h2 className="text-3xl md:text-4xl text-white">Available Official Agents</h2>
       </div>
 
       <div className="relative z-10 flex overflow-hidden">

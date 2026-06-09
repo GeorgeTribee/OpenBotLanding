@@ -496,7 +496,7 @@ function StarterPromptButton({
     <button
       type="button"
       onClick={handleClick}
-      className="px-5 py-2 rounded-full border border-zinc-800/30 bg-zinc-900/10 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700/50 transition-all text-[14px]"
+      className="px-4 py-1.5 rounded-full border border-zinc-800/30 bg-zinc-900/10 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700/50 transition-all text-[13px]"
     >
       {item.label}
     </button>
@@ -534,14 +534,14 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
   return (
     <div className="w-full max-w-3xl mx-auto text-left">
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="relative bg-[#0d0d0d]/40 backdrop-blur-xl border border-white/5 rounded-[24px] p-2 shadow-2xl focus-within:border-white/10 transition-all">
-          <div className="p-4 pb-1 min-h-[100px] relative text-left">
+        <div className="relative bg-[#0d0d0d]/40 backdrop-blur-xl border border-white/5 rounded-[24px] p-1.5 shadow-2xl focus-within:border-white/10 transition-all">
+          <div className="p-3 pb-1 min-h-[80px] relative text-left">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable className="composer-input outline-none text-left text-[18px] font-normal leading-relaxed text-white placeholder-zinc-500 min-h-[60px] [&_p]:text-left" />
+                <ContentEditable className="composer-input outline-none text-left text-[16px] font-normal leading-relaxed text-white placeholder-zinc-500 min-h-[50px] [&_p]:text-left" />
               }
               placeholder={
-                <div className="absolute top-4 left-4 text-left text-zinc-500 text-[18px] pointer-events-none">
+                <div className="absolute top-3 left-3 text-left text-zinc-500 text-[16px] pointer-events-none">
                   {selectedChannel
                     ? `Create a ${selectedChannel.name}...`
                     : 'Ask OpenBot a task... use @ to tag agents you\'d like to involve'}
@@ -566,8 +566,8 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
           </div>
         </div>
 
-        <div className="mt-10 space-y-4">
-          <div className="flex flex-wrap justify-center gap-3">
+        <div className="mt-6 space-y-3">
+          <div className="flex flex-wrap justify-center gap-2">
             {registry.channels.map((channel) => {
               const isSelected = channel.id === selectedChannelId
               const participantAgents = channel.participants
@@ -579,7 +579,7 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
                   key={channel.id}
                   type="button"
                   onClick={() => setSelectedChannelId(channel.id)}
-                  className={`px-5 py-2 rounded-full border transition-all text-[14px] flex items-center gap-2 ${isSelected
+                  className={`px-4 py-1.5 rounded-full border transition-all text-[13px] flex items-center gap-2 ${isSelected
                       ? 'border-zinc-500/60 bg-zinc-800/40 text-zinc-100'
                       : 'border-zinc-800/30 bg-zinc-900/10 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700/50'
                     }`}
@@ -592,7 +592,7 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
                           key={agent.id}
                           src={agent.image}
                           alt={agent.name}
-                          className="w-5 h-5 rounded-full border border-black object-cover bg-zinc-900"
+                          className="w-4 h-4 rounded-full border border-black object-cover bg-zinc-900"
                           style={{ zIndex: participantAgents.length - i }}
                         />
                       ))}
@@ -604,7 +604,7 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
           </div>
 
           {selectedChannel && (
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2">
               {selectedChannel.starterPrompts.map((item, i) => (
                 <StarterPromptButton key={i} item={item} agents={registry.agents} />
               ))}

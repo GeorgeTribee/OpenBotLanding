@@ -14,660 +14,265 @@ import openbotLogo from './assets/openbotlogo.svg'
 
 const DOCS_URL = 'https://docs.getopenbot.com'
 
-const pricingPlans = [
-  {
-    name: 'Free',
-    price: { monthly: 0, yearly: 0 },
-    desc: 'Try OpenBot with your own API key.',
-    features: ['Bring your own API key', '3 agents', '100 tasks / month', '1 AI model', 'Basic integrations', 'Community support'],
-    cta: 'Get Started',
-    highlighted: false,
-  },
-  {
-    name: 'Plus',
-    price: { monthly: 20, yearly: 16 },
-    desc: 'For individuals getting started with automation.',
-    features: ['5 agents', '300 tasks / month', '3 AI models', '20+ integrations', 'Community support'],
-    cta: 'Buy Plus',
-    highlighted: false,
-  },
-  {
-    name: 'Pro',
-    price: { monthly: 60, yearly: 48 },
-    desc: 'For individuals who need more power.',
-    features: ['10 agents', '1,000 tasks / month', 'All AI models', '50+ integrations', 'Persistent memory', 'Email support'],
-    cta: 'Buy Pro',
-    highlighted: true,
-  },
-  {
-    name: 'Max',
-    price: { monthly: 200, yearly: 160 },
-    desc: 'For power users and small teams.',
-    features: ['Unlimited agents', '10,000 tasks / month', 'All AI models', '100+ integrations', 'Persistent memory', 'Custom agents', 'Advanced workflows', 'Priority support'],
-    cta: 'Buy Max',
-    highlighted: false,
-  },
-  {
-    name: 'Enterprise',
-    price: { monthly: null, yearly: null },
-    desc: 'For teams that need full control.',
-    features: ['Unlimited everything', 'Custom integrations', 'SSO & audit logs', 'On-premise option', 'SLA guarantee', 'Dedicated support'],
-    cta: 'Contact Us',
-    highlighted: false,
-  },
-]
-
-function EnterpriseModal({ onClose }: { onClose: () => void }) {
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
-  const [sent, setSent] = useState(false)
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    window.addEventListener('keydown', handleKey)
-    return () => {
-      document.body.style.overflow = ''
-      window.removeEventListener('keydown', handleKey)
-    }
-  }, [onClose])
-
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSent(true)
-  }
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md rounded-2xl p-8"
-        style={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.1)' }}
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Close */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors cursor-pointer">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-
-        {!sent ? (
-          <>
-            <p className="text-xs font-semibold tracking-[0.3em] text-zinc-600 uppercase mb-2">Enterprise</p>
-            <h2 className="text-2xl font-bold mb-1">Let's talk.</h2>
-            <p className="text-zinc-400 text-sm mb-6">Tell us about your team and we'll get back to you within 24 hours.</p>
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs text-zinc-500">Name</label>
-                  <input
-                    required
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Jane Smith"
-                    className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs text-zinc-500">Company</label>
-                  <input
-                    value={form.company}
-                    onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
-                    placeholder="Acme Inc."
-                    className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-zinc-500">Work email</label>
-                <input
-                  required
-                  type="email"
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  placeholder="jane@company.com"
-                  className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs text-zinc-500">Tell us about your use case</label>
-                <textarea
-                  rows={3}
-                  value={form.message}
-                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  placeholder="Team size, what you'd like to automate..."
-                  className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-white transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full rounded-full py-2.5 text-sm font-medium transition-all cursor-pointer mt-1"
-                style={{ background: '#fff', color: '#000' }}
-              >
-                Send message
-              </button>
-            </form>
-          </>
-        ) : (
-          <div className="text-center py-6">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-            </div>
-            <h2 className="text-xl font-bold mb-2">Message sent!</h2>
-            <p className="text-zinc-400 text-sm mb-6">We'll get back to you within 24 hours.</p>
-            <button onClick={onClose} className="text-sm text-zinc-500 hover:text-white transition-colors cursor-pointer">Close</button>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
-export function PricingSection() {
-  const [yearly, setYearly] = useState(false)
-  const [displayYearly, setDisplayYearly] = useState(false)
-  const [priceOpacity, setPriceOpacity] = useState(1)
-  const [showEnterpriseModal, setShowEnterpriseModal] = useState(false)
-
-  const handleToggle = (val: boolean) => {
-    if (val === yearly) return
-    setYearly(val)
-    setPriceOpacity(0)
-    setTimeout(() => {
-      setDisplayYearly(val)
-      setPriceOpacity(1)
-    }, 140)
-  }
-
-  return (
-    <section id="pricing" className="container mx-auto px-6 py-12 md:py-20">
-      <div className="text-center mb-12">
-        <p className="text-xs font-semibold tracking-[0.3em] text-zinc-700 uppercase mb-4">Pricing</p>
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">Simple, transparent pricing.</h2>
-        <p className="text-zinc-400 text-base mb-6">Start free. Scale as you grow.</p>
-        <div className="inline-flex items-center gap-3">
-          <div className="relative inline-flex items-center bg-zinc-900 border border-zinc-800 rounded-full p-1">
-            <div
-              className="absolute top-1 bottom-1 rounded-full bg-white"
-              style={{
-                width: 'calc(50% - 4px)',
-                left: yearly ? 'calc(50% + 2px)' : '4px',
-                transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
-              }}
-            />
-            <button onClick={() => handleToggle(false)} className={`relative z-10 text-sm px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-200 ${!yearly ? 'text-black font-medium' : 'text-zinc-400'}`}>Monthly</button>
-            <button onClick={() => handleToggle(true)} className={`relative z-10 text-sm px-4 py-1.5 rounded-full cursor-pointer transition-colors duration-200 ${yearly ? 'text-black font-medium' : 'text-zinc-400'}`}>Yearly</button>
-          </div>
-          <span
-            className="text-xs text-emerald-400 font-medium"
-            style={{
-              opacity: yearly ? 1 : 0,
-              transform: yearly ? 'translateX(0)' : 'translateX(-6px)',
-              transition: 'opacity 0.25s ease, transform 0.25s ease',
-              pointerEvents: 'none',
-            }}
-          >Save 20%</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
-        {pricingPlans.map((plan) => (
-          <div
-            key={plan.name}
-            className="relative flex flex-col rounded-2xl p-6"
-            style={{
-              background: plan.highlighted ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
-              border: plan.highlighted ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(255,255,255,0.07)',
-            }}
-          >
-            {plan.highlighted && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-white text-black text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
-              </div>
-            )}
-
-            <p className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-3">{plan.name}</p>
-
-            <div className="mb-3" style={{ opacity: priceOpacity, transition: 'opacity 0.14s ease' }}>
-              {plan.price.monthly === null ? (
-                <span className="text-3xl font-bold text-white">Custom</span>
-              ) : (
-                <>
-                  <span className="text-3xl font-bold text-white">${displayYearly ? plan.price.yearly : plan.price.monthly}</span>
-                  <span className="text-zinc-500 text-sm ml-1">/ mo</span>
-                </>
-              )}
-            </div>
-
-            <p className="text-zinc-500 text-sm mb-5 leading-relaxed">{plan.desc}</p>
-
-            <ul className="flex flex-col gap-2.5 mb-6 flex-1">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-zinc-300">
-                  <svg className="w-4 h-4 text-white shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                  {f}
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => plan.name === 'Enterprise' && setShowEnterpriseModal(true)}
-              className="w-full rounded-full py-2.5 text-sm font-medium transition-all cursor-pointer"
-              style={plan.highlighted
-                ? { background: '#fff', color: '#000' }
-                : { background: 'rgba(255,255,255,0.06)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }
-              }
-            >
-              {plan.cta}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {showEnterpriseModal && <EnterpriseModal onClose={() => setShowEnterpriseModal(false)} />}
-    </section>
-  )
-}
-
 export function AppMockup() {
-  const [activeThread, setActiveThread] = useState('coding')
   const [inputText, setInputText] = useState('')
-  const [showLeft, setShowLeft] = useState(true)
+  const showLeft = true
   const [showRight, setShowRight] = useState(true)
-  const [activeRightTab, setActiveRightTab] = useState<'Specification' | 'State' | 'Files'>('Specification')
 
   const font = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif'
   const mono = '"SF Mono", "Fira Code", "Cascadia Code", monospace'
-  const iconBtn: React.CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3px 5px', borderRadius: 4 }
+  const iconBtn: React.CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: '#888', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', borderRadius: 4 }
 
-  type DiffLine = { type: string; code: string }
-  type DiffFile = { name: string; added: number; removed: number; lines: DiffLine[] }
-  type StateRow = { label: string; value: string; color?: string }
-  type PanelData = {
-    spec: { title: string; points: string[] } | null
-    state: StateRow[] | null
-    files: DiffFile[]
-  }
-
-  const panelData: Record<string, PanelData> = {
-    coding: {
-      spec: {
-        title: 'Fix auth null-token bug',
-        points: [
-          'Replace null check with empty string guard',
-          'Return structured { valid, reason } error object',
-          'Update validateSession() unit tests',
-          'Open PR against main branch',
-        ],
-      },
-      state: [
-        { label: 'Status', value: 'Completed', color: '#4ade80' },
-        { label: 'Agent', value: '@codex' },
-        { label: 'Files changed', value: '2' },
-        { label: 'Lines added', value: '+5', color: '#4ade80' },
-        { label: 'Lines removed', value: '-3', color: '#f87171' },
-        { label: 'PR', value: '#47 fix/auth-null-token', color: '#818cf8' },
-      ],
-      files: [
-        {
-          name: 'src/auth.ts', added: 4, removed: 2,
-          lines: [
-            { type: 'ctx', code: 'export function validateSession(token: string) {' },
-            { type: 'del', code: '  if (token === null) {' },
-            { type: 'del', code: '    return false;' },
-            { type: 'add', code: '  if (!token || token.trim() === \'\') {' },
-            { type: 'add', code: '    return { valid: false, reason: \'missing_token\' };' },
-            { type: 'ctx', code: '  }' },
-            { type: 'ctx', code: '  return verifyJWT(token);' },
-            { type: 'ctx', code: '}' },
-          ],
-        },
-        {
-          name: 'src/auth.test.ts', added: 1, removed: 1,
-          lines: [
-            { type: 'ctx', code: 'describe(\'validateSession\', () => {' },
-            { type: 'del', code: '  it(\'returns false for null\', () => {' },
-            { type: 'add', code: '  it(\'returns false for missing token\', () => {' },
-            { type: 'ctx', code: '    expect(validateSession(null)).toBe(false);' },
-            { type: 'ctx', code: '  });' },
-            { type: 'ctx', code: '});' },
-          ],
-        },
-      ],
-    },
-    browser: {
-      spec: {
-        title: 'Browser agent tasks',
-        points: [
-          'Play "Blinding Lights" by The Weeknd on Spotify',
-          'Find cheapest NYC → Paris round-trip flights',
-          'Compare results across Google Flights & Kayak',
-          'Return best deal with booking link',
-        ],
-      },
-      state: [
-        { label: 'Status', value: 'Completed', color: '#4ade80' },
-        { label: 'Agent', value: '/browser' },
-        { label: 'Spotify', value: 'Now playing ♫', color: '#1db954' },
-        { label: 'Best flight', value: 'Air France $389', color: '#4ade80' },
-        { label: 'Departure', value: 'Fri 22:10 JFK → CDG' },
-        { label: 'Return', value: 'Sun 18:40 CDG → JFK' },
-      ],
-      files: [],
-    },
-    research: {
-      spec: {
-        title: 'Byzantine Empire — fall research',
-        points: [
-          'Key causes of the fall (economic, military, political)',
-          'Timeline from 1204 Crusader sack to 1453 siege',
-          'Modern historical consensus across scholars',
-          'Academic papers via @exa (Gibbon, Norwich, Ostrogorsky)',
-          'Web synthesis via @perplexity',
-        ],
-      },
-      state: [
-        { label: 'Status', value: 'Completed', color: '#4ade80' },
-        { label: 'Agents', value: '@perplexity + @exa' },
-        { label: 'Web sources', value: '8' },
-        { label: 'Academic papers', value: '12' },
-        { label: 'Key themes', value: '3 identified' },
-        { label: 'Output', value: 'research/byzantine.md', color: '#a78bfa' },
-      ],
-      files: [
-        {
-          name: 'research/byzantine.md', added: 9, removed: 0,
-          lines: [
-            { type: 'add', code: '# Fall of the Byzantine Empire' },
-            { type: 'add', code: '' },
-            { type: 'add', code: '## Key Causes' },
-            { type: 'add', code: '- Economic exhaustion & trade loss' },
-            { type: 'add', code: '- Territorial erosion (Crusades + Turks)' },
-            { type: 'add', code: '- Succession crises & civil wars' },
-            { type: 'add', code: '' },
-            { type: 'add', code: '## Final Event' },
-            { type: 'add', code: '1453 — Ottoman siege under Mehmed II' },
-          ],
-        },
-      ],
-    },
-    general: {
-      spec: null,
-      state: null,
-      files: [],
-    },
-  }
+  const agents = [
+    { name: 'Codex', color: '#3b82f6' },
+    { name: 'Search', color: '#10b981' },
+    { name: 'Remotion', color: '#ec4899' }
+  ]
 
   return (
-    <div style={{ background: '#0a0a0a', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', fontFamily: font }}>
+    <div style={{ background: '#000', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', fontFamily: font, color: '#fff' }}>
 
       {/* macOS title bar */}
-      <div style={{ height: 40, background: '#111', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 14px' }}>
+      <div style={{ height: 40, background: '#000', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 14px' }}>
         <div style={{ display: 'flex', gap: 6, marginRight: 14 }}>
           <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
           <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
           <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
         </div>
-        <span style={{ color: '#555', fontSize: 12.5, margin: '0 auto' }}>openbot.one</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '0 auto', color: '#888', fontSize: 12 }}>
+          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+          <span style={{ color: '#555', fontSize: 12.5 }}>openbot.one</span>
+          <span style={{ opacity: 0.5, margin: '0 4px' }}>—</span>
+          <span>Home</span>
+          <span style={{ opacity: 0.5 }}>›</span>
+          <span>marketing-video-gen</span>
+          <span style={{ opacity: 0.5 }}>›</span>
+          <span style={{ color: '#fff' }}>Promo Video Generation</span>
+        </div>
       </div>
 
       {/* Body */}
       <div style={{ display: 'flex', height: 660 }}>
 
-        {/* Sidebar — OpenBot style */}
-        <div style={{ width: showLeft ? 240 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#0a0a0a', borderRight: showLeft ? '1px solid rgba(255,255,255,0.07)' : 'none', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-
-          {/* Top: workspace */}
-          <div style={{ height: 46, padding: '0 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9 }}>
-            <img src={openbotLogo} alt="" style={{ width: 22, height: 22 }} />
-            <span style={{ color: '#e0e0e0', fontSize: 13.5, fontWeight: 500 }}>GeorgeTribee</span>
-            <svg width="11" height="11" fill="none" stroke="#555" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
-            <button style={{ ...iconBtn, marginLeft: 'auto' }}>
-              <svg width="15" height="15" fill="none" stroke="#666" strokeWidth="1.8" viewBox="0 0 24 24">
-                <line x1="3" y1="7" x2="21" y2="7" strokeLinecap="round" />
-                <circle cx="8" cy="7" r="2.5" fill="#0a0a0a" stroke="#666" strokeWidth="1.8" />
-                <line x1="3" y1="17" x2="21" y2="17" strokeLinecap="round" />
-                <circle cx="16" cy="17" r="2.5" fill="#0a0a0a" stroke="#666" strokeWidth="1.8" />
-              </svg>
-            </button>
-          </div>
-          {/* Channels */}
-          <div style={{ flex: 1, padding: '10px 8px', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 6px', marginBottom: 6 }}>
-              <span style={{ fontSize: 10.5, color: '#3a3a3a', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>Channels</span>
-              <button style={{ ...iconBtn, color: '#3a3a3a', fontSize: 16, lineHeight: 1 }}>+</button>
+        {/* Sidebar */}
+        <div style={{ width: showLeft ? 240 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#000', borderRight: showLeft ? '1px solid rgba(255,255,255,0.07)' : 'none', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          
+          {/* Workspace Switcher */}
+          <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 500 }}>My Workspace</span>
+              <svg width="10" height="10" fill="none" stroke="#888" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
             </div>
-            {['general', 'research', 'coding', 'browser'].map(ch => (
-              <button key={ch} onClick={() => setActiveThread(ch)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 7, width: '100%', textAlign: 'left', padding: '5px 8px', borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: 13,
-                  color: activeThread === ch ? '#fff' : '#555',
-                  background: activeThread === ch ? 'rgba(255,255,255,0.09)' : 'none',
-                }}>
-                <span style={{ color: activeThread === ch ? '#888' : '#3a3a3a' }}>#</span>{ch}
-              </button>
+            <button style={iconBtn}><svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
+          </div>
+
+          {/* Navigation */}
+          <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {[
+              { label: 'New Task', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> },
+              { label: 'Agents', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+              { label: 'Marketplace', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg> },
+              { label: 'Automations', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, soon: true },
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 13, color: '#888' }}>
+                {item.icon}
+                <span style={{ flex: 1 }}>{item.label}</span>
+                {item.soon && <span style={{ fontSize: 9, color: '#444', fontWeight: 600 }}>SOON</span>}
+              </div>
             ))}
           </div>
-          {/* User row */}
-          <div style={{ padding: '10px 12px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 9 }}>
-            <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
+
+          {/* Projects */}
+          <div style={{ flex: 1, padding: '20px 8px 8px', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 12px', marginBottom: 8 }}>
+              <span style={{ fontSize: 11, color: '#444', fontWeight: 600, letterSpacing: '0.05em' }}>PROJECTS</span>
+              <button style={iconBtn}>+</button>
             </div>
-            <span style={{ color: '#888', fontSize: 12.5, flex: 1 }}>Giorgi Daraselia</span>
-            <svg width="11" height="11" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
+            {[
+              { label: 'customer-support-agent', active: false },
+              { label: 'marketing-video-gen', active: true, children: ['Promo Video Generation', 'OpenBot Promo Video', 'Codex Availability Check'], agents: agents },
+              { label: 'data-analysis-bot', active: false },
+              { label: 'social-media-manager', active: false },
+              { label: 'uncategorized', active: false },
+            ].map(proj => (
+              <div key={proj.label}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 13, color: proj.active ? '#fff' : '#888', background: proj.active ? 'rgba(255,255,255,0.05)' : 'none' }}>
+                  <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ opacity: 0.5 }}><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                  <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{proj.label}</span>
+                  {proj.active && proj.agents && (
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 4 }}>
+                      {proj.agents.map((agent, i) => (
+                        <div
+                          key={i}
+                          title={agent.name}
+                          style={{
+                            width: 14,
+                            height: 14,
+                            borderRadius: '50%',
+                            background: agent.color,
+                            border: '1px solid #000',
+                            marginLeft: i === 0 ? 0 : -6,
+                            zIndex: proj.agents.length - i,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 7,
+                            fontWeight: 700,
+                            color: '#fff'
+                          }}
+                        >
+                          {agent.name[0]}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {proj.active && !proj.agents && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6' }} />}
+                </div>
+                {proj.active && proj.children && (
+                  <div style={{ marginLeft: 32, marginTop: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {proj.children.map((child, i) => (
+                      <div key={child} style={{ padding: '6px 0', fontSize: 13, color: i === 0 ? '#fff' : '#666', cursor: 'pointer' }}>{child}</div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* User Profile */}
+          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: 10, fontWeight: 600 }}>JD</span>
+            </div>
+            <span style={{ fontSize: 13, color: '#888', flex: 1 }}>John Doe</span>
+            <svg width="10" height="10" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
         </div>
 
         {/* Chat column */}
-        <div style={{ flex: 1, background: '#080808', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(255,255,255,0.06)', minWidth: 0 }}>
-          {/* Channel sub-header */}
-          <div style={{ height: 38, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 12px', flexShrink: 0 }}>
-            <button style={iconBtn} onClick={() => setShowLeft(v => !v)}>
-              <svg width="14" height="14" fill="none" stroke={showLeft ? '#aaa' : '#555'} strokeWidth="1.7" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2" /><line x1="9" y1="3" x2="9" y2="21" /></svg>
-            </button>
-            <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 10px' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ color: '#666', fontSize: 14 }}>#</span>
-              <span style={{ color: '#bbb', fontSize: 13 }}>{activeThread}</span>
-            </div>
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
-              <button style={iconBtn}>
-                <svg width="14" height="14" fill="none" stroke="#555" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /></svg>
-              </button>
-              <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)', margin: '0 6px' }} />
-              <button style={iconBtn} onClick={() => setShowRight(v => !v)}>
-                <svg width="14" height="14" fill="none" stroke={showRight ? '#aaa' : '#555'} strokeWidth="1.7" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2" /><line x1="15" y1="3" x2="15" y2="21" /></svg>
-              </button>
-            </div>
-          </div>
+        <div style={{ flex: 1, background: '#000', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(255,255,255,0.07)', minWidth: 0 }}>
+          
           {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '22px 28px 10px' }}>
-
-            {/* ── coding ── */}
-            {activeThread === 'coding' && <>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  <span style={{ color: '#818cf8', fontWeight: 500 }}>@codex</span> fix the auth bug in auth.ts,{' '}
-                  <span style={{ color: '#34d399', fontWeight: 500 }}>@browser</span> find the error logs, then{' '}
-                  <span style={{ color: '#e2e8f0', fontWeight: 500 }}>@github</span> open a PR
+          <div style={{ flex: 1, overflowY: 'auto', padding: '32px' }}>
+            
+            {/* Summary Message */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>Summary</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {[
+                  'Confirmed https://docs.getopenbot.com/ remains unreachable (DNS failure) and highlighted the follow-up requirement inside VIDEO_SPEC.md.',
+                  'Pulled interim positioning cues ("The trust layer for robots that ship", demo-to-deployment loop, metrics-backed proof, early-access CTA) from the current OpenBot marketing copy to anchor the promo storyline until the new docs page resolves.',
+                  'Mapped an 18-second minimalist storyboard with provisional monochrome-plus-electric-blue palette and understated audio cues to match the requested sleek tone.'
+                ].map((text, i) => (
+                  <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
+                    <span style={{ color: '#444' }}>•</span>
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style={{ marginTop: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>File</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#ccc' }}>
+                  <span style={{ color: '#444' }}>•</span>
+                  <span style={{ color: '#3b82f6' }}>VIDEO_SPEC.md</span>
                 </div>
               </div>
-              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
-                <p style={{ marginBottom: 12 }}>I'll inspect the auth module, trace the bug from error logs, apply the fix, and open a pull request.</p>
-                <div style={{ marginBottom: 5 }}><span style={{ color: '#777', fontWeight: 600 }}>Thought</span><span style={{ color: '#444' }}> 5s</span></div>
-                <div style={{ marginBottom: 8 }}><span style={{ color: '#777', fontWeight: 600 }}>Explored</span><span style={{ color: '#444' }}> 4 files</span></div>
+              <div style={{ marginTop: 20, fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
+                Let me know if you'd like me to keep watch for the docs site going live or refresh the spec once the page resolves.
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {[
-                  { label: 'Read', file: 'auth.ts' },
-                  { label: 'Edited', file: 'auth.ts' },
-                  { label: 'Edited', file: 'auth.test.ts' },
-                  { label: 'Opened PR', file: 'fix/auth-null-token #47' },
-                ].map(({ label, file }, i) => (
-                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
-                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
-                    <span style={{ color: '#444' }}>✓</span>
+                  'Verify landing page accessibility (completed)',
+                  'Assemble interim promo narrative (completed)',
+                  'Write VIDEO_SPEC.md (completed)'
+                ].map((text, i) => (
+                  <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc' }}>
+                    <span style={{ color: '#444' }}>•</span>
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Coordination Status */}
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 12, 
+              padding: '10px 14px', 
+              background: 'rgba(255,255,255,0.03)', 
+              borderRadius: 8,
+              border: '1px solid rgba(255,255,255,0.05)',
+              marginBottom: 24,
+              width: 'fit-content'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px #10b981' }} />
+                 <span style={{ fontSize: 11, color: '#888', fontWeight: 500 }}>Coordination Active</span>
+              </div>
+              <div style={{ height: 12, width: 1, background: 'rgba(255,255,255,0.1)' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {[
+                  { name: 'Codex', status: 'completed', color: '#3b82f6' },
+                  { name: 'Search', status: 'completed', color: '#10b981' },
+                  { name: 'Remotion', status: 'waiting', color: '#ec4899' }
+                ].map((agent, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, opacity: agent.status === 'waiting' ? 0.4 : 1 }}>
+                    <div style={{ width: 14, height: 14, borderRadius: '50%', background: agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7, fontWeight: 700, color: '#fff' }}>
+                      {agent.name[0]}
+                    </div>
+                    <span style={{ fontSize: 11, color: '#ccc' }}>{agent.name}</span>
+                    {agent.status === 'completed' && (
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                    )}
                   </div>
                 ))}
-                <p style={{ color: '#bbb', marginTop: 10, fontSize: 12.5 }}>
-                  Fixed null token check in <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#a5b4fc', fontFamily: mono }}>validateSession()</code> — missing early return when token header absent. PR #47 open for review.
-                </p>
               </div>
-            </>}
+            </div>
 
-            {/* ── browser ── */}
-            {activeThread === 'browser' && <>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  <span style={{ color: '#34d399', fontWeight: 500 }}>/browser</span> play "Blinding Lights" by The Weeknd on Spotify
-                </div>
+            {/* OpenBot Response */}
+            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 28, height: 28, borderRadius: 6, background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <img src={openbotLogo} alt="" style={{ width: 16, height: 16 }} />
               </div>
-              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb', marginBottom: 22 }}>
-                <p style={{ marginBottom: 10 }}>Opening Spotify and searching for the track…</p>
-                {[
-                  { label: 'Navigated', file: 'open.spotify.com' },
-                  { label: 'Searched', file: '"Blinding Lights" — The Weeknd' },
-                  { label: 'Clicked', file: 'Play button' },
-                ].map(({ label, file }, i) => (
-                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
-                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
-                    <span style={{ color: '#444' }}>✓</span>
-                  </div>
-                ))}
-                <p style={{ color: '#bbb', marginTop: 8, fontSize: 12.5 }}>Playing now on Spotify. Enjoy!</p>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  <span style={{ color: '#34d399', fontWeight: 500 }}>/browser</span> find cheapest flights from NYC to Paris for next weekend, round trip
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontSize: 14, fontWeight: 600 }}>OpenBot</span>
+                  <span style={{ fontSize: 12, color: '#444' }}>09:43 PM</span>
                 </div>
-              </div>
-              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
-                <p style={{ marginBottom: 10 }}>Searching Google Flights and Kayak for the best fares…</p>
-                {[
-                  { label: 'Navigated', file: 'flights.google.com' },
-                  { label: 'Searched', file: 'NYC → CDG, May 10–12' },
-                  { label: 'Navigated', file: 'kayak.com' },
-                  { label: 'Compared', file: '14 results across 6 airlines' },
-                ].map(({ label, file }, i) => (
-                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
-                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
-                    <span style={{ color: '#444' }}>✓</span>
-                  </div>
-                ))}
-                <p style={{ color: '#bbb', marginTop: 8, fontSize: 12.5 }}>
-                  Best deal: <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#4ade80', fontFamily: mono }}>Air France $389</code> depart Fri 22:10, return Sun 18:40. Link copied to clipboard.
-                </p>
-              </div>
-            </>}
-
-            {/* ── research ── */}
-            {activeThread === 'research' && <>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 18 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '80%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  <span style={{ color: '#f59e0b', fontWeight: 500 }}>@perplexity</span> <span style={{ color: '#a78bfa', fontWeight: 500 }}>@exa</span> research the fall of the Byzantine Empire — key causes, timeline, and modern historical consensus
+                <div style={{ fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
+                  Done — I sent it to <span style={{ color: '#3b82f6' }}>Codex</span> and it reports <code style={{ background: '#111', padding: '2px 4px', borderRadius: 4, fontSize: 13, fontFamily: mono }}>VIDEO_SPEC.md</code> is written.
                 </div>
+                <div style={{ marginTop: 12, fontSize: 14, color: '#ccc' }}>Next, I can:</div>
+                <ul style={{ listStyle: 'none', padding: 0, marginTop: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {[
+                    'have Remotion read that spec and generate the video, or',
+                    'inspect the spec first if you want to review it.'
+                  ].map((text, i) => (
+                    <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc' }}>
+                      <span style={{ color: '#444' }}>•</span>
+                      <span>{text}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div style={{ fontSize: 12.5, lineHeight: 1.7, color: '#bbb' }}>
-                <p style={{ marginBottom: 10 }}>Running parallel searches across academic sources and the live web…</p>
-                <div style={{ marginBottom: 8 }}><span style={{ color: '#f59e0b', fontWeight: 600 }}>@perplexity</span><span style={{ color: '#444' }}> — web synthesis</span></div>
-                {[
-                  { label: 'Queried', file: 'Fall of Byzantine Empire causes' },
-                  { label: 'Queried', file: 'Ottoman siege of Constantinople 1453' },
-                  { label: 'Summarised', file: '8 sources → 3 key themes' },
-                ].map(({ label, file }, i) => (
-                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
-                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
-                    <span style={{ color: '#444' }}>✓</span>
-                  </div>
-                ))}
-                <div style={{ margin: '14px 0 8px' }}><span style={{ color: '#a78bfa', fontWeight: 600 }}>@exa</span><span style={{ color: '#444' }}> — academic deep-dive</span></div>
-                {[
-                  { label: 'Found', file: '12 peer-reviewed papers' },
-                  { label: 'Extracted', file: 'Gibbon, Norwich, Ostrogorsky' },
-                  { label: 'Ranked', file: 'by citation count' },
-                ].map(({ label, file }, i) => (
-                  <div key={i} style={{ background: '#131313', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 7, padding: '7px 12px', marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12 }}>
-                    <span><span style={{ color: '#999', fontWeight: 600 }}>{label}</span><span style={{ color: '#555' }}>  {file}</span></span>
-                    <span style={{ color: '#444' }}>✓</span>
-                  </div>
-                ))}
-                <p style={{ color: '#bbb', marginTop: 10, fontSize: 12.5 }}>
-                  Three consensus causes: economic exhaustion, territorial losses to Crusaders &amp; Turks, and internal succession crises. The 1453 Ottoman conquest under Mehmed II was the final blow. Full report saved to <code style={{ background: '#1a1a1a', padding: '1px 5px', borderRadius: 3, fontSize: 11.5, color: '#a78bfa', fontFamily: mono }}>research/byzantine.md</code>.
-                </p>
-              </div>
-            </>}
-
-            {/* ── general ── */}
-            {activeThread === 'general' && <>
-              <div style={{ display: 'flex', gap: 9, marginBottom: 16, alignItems: 'flex-start' }}>
-                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
-                </div>
-                <div>
-                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:12 AM</span></span>
-                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>Good morning! Ready when you are. What's on the agenda today?</div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '75%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  Morning! What's the weather in Tbilisi today?
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: 9, marginBottom: 20, alignItems: 'flex-start' }}>
-                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
-                </div>
-                <div>
-                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:12 AM</span></span>
-                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>
-                    Right now in Tbilisi: <span style={{ color: '#fbbf24' }}>☀ 22°C, mostly sunny.</span> Light wind, low humidity. Great day to be outside!
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
-                <div style={{ background: '#1e1e1e', borderRadius: 14, padding: '10px 14px', maxWidth: '75%', color: '#ddd', fontSize: 12.5, lineHeight: 1.55 }}>
-                  Nice! I have a team meeting at 3pm and then I want to work on the landing page redesign later.
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
-                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <img src={openbotLogo} alt="" style={{ width: 14, height: 14 }} />
-                </div>
-                <div>
-                  <span style={{ color: '#666', fontSize: 11, display: 'block', marginBottom: 4 }}>OpenBot <span style={{ color: '#333' }}>9:13 AM</span></span>
-                  <div style={{ color: '#bbb', fontSize: 12.5, lineHeight: 1.6 }}>
-                    Got it — I'll remind you at 2:50 PM for the meeting. After that, want me to pull up your latest mockup branch so you can jump straight into the redesign?
-                  </div>
-                </div>
-              </div>
-            </>}
+            </div>
 
           </div>
+
           {/* Input */}
-          <div style={{ padding: '10px 16px 16px', flexShrink: 0 }}>
-            <div style={{ background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 10, padding: '11px 14px' }}>
-              <input value={inputText} onChange={e => setInputText(e.target.value)}
-                placeholder={
-                  activeThread === 'browser' ? 'Start with /browser to browse the web…' :
-                    activeThread === 'research' ? 'Tag @perplexity or @exa to research…' :
-                      activeThread === 'general' ? 'Chat with OpenBot…' :
-                        'Type a message, or start with @ to choose an agent..'
-                }
-                className="placeholder-zinc-700"
-                style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: 13 }}
+          <div style={{ padding: '20px 32px 32px' }}>
+            <div style={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <input 
+                value={inputText} 
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Follow up... use @ to involve specific agents"
+                style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: 14 }}
               />
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-                <button style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)', border: 'none', borderRadius: 5, padding: '4px 10px', color: '#555', fontSize: 11.5, cursor: 'pointer' }}>
-                  @ <span style={{ color: '#666' }}>Default Agent</span> <svg width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" /></svg>
-                </button>
-                <button style={{ width: 28, height: 28, borderRadius: '50%', background: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="12" height="12" fill="none" stroke="#000" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7" /></svg>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <button style={{ ...iconBtn, padding: '6px' }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" /></svg></button>
+                <button style={{ width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <svg width="14" height="14" fill="none" stroke="#000" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
                 </button>
               </div>
             </div>
@@ -675,116 +280,215 @@ export function AppMockup() {
         </div>
 
         {/* Right panel */}
-        <div style={{ width: showRight ? 340 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#0a0a0a', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          {/* Tabs */}
-          <div style={{ height: 38, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 10px', gap: 2, flexShrink: 0 }}>
-            {(['Specification', 'State', 'Files'] as const).map(tab => (
-              <button key={tab} onClick={() => setActiveRightTab(tab)} style={{
-                fontSize: 12.5, padding: '4px 10px', borderRadius: 7, border: 'none', cursor: 'pointer', background: 'none',
-                color: activeRightTab === tab ? '#fff' : '#555',
-                fontWeight: activeRightTab === tab ? 600 : 400,
-              }}>{tab}</button>
-            ))}
+        <div style={{ width: showRight ? 300 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#000', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          <div style={{ height: 48, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 16px', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#888' }}>Files</span>
+            <button style={iconBtn} onClick={() => setShowRight(false)}>×</button>
           </div>
-
-          {/* Scrollable body */}
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            {(() => {
-              const panel = panelData[activeThread] ?? panelData['general']
-
-              /* ── Specification ── */
-              if (activeRightTab === 'Specification') {
-                if (!panel.spec) return (
-                  <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No specification for this channel.</div>
-                )
-                return (
-                  <div style={{ padding: '16px 16px' }}>
-                    <div style={{ color: '#ccc', fontSize: 13, fontWeight: 600, marginBottom: 12 }}>{panel.spec.title}</div>
-                    {panel.spec.points.map((pt, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
-                        <span style={{ color: '#444', fontSize: 12, marginTop: 1, flexShrink: 0 }}>•</span>
-                        <span style={{ color: '#888', fontSize: 12.5, lineHeight: 1.55 }}>{pt}</span>
-                      </div>
-                    ))}
-                  </div>
-                )
-              }
-
-              /* ── State ── */
-              if (activeRightTab === 'State') {
-                if (!panel.state) return (
-                  <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No state to display.</div>
-                )
-                return (
-                  <div style={{ padding: '12px 0' }}>
-                    {panel.state.map((row, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '7px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                        <span style={{ color: '#555', fontSize: 12 }}>{row.label}</span>
-                        <span style={{ color: row.color ?? '#888', fontSize: 12, fontFamily: row.color ? mono : 'inherit', fontWeight: row.color ? 500 : 400 }}>{row.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                )
-              }
-
-              /* ── Files ── */
-              if (panel.files.length === 0) return (
-                <div style={{ padding: '28px 18px', color: '#333', fontSize: 12.5, textAlign: 'center' }}>No file changes.</div>
-              )
-              const totalAdded = panel.files.reduce((s, f) => s + f.added, 0)
-              const totalRemoved = panel.files.reduce((s, f) => s + f.removed, 0)
-              return (
-                <>
-                  <div style={{ padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-                    <span style={{ color: '#aaa', fontSize: 12.5, fontWeight: 500 }}>
-                      {panel.files.length} file{panel.files.length > 1 ? 's' : ''} changed{' '}
-                      <span style={{ color: '#4ade80' }}>+{totalAdded}</span>{' '}
-                      <span style={{ color: '#f87171' }}>-{totalRemoved}</span>
-                    </span>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      <button style={{ ...iconBtn, color: '#555', fontSize: 14 }}>×</button>
-                      <button style={{ ...iconBtn, color: '#555', fontSize: 14 }}>✓</button>
-                    </div>
-                  </div>
-                  {panel.files.map((file: DiffFile, fi: number) => (
-                    <div key={fi} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                      <div style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#0e0e0e' }}>
-                        <span style={{ color: '#888', fontSize: 12, fontFamily: mono, fontWeight: 600 }}>
-                          {file.name}{' '}
-                          <span style={{ color: '#4ade80', fontWeight: 400 }}>+{file.added}</span>{' '}
-                          <span style={{ color: '#f87171', fontWeight: 400 }}>-{file.removed}</span>
-                        </span>
-                        <div style={{ display: 'flex', gap: 8 }}>
-                          <button style={{ ...iconBtn, color: '#555', fontSize: 13 }}>×</button>
-                          <button style={{ ...iconBtn, color: '#555', fontSize: 13 }}>✓</button>
-                        </div>
-                      </div>
-                      <div style={{ padding: '6px 0' }}>
-                        {file.lines.map((line: DiffLine, li: number) => (
-                          <div key={li} style={{
-                            display: 'flex', alignItems: 'flex-start',
-                            background: line.type === 'del' ? 'rgba(248,113,113,0.08)' : line.type === 'add' ? 'rgba(74,222,128,0.08)' : 'transparent',
-                            padding: '1px 14px',
-                          }}>
-                            <span style={{ color: line.type === 'del' ? '#f87171' : line.type === 'add' ? '#4ade80' : '#3a3a3a', fontSize: 12, fontFamily: mono, marginRight: 8, flexShrink: 0, userSelect: 'none' }}>
-                              {line.type === 'del' ? '−' : line.type === 'add' ? '+' : ' '}
-                            </span>
-                            <span style={{ color: line.type === 'del' ? '#fca5a5' : line.type === 'add' ? '#86efac' : '#666', fontSize: 11.5, fontFamily: mono, whiteSpace: 'pre', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {line.code}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </>
-              )
-            })()}
+          <div style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[
+              { label: 'VIDEO_SPEC.md', icon: <svg width="14" height="14" fill="none" stroke="#3b82f6" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
+              { label: 'node_modules', icon: <svg width="14" height="14" fill="none" stroke="#888" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>, folder: true },
+              { label: 'package-lock.json', icon: <svg width="14" height="14" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
+              { label: 'package.json', icon: <svg width="14" height="14" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
+            ].map(file => (
+              <div key={file.label} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#ccc', cursor: 'pointer', padding: '4px 0' }}>
+                {file.folder && <svg width="10" height="10" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: 'rotate(-90deg)' }}><path d="M19 9l-7 7-7-7" /></svg>}
+                {file.icon}
+                <span>{file.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
       </div>
     </div>
+  )
+}
+
+export function FAQSection() {
+  const faqs = [
+    {
+      q: 'Is OpenBot really local-first?',
+      a: 'Yes. OpenBot runs as a local application on your machine. Your API keys, agent configurations, and task data are stored locally and never sent to our servers.'
+    },
+    {
+      q: 'Do I need my own API keys?',
+      a: 'Yes, OpenBot is a "Bring Your Own Key" (BYOK) platform. You can connect your OpenAI, Anthropic, Google Gemini, or any other supported provider keys directly.'
+    },
+    {
+      q: 'Can I build my own agents?',
+      a: 'Absolutely. We provide a comprehensive SDK and documentation to help you build, test, and deploy your own specialized agents.'
+    },
+    {
+      q: 'How does multi-agent orchestration work?',
+      a: 'OpenBot uses a central controller that breaks down your natural language requests into sub-tasks and assigns them to the most capable agents in your workspace.'
+    },
+    {
+      q: 'Is there an enterprise version?',
+      a: 'Yes, we offer an Enterprise plan for teams that need advanced features like SSO, audit logs, and dedicated support. Contact us for more details.'
+    }
+  ]
+
+  return (
+    <section id="faq" className="py-24 border-t border-white/5">
+      <div className="container mx-auto px-6 max-w-3xl">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-medium text-white mb-4" style={{ fontFamily: "'Raleway', sans-serif" }}>
+            Frequently Asked Questions
+          </h2>
+          <p className="text-[oklch(0.65_0.004_80)] text-base">
+            Everything you need to know about OpenBot.
+          </p>
+        </div>
+        
+        <div className="space-y-8">
+          {faqs.map((faq, i) => (
+            <div key={i} className="border-b border-white/5 pb-8">
+              <h3 className="text-lg font-medium text-white mb-3" style={{ fontFamily: "'Raleway', sans-serif" }}>{faq.q}</h3>
+              <p className="text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+                {faq.a}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function CommunitySection() {
+  return (
+    <section className="py-24 border-t border-white/5">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+          <div className="lg:w-1/2">
+            <h2 className="text-3xl md:text-4xl font-medium text-white mb-6" style={{ fontFamily: "'Raleway', sans-serif" }}>
+              Join a growing community of builders
+            </h2>
+            <p className="text-[oklch(0.65_0.004_80)] text-lg mb-8 leading-relaxed">
+              OpenBot is powered by a community of developers, researchers, and automation enthusiasts. Join us on Discord to share your agents and get help with your workflows.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#5865F2] hover:opacity-90 text-white px-6 py-3 rounded-full font-medium transition-all">
+                <SiDiscord size={20} />
+                Join Discord
+              </a>
+              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-3 rounded-full font-medium transition-all">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" /></svg>
+                Star on GitHub
+              </a>
+            </div>
+          </div>
+          <div className="lg:w-1/2 grid grid-cols-2 gap-4">
+            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
+              <div className="text-4xl font-bold text-white mb-2">100%</div>
+              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Open Source</div>
+            </div>
+            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
+              <div className="text-4xl font-bold text-white mb-2">50+</div>
+              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Community Agents</div>
+            </div>
+            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
+              <div className="text-4xl font-bold text-white mb-2">24/7</div>
+              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Expert Support</div>
+            </div>
+            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
+              <div className="text-4xl font-bold text-white mb-2">Local</div>
+              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Privacy First</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function FeaturesSection() {
+  const features = [
+    {
+      title: 'Local-First Architecture',
+      desc: 'Your data stays on your machine. OpenBot runs locally, ensuring maximum privacy and speed.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      )
+    },
+    {
+      title: 'Multi-Agent Orchestration',
+      desc: 'Coordinate multiple specialized agents to handle complex, multi-step workflows automatically.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      )
+    },
+    {
+      title: 'Open Source & Extensible',
+      desc: 'Built on open standards. Browse the registry for community agents or build your own with our SDK.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      )
+    },
+    {
+      title: 'Bring Your Own Keys',
+      desc: 'Use your own API keys for OpenAI, Anthropic, Google, and more. No middleman markups.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        </svg>
+      )
+    },
+    {
+      title: 'Persistent Memory',
+      desc: 'Agents remember context across sessions, allowing for long-running projects and deep research.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    },
+    {
+      title: 'Real-time State Tracking',
+      desc: 'Monitor every thought, action, and file change as it happens. Full transparency into the AI process.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      )
+    }
+  ]
+
+  return (
+    <section id="features" className="py-24 border-t border-white/5">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-medium text-white mb-4" style={{ fontFamily: "'Raleway', sans-serif" }}>
+            Built for performance and privacy
+          </h2>
+          <p className="text-[oklch(0.65_0.004_80)] text-lg max-w-2xl mx-auto">
+            OpenBot is more than just a chat interface. It's a complete platform for building and running autonomous AI agents.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, i) => (
+            <div key={i} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform">
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-medium text-white mb-3" style={{ fontFamily: "'Raleway', sans-serif" }}>{feature.title}</h3>
+              <p className="text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+                {feature.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -875,9 +579,9 @@ function App() {
           </a>
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
             <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
-            <a href="https://docs.getopenbot.com/guides/first-agent/" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Build your agent</a>
+            <a href="#features" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Features</a>
+            <a href="#faq" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
             <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-            <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
           </div>
           <div className="ml-auto">
             <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
@@ -901,9 +605,9 @@ function App() {
             </a>
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-7">
               <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
-              <a href="https://docs.getopenbot.com/guides/first-agent/" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Build your agent</a>
+              <a href="#features" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Features</a>
+              <a href="#faq" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
               <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
-              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>GitHub</a>
             </div>
             <div className="ml-auto">
               <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
@@ -933,9 +637,25 @@ function App() {
         <div className="relative">
           <div className="relative z-10">
             <AgentCarousel agents={registry?.agents ?? []} />
-            <HowItWorksSection />
+            
+            <section className="container mx-auto px-6 py-20">
+              <div className="max-w-5xl mx-auto">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-medium mb-4 text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                    A powerful, local-first workspace
+                  </h2>
+                  <p className="text-[oklch(0.65_0.004_80)] text-base max-w-2xl mx-auto">
+                    Experience the full power of OpenBot with our integrated workspace. Coordinate agents, manage state, and track progress in real-time.
+                  </p>
+                </div>
+                <AppMockup />
+              </div>
+            </section>
 
-            {/* <PricingSection /> */}
+            <HowItWorksSection />
+            <FeaturesSection />
+            <CommunitySection />
+            <FAQSection />
 
             {/* Get Started / CTA Section */}
             <section id="get-started" className="relative py-20 md:py-32">
@@ -1029,12 +749,12 @@ function App() {
               <div className="flex flex-col gap-4">
                 <p className="text-xs font-semibold tracking-widest text-[oklch(0.65_0.004_80)] uppercase">Product</p>
                 {[
+                  { label: 'Features', href: '#features' },
+                  { label: 'How it Works', href: '#how-it-works' },
+                  { label: 'FAQ', href: '#faq' },
                   { label: 'Documentation', href: DOCS_URL },
-                  { label: 'Quick Start', href: DOCS_URL },
-                  { label: 'Build Agents', href: DOCS_URL },
-                  { label: 'GitHub', href: 'https://github.com/meetopenbot/openbot' },
                 ].map(({ label, href }) => (
-                  <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  <a key={label} href={href} 
                     className="text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors">{label}</a>
                 ))}
               </div>

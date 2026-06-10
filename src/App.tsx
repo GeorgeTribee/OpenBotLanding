@@ -11,296 +11,30 @@ import BrandPage from './BrandPage'
 import { Button } from '@/components/ui/button'
 import { SiDiscord } from 'react-icons/si'
 import openbotLogo from './assets/openbotlogo.svg'
+import workspaceScreen from './assets/screen.png'
 
 const DOCS_URL = 'https://docs.getopenbot.com'
 
-export function AppMockup() {
-  const [inputText, setInputText] = useState('')
-  const showLeft = true
-  const [showRight, setShowRight] = useState(true)
-
-  const font = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif'
-  const mono = '"SF Mono", "Fira Code", "Cascadia Code", monospace'
-  const iconBtn: React.CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: '#888', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', borderRadius: 4 }
-
-  const agents = [
-    { name: 'Codex', color: '#3b82f6' },
-    { name: 'Search', color: '#10b981' },
-    { name: 'Remotion', color: '#ec4899' }
-  ]
-
+export function WorkspaceScreenshot() {
   return (
-    <div style={{ background: '#000', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', fontFamily: font, color: '#fff' }}>
+    <div className="relative mx-auto max-w-5xl">
+      <div
+        className="absolute -inset-4 rounded-2xl opacity-60 blur-2xl pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at 50% 80%, rgba(168, 178, 255, 0.12) 0%, transparent 70%)' }}
+        aria-hidden="true"
+      />
 
-      {/* macOS title bar */}
-      <div style={{ height: 40, background: '#000', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 14px' }}>
-        <div style={{ display: 'flex', gap: 6, marginRight: 14 }}>
-          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
-          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
-          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
+      <div className="relative rounded-xl border border-white/10 overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_24px_80px_-12px_rgba(0,0,0,0.8)]">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-10" aria-hidden="true" />
+
+        <div className="relative max-h-[min(640px,70vh)] overflow-hidden">
+          <img
+            src={workspaceScreen}
+            alt="OpenBot workspace coordinating Firecrawl and Remotion agents to generate a promo video"
+            className="w-full h-auto block"
+            loading="lazy"
+          />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '0 auto', color: '#888', fontSize: 12 }}>
-          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-          <span style={{ color: '#555', fontSize: 12.5 }}>openbot.one</span>
-          <span style={{ opacity: 0.5, margin: '0 4px' }}>—</span>
-          <span>Home</span>
-          <span style={{ opacity: 0.5 }}>›</span>
-          <span>marketing-video-gen</span>
-          <span style={{ opacity: 0.5 }}>›</span>
-          <span style={{ color: '#fff' }}>Promo Video Generation</span>
-        </div>
-      </div>
-
-      {/* Body */}
-      <div style={{ display: 'flex', height: 660 }}>
-
-        {/* Sidebar */}
-        <div style={{ width: showLeft ? 240 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#000', borderRight: showLeft ? '1px solid rgba(255,255,255,0.07)' : 'none', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          
-          {/* Workspace Switcher */}
-          <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 500 }}>My Workspace</span>
-              <svg width="10" height="10" fill="none" stroke="#888" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
-            </div>
-            <button style={iconBtn}><svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg></button>
-          </div>
-
-          {/* Navigation */}
-          <div style={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {[
-              { label: 'New Task', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> },
-              { label: 'Agents', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-              { label: 'Marketplace', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg> },
-              { label: 'Automations', icon: <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, soon: true },
-            ].map(item => (
-              <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 13, color: '#888' }}>
-                {item.icon}
-                <span style={{ flex: 1 }}>{item.label}</span>
-                {item.soon && <span style={{ fontSize: 9, color: '#444', fontWeight: 600 }}>SOON</span>}
-              </div>
-            ))}
-          </div>
-
-          {/* Projects */}
-          <div style={{ flex: 1, padding: '20px 8px 8px', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 12px', marginBottom: 8 }}>
-              <span style={{ fontSize: 11, color: '#444', fontWeight: 600, letterSpacing: '0.05em' }}>PROJECTS</span>
-              <button style={iconBtn}>+</button>
-            </div>
-            {[
-              { label: 'customer-support-agent', active: false },
-              { label: 'marketing-video-gen', active: true, children: ['Promo Video Generation', 'OpenBot Promo Video', 'Codex Availability Check'], agents: agents },
-              { label: 'data-analysis-bot', active: false },
-              { label: 'social-media-manager', active: false },
-              { label: 'uncategorized', active: false },
-            ].map(proj => (
-              <div key={proj.label}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 13, color: proj.active ? '#fff' : '#888', background: proj.active ? 'rgba(255,255,255,0.05)' : 'none' }}>
-                  <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ opacity: 0.5 }}><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
-                  <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{proj.label}</span>
-                  {proj.active && proj.agents && (
-                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 4 }}>
-                      {proj.agents.map((agent, i) => (
-                        <div
-                          key={i}
-                          title={agent.name}
-                          style={{
-                            width: 14,
-                            height: 14,
-                            borderRadius: '50%',
-                            background: agent.color,
-                            border: '1px solid #000',
-                            marginLeft: i === 0 ? 0 : -6,
-                            zIndex: proj.agents.length - i,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: 7,
-                            fontWeight: 700,
-                            color: '#fff'
-                          }}
-                        >
-                          {agent.name[0]}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {proj.active && !proj.agents && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6' }} />}
-                </div>
-                {proj.active && proj.children && (
-                  <div style={{ marginLeft: 32, marginTop: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    {proj.children.map((child, i) => (
-                      <div key={child} style={{ padding: '6px 0', fontSize: 13, color: i === 0 ? '#fff' : '#666', cursor: 'pointer' }}>{child}</div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* User Profile */}
-          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 10, fontWeight: 600 }}>JD</span>
-            </div>
-            <span style={{ fontSize: 13, color: '#888', flex: 1 }}>John Doe</span>
-            <svg width="10" height="10" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
-          </div>
-        </div>
-
-        {/* Chat column */}
-        <div style={{ flex: 1, background: '#000', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(255,255,255,0.07)', minWidth: 0 }}>
-          
-          {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '32px' }}>
-            
-            {/* Summary Message */}
-            <div style={{ marginBottom: 32 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>Summary</div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {[
-                  'Confirmed https://docs.getopenbot.com/ remains unreachable (DNS failure) and highlighted the follow-up requirement inside VIDEO_SPEC.md.',
-                  'Pulled interim positioning cues ("The trust layer for robots that ship", demo-to-deployment loop, metrics-backed proof, early-access CTA) from the current OpenBot marketing copy to anchor the promo storyline until the new docs page resolves.',
-                  'Mapped an 18-second minimalist storyboard with provisional monochrome-plus-electric-blue palette and understated audio cues to match the requested sleek tone.'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
-                    <span style={{ color: '#444' }}>•</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
-              </ul>
-              <div style={{ marginTop: 20 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>File</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#ccc' }}>
-                  <span style={{ color: '#444' }}>•</span>
-                  <span style={{ color: '#3b82f6' }}>VIDEO_SPEC.md</span>
-                </div>
-              </div>
-              <div style={{ marginTop: 20, fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
-                Let me know if you'd like me to keep watch for the docs site going live or refresh the spec once the page resolves.
-              </div>
-              <ul style={{ listStyle: 'none', padding: 0, marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {[
-                  'Verify landing page accessibility (completed)',
-                  'Assemble interim promo narrative (completed)',
-                  'Write VIDEO_SPEC.md (completed)'
-                ].map((text, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc' }}>
-                    <span style={{ color: '#444' }}>•</span>
-                    <span>{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Coordination Status */}
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 12, 
-              padding: '10px 14px', 
-              background: 'rgba(255,255,255,0.03)', 
-              borderRadius: 8,
-              border: '1px solid rgba(255,255,255,0.05)',
-              marginBottom: 24,
-              width: 'fit-content'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px #10b981' }} />
-                 <span style={{ fontSize: 11, color: '#888', fontWeight: 500 }}>Coordination Active</span>
-              </div>
-              <div style={{ height: 12, width: 1, background: 'rgba(255,255,255,0.1)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                {[
-                  { name: 'Codex', status: 'completed', color: '#3b82f6' },
-                  { name: 'Search', status: 'completed', color: '#10b981' },
-                  { name: 'Remotion', status: 'waiting', color: '#ec4899' }
-                ].map((agent, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, opacity: agent.status === 'waiting' ? 0.4 : 1 }}>
-                    <div style={{ width: 14, height: 14, borderRadius: '50%', background: agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7, fontWeight: 700, color: '#fff' }}>
-                      {agent.name[0]}
-                    </div>
-                    <span style={{ fontSize: 11, color: '#ccc' }}>{agent.name}</span>
-                    {agent.status === 'completed' && (
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* OpenBot Response */}
-            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-              <div style={{ width: 28, height: 28, borderRadius: 6, background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <img src={openbotLogo} alt="" style={{ width: 16, height: 16 }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 14, fontWeight: 600 }}>OpenBot</span>
-                  <span style={{ fontSize: 12, color: '#444' }}>09:43 PM</span>
-                </div>
-                <div style={{ fontSize: 14, color: '#ccc', lineHeight: 1.5 }}>
-                  Done — I sent it to <span style={{ color: '#3b82f6' }}>Codex</span> and it reports <code style={{ background: '#111', padding: '2px 4px', borderRadius: 4, fontSize: 13, fontFamily: mono }}>VIDEO_SPEC.md</code> is written.
-                </div>
-                <div style={{ marginTop: 12, fontSize: 14, color: '#ccc' }}>Next, I can:</div>
-                <ul style={{ listStyle: 'none', padding: 0, marginTop: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {[
-                    'have Remotion read that spec and generate the video, or',
-                    'inspect the spec first if you want to review it.'
-                  ].map((text, i) => (
-                    <li key={i} style={{ display: 'flex', gap: 10, fontSize: 14, color: '#ccc' }}>
-                      <span style={{ color: '#444' }}>•</span>
-                      <span>{text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Input */}
-          <div style={{ padding: '20px 32px 32px' }}>
-            <div style={{ background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <input 
-                value={inputText} 
-                onChange={e => setInputText(e.target.value)}
-                placeholder="Follow up... use @ to involve specific agents"
-                style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: 14 }}
-              />
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <button style={{ ...iconBtn, padding: '6px' }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" /></svg></button>
-                <button style={{ width: 32, height: 32, borderRadius: '50%', background: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                  <svg width="14" height="14" fill="none" stroke="#000" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right panel */}
-        <div style={{ width: showRight ? 300 : 0, overflow: 'hidden', transition: 'width 0.25s ease', background: '#000', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          <div style={{ height: 48, borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', padding: '0 16px', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#888' }}>Files</span>
-            <button style={iconBtn} onClick={() => setShowRight(false)}>×</button>
-          </div>
-          <div style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {[
-              { label: 'VIDEO_SPEC.md', icon: <svg width="14" height="14" fill="none" stroke="#3b82f6" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
-              { label: 'node_modules', icon: <svg width="14" height="14" fill="none" stroke="#888" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>, folder: true },
-              { label: 'package-lock.json', icon: <svg width="14" height="14" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
-              { label: 'package.json', icon: <svg width="14" height="14" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> },
-            ].map(file => (
-              <div key={file.label} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: '#ccc', cursor: 'pointer', padding: '4px 0' }}>
-                {file.folder && <svg width="10" height="10" fill="none" stroke="#444" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: 'rotate(-90deg)' }}><path d="M19 9l-7 7-7-7" /></svg>}
-                {file.icon}
-                <span>{file.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
       </div>
     </div>
   )
@@ -341,7 +75,7 @@ export function FAQSection() {
             Everything you need to know about OpenBot.
           </p>
         </div>
-        
+
         <div className="space-y-8">
           {faqs.map((faq, i) => (
             <div key={i} className="border-b border-white/5 pb-8">
@@ -473,7 +207,7 @@ export function FeaturesSection() {
             OpenBot is more than just a chat interface. It's a complete platform for building and running autonomous AI agents.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, i) => (
             <div key={i} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all group">
@@ -511,7 +245,7 @@ export function HowItWorksSection() {
               OpenBot simplifies complex automation by orchestrating specialized AI agents.
             </p>
           </div>
-          
+
           <div className="md:w-2/3 flex flex-col gap-16">
             {steps.map((step, i) => (
               <div key={i} className="flex flex-col gap-4 relative">
@@ -596,7 +330,7 @@ function App() {
 
         {/* Hero Section */}
         <section className="relative flex flex-col items-center justify-center overflow-hidden pt-20" style={{ background: 'transparent' }}>
-          
+
           {/* Horizontal Navbar */}
           <nav aria-label="Primary navigation" className="absolute top-0 left-0 right-0 z-20 flex items-center px-6 md:px-10 pt-6 pb-2 w-full">
             <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
@@ -637,7 +371,7 @@ function App() {
         <div className="relative">
           <div className="relative z-10">
             <AgentCarousel agents={registry?.agents ?? []} />
-            
+
             <section className="container mx-auto px-6 py-20">
               <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
@@ -648,7 +382,7 @@ function App() {
                     Experience the full power of OpenBot with our integrated workspace. Coordinate agents, manage state, and track progress in real-time.
                   </p>
                 </div>
-                <AppMockup />
+                <WorkspaceScreenshot />
               </div>
             </section>
 
@@ -660,38 +394,38 @@ function App() {
             {/* Get Started / CTA Section */}
             <section id="get-started" className="relative py-20 md:py-32">
               <div className="container mx-auto px-6">
-              <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-medium mb-16 text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>
-              Get Started in Minutes
-            </h2>
+                <div className="max-w-3xl mx-auto text-center">
+                  <h2 className="text-3xl font-medium mb-16 text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                    Get Started in Minutes
+                  </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 relative">
-              {/* Connecting lines for desktop */}
-              <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent -translate-y-1/2 z-0" />
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 relative">
+                    {/* Connecting lines for desktop */}
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent -translate-y-1/2 z-0" />
 
-              {[
-                { step: '01', label: 'login' },
-                { step: '02', label: 'connect runtime' },
-                { step: '03', label: 'byok' },
-                { step: '04', label: 'done', highlight: true }
-              ].map((item, i) => (
-                <div key={i} className="relative z-10 flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold mb-4 border ${item.highlight ? 'bg-[var(--primary)] text-[var(--primary-foreground)] border-[var(--primary)]' : 'bg-[var(--background)] text-[var(--muted-foreground)] border-[var(--border)]'}`}>
-                    {item.step}
+                    {[
+                      { step: '01', label: 'login' },
+                      { step: '02', label: 'connect runtime' },
+                      { step: '03', label: 'byok' },
+                      { step: '04', label: 'done', highlight: true }
+                    ].map((item, i) => (
+                      <div key={i} className="relative z-10 flex flex-col items-center">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold mb-4 border ${item.highlight ? 'bg-[var(--primary)] text-[var(--primary-foreground)] border-[var(--primary)]' : 'bg-[var(--background)] text-[var(--muted-foreground)] border-[var(--border)]'}`}>
+                          {item.step}
+                        </div>
+                        <span className={`text-xs uppercase tracking-widest ${item.highlight ? 'text-[oklch(0.94_0.004_80)] font-semibold' : 'text-[oklch(0.65_0.004_80)]'}`}>
+                          {item.label}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <span className={`text-xs uppercase tracking-widest ${item.highlight ? 'text-[oklch(0.94_0.004_80)] font-semibold' : 'text-[oklch(0.65_0.004_80)]'}`}>
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
 
-            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[oklch(0.94_0.004_80)] text-black hover:opacity-90 rounded-full px-10 py-6 h-auto text-sm font-semibold transition-all hover:scale-105">
-                Launch App
-              </Button>
-            </a>
-          </div>
+                  <a href="https://openbot.one" target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" className="bg-[oklch(0.94_0.004_80)] text-black hover:opacity-90 rounded-full px-10 py-6 h-auto text-sm font-semibold transition-all hover:scale-105">
+                      Launch App
+                    </Button>
+                  </a>
+                </div>
               </div>
             </section>
           </div>
@@ -754,7 +488,7 @@ function App() {
                   { label: 'FAQ', href: '#faq' },
                   { label: 'Documentation', href: DOCS_URL },
                 ].map(({ label, href }) => (
-                  <a key={label} href={href} 
+                  <a key={label} href={href}
                     className="text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors">{label}</a>
                 ))}
               </div>

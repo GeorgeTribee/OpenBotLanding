@@ -11,7 +11,7 @@ import BrandPage from './BrandPage'
 import { Button } from '@/components/ui/button'
 import { SiDiscord } from 'react-icons/si'
 import openbotLogo from './assets/openbotlogo.svg'
-import workspaceScreen from './assets/screen2.png'
+import workspaceScreen from './assets/screen3.png'
 
 const DOCS_URL = 'https://docs.getopenbot.com'
 

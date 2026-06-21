@@ -11,7 +11,7 @@ import BrandPage from './BrandPage'
 import { Button } from '@/components/ui/button'
 import { SiDiscord } from 'react-icons/si'
 import openbotLogo from './assets/openbotlogo.svg'
-import workspaceScreen from './assets/screen.png'
+import workspaceScreen from './assets/screen2.png'
 
 const DOCS_URL = 'https://docs.getopenbot.com'
 
@@ -24,8 +24,8 @@ export function WorkspaceScreenshot() {
         aria-hidden="true"
       />
 
-      <div className="relative rounded-xl border border-white/10 overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_24px_80px_-12px_rgba(0,0,0,0.8)]">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-10" aria-hidden="true" />
+      <div className="relative rounded-xl border border-border overflow-hidden shadow-[0_0_0_1px_oklch(1_0_0/0.03),0_24px_80px_-12px_rgba(0,0,0,0.8)]">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent pointer-events-none z-10" aria-hidden="true" />
 
         <div className="relative max-h-[min(640px,70vh)] overflow-hidden">
           <img
@@ -65,22 +65,22 @@ export function FAQSection() {
   ]
 
   return (
-    <section id="faq" className="py-24 border-t border-white/5">
+    <section id="faq" className="py-24 border-t border-border">
       <div className="container mx-auto px-6 max-w-3xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-medium text-white mb-4" style={{ fontFamily: "'Raleway', sans-serif" }}>
+          <h2 className="text-3xl font-medium text-foreground mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-[oklch(0.65_0.004_80)] text-base">
+          <p className="text-muted-foreground text-base">
             Everything you need to know about OpenBot.
           </p>
         </div>
 
         <div className="space-y-8">
           {faqs.map((faq, i) => (
-            <div key={i} className="border-b border-white/5 pb-8">
-              <h3 className="text-lg font-medium text-white mb-3" style={{ fontFamily: "'Raleway', sans-serif" }}>{faq.q}</h3>
-              <p className="text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+            <div key={i} className="border-b border-border pb-8">
+              <h3 className="text-lg font-medium text-foreground mb-3">{faq.q}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {faq.a}
               </p>
             </div>
@@ -93,14 +93,14 @@ export function FAQSection() {
 
 export function CommunitySection() {
   return (
-    <section className="py-24 border-t border-white/5">
+    <section className="py-24 border-t border-border">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-medium text-white mb-6" style={{ fontFamily: "'Raleway', sans-serif" }}>
+            <h2 className="text-3xl md:text-4xl font-medium text-foreground mb-6">
               Join a growing community of builders
             </h2>
-            <p className="text-[oklch(0.65_0.004_80)] text-lg mb-8 leading-relaxed">
+            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
               OpenBot is powered by a community of developers, researchers, and automation enthusiasts. Join us on Discord to share your agents and get help with your workflows.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -108,28 +108,28 @@ export function CommunitySection() {
                 <SiDiscord size={20} />
                 Join Discord
               </a>
-              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-3 rounded-full font-medium transition-all">
+              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-secondary hover:bg-accent border border-border text-foreground px-6 py-3 rounded-full font-medium transition-all">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" /></svg>
                 Star on GitHub
               </a>
             </div>
           </div>
           <div className="lg:w-1/2 grid grid-cols-2 gap-4">
-            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
-              <div className="text-4xl font-bold text-white mb-2">100%</div>
-              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Open Source</div>
+            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">100%</div>
+              <div className="text-muted-foreground text-sm uppercase tracking-widest">Open Source</div>
             </div>
-            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
-              <div className="text-4xl font-bold text-white mb-2">50+</div>
-              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Community Agents</div>
+            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">50+</div>
+              <div className="text-muted-foreground text-sm uppercase tracking-widest">Community Agents</div>
             </div>
-            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
-              <div className="text-4xl font-bold text-white mb-2">24/7</div>
-              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Expert Support</div>
+            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">24/7</div>
+              <div className="text-muted-foreground text-sm uppercase tracking-widest">Expert Support</div>
             </div>
-            <div className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] text-center">
-              <div className="text-4xl font-bold text-white mb-2">Local</div>
-              <div className="text-[oklch(0.65_0.004_80)] text-sm uppercase tracking-widest">Privacy First</div>
+            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+              <div className="text-4xl font-bold text-foreground mb-2">Local</div>
+              <div className="text-muted-foreground text-sm uppercase tracking-widest">Privacy First</div>
             </div>
           </div>
         </div>
@@ -197,25 +197,25 @@ export function FeaturesSection() {
   ]
 
   return (
-    <section id="features" className="py-24 border-t border-white/5">
+    <section id="features" className="py-24 border-t border-border">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-medium text-white mb-4" style={{ fontFamily: "'Raleway', sans-serif" }}>
+          <h2 className="text-3xl md:text-4xl font-medium text-foreground mb-4">
             Built for performance and privacy
           </h2>
-          <p className="text-[oklch(0.65_0.004_80)] text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             OpenBot is more than just a chat interface. It's a complete platform for building and running autonomous AI agents.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, i) => (
-            <div key={i} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform">
+            <div key={i} className="p-8 rounded-2xl border border-border bg-secondary/40 hover:bg-accent/60 transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center mb-6 text-foreground group-hover:scale-110 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-medium text-white mb-3" style={{ fontFamily: "'Raleway', sans-serif" }}>{feature.title}</h3>
-              <p className="text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-foreground mb-3">{feature.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {feature.desc}
               </p>
             </div>
@@ -234,14 +234,14 @@ export function HowItWorksSection() {
   ]
 
   return (
-    <section id="how-it-works" className="py-32 border-t border-white/5">
+    <section id="how-it-works" className="py-32 border-t border-border">
       <div className="container mx-auto px-6 max-w-3xl">
         <div className="flex flex-col md:flex-row gap-16 md:gap-24">
           <div className="md:w-1/3">
-            <h2 className="text-3xl font-medium text-white sticky top-32" style={{ fontFamily: "'Raleway', sans-serif" }}>
+            <h2 className="text-3xl font-medium text-foreground sticky top-32">
               How it works
             </h2>
-            <p className="mt-4 text-[oklch(0.65_0.004_80)] text-sm leading-relaxed">
+            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
               OpenBot simplifies complex automation by orchestrating specialized AI agents.
             </p>
           </div>
@@ -250,11 +250,11 @@ export function HowItWorksSection() {
             {steps.map((step, i) => (
               <div key={i} className="flex flex-col gap-4 relative">
                 <div className="flex items-center gap-4">
-                  <span className="text-[oklch(0.65_0.004_80)] text-xs font-medium tabular-nums tracking-widest uppercase opacity-50">Step 0{i + 1}</span>
-                  <div className="h-px flex-1 bg-white/5" />
+                  <span className="text-subtle-foreground text-xs font-medium tabular-nums tracking-widest uppercase">Step 0{i + 1}</span>
+                  <div className="h-px flex-1 bg-border" />
                 </div>
-                <h3 className="text-white text-2xl font-medium" style={{ fontFamily: "'Raleway', sans-serif" }}>{step.title}</h3>
-                <p className="text-[oklch(0.65_0.004_80)] text-base leading-relaxed max-w-md">
+                <h3 className="text-foreground text-2xl font-medium">{step.title}</h3>
+                <p className="text-muted-foreground text-base leading-relaxed max-w-md">
                   {step.desc}
                 </p>
               </div>
@@ -284,11 +284,11 @@ function App() {
   }, [])
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Global Cinematic Background */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         {/* Cinematic background base gradient */}
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, oklch(0.17 0.006 80 / 0.4) 0%, var(--background) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, oklch(0.21 0.006 285.8 / 0.4) 0%, var(--background) 100%)' }} />
         {/* Soft top glow */}
         <div className="hero-glow" aria-hidden="true" />
         {/* Masked grid */}
@@ -305,20 +305,20 @@ function App() {
 
 
       {/* Fixed navbar — appears on scroll */}
-      <header role="banner" aria-label="Site navigation" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'oklch(0.13 0.005 80 / 0.85)', borderBottom: '1px solid var(--border)', transition: 'opacity 0.3s ease, transform 0.3s ease' }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+      <header role="banner" aria-label="Site navigation" style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', background: 'oklch(0.168 0.002 286 / 0.85)', borderBottom: '1px solid var(--border)', transition: 'opacity 0.3s ease, transform 0.3s ease' }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
         <nav aria-label="Primary navigation" className="relative flex items-center px-8 md:px-12" style={{ height: 56 }}>
           <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
             <img src={openbotLogo} alt="" aria-hidden="true" width="20" height="20" className="w-5 h-5" />
-            <span className="text-[var(--foreground)]" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
+            <span className="text-foreground text-[15px] font-medium">OpenBot</span>
           </a>
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
-            <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
-            <a href="#features" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Features</a>
-            <a href="#faq" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
-            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+            <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>How it works</a>
+            <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Features</a>
+            <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
+            <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
           </div>
           <div className="ml-auto">
-            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
+            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-primary-foreground text-sm font-medium rounded-full px-5 py-2 transition-colors bg-primary hover:opacity-90 inline-block">
               Login
             </a>
           </div>
@@ -335,16 +335,16 @@ function App() {
           <nav aria-label="Primary navigation" className="absolute top-0 left-0 right-0 z-20 flex items-center px-6 md:px-10 pt-6 pb-2 w-full">
             <a href="/" aria-label="OpenBot home" className="flex items-center gap-2.5">
               <img src={openbotLogo} alt="" aria-hidden="true" width="22" height="22" className="w-5 h-5" />
-              <span className="text-[var(--foreground)]" style={{ fontFamily: "'Raleway', sans-serif", fontWeight: 500, fontSize: '15px' }}>OpenBot</span>
+              <span className="text-foreground text-[15px] font-medium">OpenBot</span>
             </a>
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-7">
-              <a href="#how-it-works" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>How it works</a>
-              <a href="#features" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Features</a>
-              <a href="#faq" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
-              <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors" style={{ fontSize: '14px' }}>Docs</a>
+              <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>How it works</a>
+              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Features</a>
+              <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
+              <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             </div>
             <div className="ml-auto">
-              <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-[var(--primary-foreground)] text-sm font-medium rounded-full px-5 py-2 transition-colors bg-[var(--primary)] hover:opacity-90 inline-block">
+              <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-primary-foreground text-sm font-medium rounded-full px-5 py-2 transition-colors bg-primary hover:opacity-90 inline-block">
                 Login
               </a>
             </div>
@@ -356,10 +356,10 @@ function App() {
             <img src={openbotLogo} alt="OpenBot" width="48" height="48" className="w-12 h-12 mb-6" style={{ filter: 'none', boxShadow: 'none' }} />
 
             {/* Title */}
-            <h1 className="text-[var(--foreground)] leading-none tracking-tight mb-4" style={{ fontSize: 'clamp(30px, 7vw, 40px)', fontFamily: "'Raleway', sans-serif", fontWeight: 500, textShadow: 'none', filter: 'none' }}>
+            <h1 className="text-foreground leading-none tracking-tight mb-4" style={{ fontSize: 'clamp(30px, 7vw, 40px)', fontWeight: 500, textShadow: 'none', filter: 'none' }}>
               What should we work on?
             </h1>
-            <p className="mb-8 max-w-2xl text-base text-[var(--muted-foreground)] md:text-lg">
+            <p className="mb-8 max-w-2xl text-base text-muted-foreground md:text-lg">
               Stop running agents in isolation. Coordinate specialized agents in one shared, local-first, open-source workspace.
             </p>
 
@@ -375,10 +375,10 @@ function App() {
             <section className="container mx-auto px-6 py-20">
               <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl font-medium mb-4 text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                  <h2 className="text-3xl font-medium mb-4 text-foreground">
                     A powerful, local-first workspace
                   </h2>
-                  <p className="text-[oklch(0.65_0.004_80)] text-base max-w-2xl mx-auto">
+                  <p className="text-muted-foreground text-base max-w-2xl mx-auto">
                     Experience the full power of OpenBot with our integrated workspace. Coordinate agents, manage state, and track progress in real-time.
                   </p>
                 </div>
@@ -395,13 +395,13 @@ function App() {
             <section id="get-started" className="relative py-20 md:py-32">
               <div className="container mx-auto px-6">
                 <div className="max-w-3xl mx-auto text-center">
-                  <h2 className="text-3xl font-medium mb-16 text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+                  <h2 className="text-3xl font-medium mb-16 text-foreground">
                     Get Started in Minutes
                   </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 relative">
                     {/* Connecting lines for desktop */}
-                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent -translate-y-1/2 z-0" />
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0" />
 
                     {[
                       { step: '01', label: 'login' },
@@ -410,10 +410,10 @@ function App() {
                       { step: '04', label: 'done', highlight: true }
                     ].map((item, i) => (
                       <div key={i} className="relative z-10 flex flex-col items-center">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold mb-4 border ${item.highlight ? 'bg-[var(--primary)] text-[var(--primary-foreground)] border-[var(--primary)]' : 'bg-[var(--background)] text-[var(--muted-foreground)] border-[var(--border)]'}`}>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold mb-4 border ${item.highlight ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-muted-foreground border-border'}`}>
                           {item.step}
                         </div>
-                        <span className={`text-xs uppercase tracking-widest ${item.highlight ? 'text-[oklch(0.94_0.004_80)] font-semibold' : 'text-[oklch(0.65_0.004_80)]'}`}>
+                        <span className={`text-xs uppercase tracking-widest ${item.highlight ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                           {item.label}
                         </span>
                       </div>
@@ -421,7 +421,7 @@ function App() {
                   </div>
 
                   <a href="https://openbot.one" target="_blank" rel="noopener noreferrer">
-                    <Button size="lg" className="bg-[oklch(0.94_0.004_80)] text-black hover:opacity-90 rounded-full px-10 py-6 h-auto text-sm font-semibold transition-all hover:scale-105">
+                    <Button size="lg" className="bg-primary text-primary-foreground hover:opacity-90 rounded-full px-10 py-6 h-auto text-sm font-semibold transition-all hover:scale-105">
                       Launch App
                     </Button>
                   </a>
@@ -444,35 +444,32 @@ function App() {
               <div className="md:col-span-2 flex flex-col gap-5">
                 <div className="flex items-center gap-2.5">
                   <img src={openbotLogo} alt="OpenBot" className="w-7 h-7" />
-                  <span className="text-xl font-medium text-[oklch(0.94_0.004_80)]" style={{ fontFamily: "'Raleway', sans-serif" }}>OpenBot</span>
+                  <span className="text-xl font-medium text-foreground">OpenBot</span>
                 </div>
-                <p className="text-[oklch(0.65_0.004_80)] text-sm leading-relaxed max-w-xs">
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
                   The multi-agent coordination platform. Browse the registry or build your own agents.
                 </p>
                 {/* Social icons */}
                 <div className="flex gap-3 mt-1">
                   <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on GitHub"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-                    style={{ border: '1px solid var(--border)', background: 'var(--card)' }}
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
                   >
-                    <svg aria-hidden="true" className="w-4 h-4 text-[oklch(0.65_0.004_80)]" fill="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
                       <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
                     </svg>
                   </a>
                   <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on Discord"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-                    style={{ border: '1px solid var(--border)', background: 'var(--card)' }}
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
                   >
-                    <SiDiscord aria-hidden="true" size={15} className="text-[oklch(0.65_0.004_80)]" />
+                    <SiDiscord aria-hidden="true" size={15} className="text-muted-foreground" />
                   </a>
                   <a href="https://x.com/MeetOpenBot" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on X (Twitter)"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-                    style={{ border: '1px solid var(--border)', background: 'var(--card)' }}
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
                   >
-                    <svg aria-hidden="true" className="w-4 h-4 text-[oklch(0.65_0.004_80)]" fill="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
@@ -481,7 +478,7 @@ function App() {
 
               {/* Product column */}
               <div className="flex flex-col gap-4">
-                <p className="text-xs font-semibold tracking-widest text-[oklch(0.65_0.004_80)] uppercase">Product</p>
+                <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Product</p>
                 {[
                   { label: 'Features', href: '#features' },
                   { label: 'How it Works', href: '#how-it-works' },
@@ -489,13 +486,13 @@ function App() {
                   { label: 'Documentation', href: DOCS_URL },
                 ].map(({ label, href }) => (
                   <a key={label} href={href}
-                    className="text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors">{label}</a>
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors">{label}</a>
                 ))}
               </div>
 
               {/* Community column */}
               <div className="flex flex-col gap-4">
-                <p className="text-xs font-semibold tracking-widest text-[oklch(0.65_0.004_80)] uppercase">Community</p>
+                <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Community</p>
                 {[
                   { label: 'Discord', href: 'https://discord.gg/XYYXvN2ebB' },
                   { label: 'X / Twitter', href: 'https://x.com/MeetOpenBot' },
@@ -503,13 +500,13 @@ function App() {
                   { label: 'Contributing', href: 'https://github.com/meetopenbot/openbot/blob/main/CONTRIBUTING.md' },
                 ].map(({ label, href }) => (
                   <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                    className="text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors">{label}</a>
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors">{label}</a>
                 ))}
               </div>
 
               {/* Company column */}
               <div className="flex flex-col gap-4">
-                <p className="text-xs font-semibold tracking-widest text-[oklch(0.65_0.004_80)] uppercase">Company</p>
+                <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">Company</p>
                 {[
                   { label: 'About Us', href: '/about' },
                   { label: 'Our Charter', href: '/charter' },
@@ -518,25 +515,25 @@ function App() {
                   { label: 'Brand', href: '/brand' },
                 ].map(({ label, href }) => (
                   href.startsWith('/') ? (
-                    <button key={label} onClick={() => { window.history.pushState({}, '', href); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-left text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors cursor-pointer">{label}</button>
+                    <button key={label} onClick={() => { window.history.pushState({}, '', href); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-left text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">{label}</button>
                   ) : (
-                    <a key={label} href={href} className="text-sm text-[oklch(0.65_0.004_80)] hover:text-[oklch(0.94_0.004_80)] transition-colors">{label}</a>
+                    <a key={label} href={href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">{label}</a>
                   )
                 ))}
               </div>
             </div>
 
             {/* Divider */}
-            <div style={{ height: '1px', background: 'oklch(0.94 0.004 80 / 0.05)', marginBottom: '24px' }} />
+            <div className="h-px bg-border mb-6" />
 
             {/* Bottom bar */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <p className="text-[oklch(0.65_0.004_80)]/50 text-xs">
+              <p className="text-subtle-foreground text-xs">
                 © {new Date().getFullYear()} OpenBot. All rights reserved.
               </p>
               <div className="flex items-center gap-5">
-                <button onClick={() => { window.history.pushState({}, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-[oklch(0.65_0.004_80)]/50 hover:text-[oklch(0.94_0.004_80)] text-xs transition-colors cursor-pointer">Terms of Service</button>
-                <button onClick={() => { window.history.pushState({}, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-[oklch(0.65_0.004_80)]/50 hover:text-[oklch(0.94_0.004_80)] text-xs transition-colors cursor-pointer">Privacy Policy</button>
+                <button onClick={() => { window.history.pushState({}, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-subtle-foreground hover:text-foreground text-xs transition-colors cursor-pointer">Terms of Service</button>
+                <button onClick={() => { window.history.pushState({}, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-subtle-foreground hover:text-foreground text-xs transition-colors cursor-pointer">Privacy Policy</button>
               </div>
             </div>
           </div>

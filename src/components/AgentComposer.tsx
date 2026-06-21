@@ -460,9 +460,9 @@ function SubmitButton({ onSubmit }: { onSubmit: (editor: LexicalEditor) => void 
     <button
       type="button"
       onClick={() => onSubmit(editor)}
-      className="w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg"
+      className="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:opacity-90 transition-colors shadow-lg"
     >
-      <ArrowUp size={20} className="text-black" />
+      <ArrowUp size={20} className="text-primary-foreground" />
     </button>
   )
 }
@@ -496,7 +496,7 @@ function StarterPromptButton({
     <button
       type="button"
       onClick={handleClick}
-      className="px-4 py-1.5 rounded-full border border-zinc-800/30 bg-zinc-900/10 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700/50 transition-all text-[13px]"
+      className="px-4 py-1.5 rounded-full border border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-ring/50 transition-all text-[13px]"
     >
       {item.label}
     </button>
@@ -512,7 +512,7 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
       nodes: [AgentChipNode],
       onError: (error: Error) => console.error(error),
       theme: {
-        text: { base: 'text-white text-left' },
+        text: { base: 'text-foreground text-left' },
         paragraph: 'text-left',
       },
     }),
@@ -534,14 +534,14 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
   return (
     <div className="w-full max-w-3xl mx-auto text-left">
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="relative bg-[#0d0d0d]/40 backdrop-blur-xl border border-white/5 rounded-[24px] p-1.5 shadow-2xl focus-within:border-white/10 transition-all">
+        <div className="relative bg-background/60 backdrop-blur-xl border border-border rounded-[24px] p-1.5 shadow-2xl focus-within:border-ring/50 transition-all">
           <div className="p-3 pb-1 min-h-[80px] relative text-left">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable className="composer-input outline-none text-left text-[16px] font-normal leading-relaxed text-white placeholder-zinc-500 min-h-[50px] [&_p]:text-left" />
+                <ContentEditable className="composer-input outline-none text-left text-[16px] font-normal leading-relaxed text-foreground placeholder:text-muted-foreground min-h-[50px] [&_p]:text-left" />
               }
               placeholder={
-                <div className="absolute top-3 left-3 text-left text-zinc-500 text-[16px] pointer-events-none">
+                <div className="absolute top-3 left-3 text-left text-muted-foreground text-[16px] pointer-events-none">
                   {selectedChannel
                     ? `Create a ${selectedChannel.name}...`
                     : 'Ask OpenBot a task... use @ to tag agents you\'d like to involve'}
@@ -556,9 +556,9 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
           </div>
 
           <div className="flex items-center justify-between p-2 pt-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-zinc-500 text-[13px]">
-              <div className="w-4 h-4 rounded-md bg-zinc-800/50 border border-white/5 flex items-center justify-center">
-                <Folder size={10} className="text-zinc-600" />
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-secondary border border-border text-muted-foreground text-[13px]">
+              <div className="w-4 h-4 rounded-md bg-muted border border-border flex items-center justify-center">
+                <Folder size={10} className="text-subtle-foreground" />
               </div>
               <span>{'new-project'}</span>
             </div>
@@ -580,8 +580,8 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
                   type="button"
                   onClick={() => setSelectedChannelId(channel.id)}
                   className={`px-4 py-1.5 rounded-full border transition-all text-[13px] flex items-center gap-2 ${isSelected
-                      ? 'border-zinc-500/60 bg-zinc-800/40 text-zinc-100'
-                      : 'border-zinc-800/30 bg-zinc-900/10 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700/50'
+                      ? 'border-ring/60 bg-accent text-foreground'
+                      : 'border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-ring/40'
                     }`}
                 >
                   {channel.name}
@@ -592,7 +592,7 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
                           key={agent.id}
                           src={agent.image}
                           alt={agent.name}
-                          className="w-4 h-4 rounded-full border border-black object-cover bg-zinc-900"
+                          className="w-4 h-4 rounded-full border border-background object-cover bg-muted"
                           style={{ zIndex: participantAgents.length - i }}
                         />
                       ))}

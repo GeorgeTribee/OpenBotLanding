@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { AgentComposer, REGISTRY_URL, type Registry } from './components/AgentComposer'
 import { AgentCarousel } from './components/AgentCarousel'
 import TermsPage from './TermsPage'
@@ -558,14 +559,22 @@ function AppRouter() {
 
   const goHome = () => { window.history.pushState({}, '', '/'); setPathname('/') }
 
-  if (pathname === '/terms') return <TermsPage onBack={goHome} />
-  if (pathname === '/privacy') return <PrivacyPage onBack={goHome} />
-  if (pathname === '/about') return <AboutPage onBack={goHome} />
-  if (pathname === '/charter') return <CharterPage onBack={goHome} />
-  if (pathname === '/foundation') return <FoundationPage onBack={goHome} />
-  if (pathname === '/careers') return <CareersPage onBack={goHome} />
-  if (pathname === '/brand') return <BrandPage onBack={goHome} />
-  return <App />
+  let page
+  if (pathname === '/terms') page = <TermsPage onBack={goHome} />
+  else if (pathname === '/privacy') page = <PrivacyPage onBack={goHome} />
+  else if (pathname === '/about') page = <AboutPage onBack={goHome} />
+  else if (pathname === '/charter') page = <CharterPage onBack={goHome} />
+  else if (pathname === '/foundation') page = <FoundationPage onBack={goHome} />
+  else if (pathname === '/careers') page = <CareersPage onBack={goHome} />
+  else if (pathname === '/brand') page = <BrandPage onBack={goHome} />
+  else page = <App />
+
+  return (
+    <>
+      <Analytics route={pathname} path={pathname} />
+      {page}
+    </>
+  )
 }
 
 export default AppRouter

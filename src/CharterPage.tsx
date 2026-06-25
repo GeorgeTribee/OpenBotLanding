@@ -51,7 +51,7 @@ export default function CharterPage({ onBack }: { onBack: () => void }) {
 
         <div className="flex flex-col gap-6">
           {commitments.map((c, i) => (
-            <div key={c.title} className="flex gap-6 py-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={c.title} className="flex gap-6 border-t border-border py-6">
               <span className="text-subtle-foreground text-sm font-mono mt-1 shrink-0">{String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h2 className="text-foreground font-semibold mb-2">{c.title}</h2>
@@ -61,7 +61,7 @@ export default function CharterPage({ onBack }: { onBack: () => void }) {
           ))}
         </div>
 
-        <div className="mt-16 rounded-2xl p-8 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="mt-16 rounded-xl border border-border bg-muted/5 p-8 text-center">
           <p className="text-muted-foreground text-sm leading-relaxed">
             This charter is a living document. As OpenBot grows, we will update it — always publicly, always with explanation. If you believe we're not living up to these commitments, <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/90 transition-colors">tell us</a>.
           </p>

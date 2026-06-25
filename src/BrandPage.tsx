@@ -43,7 +43,7 @@ export default function BrandPage({ onBack }: { onBack: () => void }) {
             </div>
           </div>
 
-          <div className="mt-5 rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="mt-5 rounded-xl border border-border bg-muted/5 p-5">
             <p className="text-muted-foreground text-sm font-semibold mb-3">Usage rules</p>
             <ul className="flex flex-col gap-2 text-muted-foreground text-sm">
               <li className="flex gap-2"><span className="text-foreground shrink-0">✓</span>Use the logo on dark or light backgrounds with sufficient contrast.</li>
@@ -77,10 +77,10 @@ export default function BrandPage({ onBack }: { onBack: () => void }) {
         {/* Typography */}
         <section className="mb-16">
           <h2 className="text-xl font-semibold mb-6">Typography</h2>
-          <div className="rounded-2xl p-6 border border-border bg-secondary/40">
+          <div className="rounded-xl border border-border bg-secondary/40 p-6">
             <p className="text-subtle-foreground text-xs mb-2">UI / Headings / Body</p>
-            <p className="text-3xl font-medium font-heading">Plus Jakarta Sans</p>
-            <p className="text-muted-foreground text-sm mt-1">Used for headings, body text, UI elements, and the wordmark on the marketing site.</p>
+            <p className="text-3xl font-medium font-heading">Inter</p>
+            <p className="text-muted-foreground text-sm mt-1">Used for headings, body text, UI elements, and the wordmark across OpenBot.</p>
           </div>
         </section>
 
@@ -92,7 +92,7 @@ export default function BrandPage({ onBack }: { onBack: () => void }) {
             href="https://discord.gg/XYYXvN2ebB"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 transition-colors"
+            className="inline-flex h-10 items-center justify-center rounded-xl bg-primary px-8 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80"
           >
             Request assets on Discord
           </a>

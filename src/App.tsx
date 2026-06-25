@@ -105,30 +105,30 @@ export function CommunitySection() {
               OpenBot is powered by a community of developers, researchers, and automation enthusiasts. Join us on Discord to share your agents and get help with your workflows.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#5865F2] hover:opacity-90 text-white px-6 py-3 rounded-full font-medium transition-all">
+              <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl bg-[#5865F2] px-6 py-3 font-medium text-white transition-colors hover:opacity-90">
                 <SiDiscord size={20} />
                 Join Discord
               </a>
-              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-secondary hover:bg-accent border border-border text-foreground px-6 py-3 rounded-full font-medium transition-all">
+              <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl border border-border bg-secondary px-6 py-3 font-medium text-secondary-foreground transition-colors hover:bg-secondary/80">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" /></svg>
                 Star on GitHub
               </a>
             </div>
           </div>
           <div className="lg:w-1/2 grid grid-cols-2 gap-4">
-            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+            <div className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
               <div className="text-4xl font-bold text-foreground mb-2">100%</div>
               <div className="text-muted-foreground text-sm uppercase tracking-widest">Open Source</div>
             </div>
-            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+            <div className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
               <div className="text-4xl font-bold text-foreground mb-2">50+</div>
               <div className="text-muted-foreground text-sm uppercase tracking-widest">Community Agents</div>
             </div>
-            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+            <div className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
               <div className="text-4xl font-bold text-foreground mb-2">24/7</div>
               <div className="text-muted-foreground text-sm uppercase tracking-widest">Expert Support</div>
             </div>
-            <div className="p-8 rounded-2xl border border-border bg-secondary/40 text-center">
+            <div className="rounded-xl border border-border bg-card p-8 text-center shadow-sm">
               <div className="text-4xl font-bold text-foreground mb-2">Local</div>
               <div className="text-muted-foreground text-sm uppercase tracking-widest">Privacy First</div>
             </div>
@@ -211,8 +211,8 @@ export function FeaturesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, i) => (
-            <div key={i} className="p-8 rounded-2xl border border-border bg-secondary/40 hover:bg-accent/60 transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center mb-6 text-foreground group-hover:scale-110 transition-transform">
+            <div key={i} className="group rounded-xl border border-border bg-card p-8 shadow-sm transition-colors hover:bg-muted/50">
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-muted/50 text-foreground transition-transform group-hover:scale-110">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-medium text-foreground mb-3">{feature.title}</h3>
@@ -319,7 +319,7 @@ function App() {
             <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
           </div>
           <div className="ml-auto">
-            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-primary-foreground text-sm font-medium rounded-full px-5 py-2 transition-colors bg-primary hover:opacity-90 inline-block">
+            <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-xl bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
               Login
             </a>
           </div>
@@ -345,7 +345,7 @@ function App() {
               <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             </div>
             <div className="ml-auto">
-              <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="text-primary-foreground text-sm font-medium rounded-full px-5 py-2 transition-colors bg-primary hover:opacity-90 inline-block">
+              <a href="https://openbot.one" target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-xl bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
                 Login
               </a>
             </div>
@@ -422,7 +422,7 @@ function App() {
                   </div>
 
                   <a href="https://openbot.one" target="_blank" rel="noopener noreferrer">
-                    <Button size="lg" className="bg-primary text-primary-foreground hover:opacity-90 rounded-full px-10 py-6 h-auto text-sm font-semibold transition-all hover:scale-105">
+                    <Button size="lg" className="px-10">
                       Launch App
                     </Button>
                   </a>
@@ -454,7 +454,7 @@ function App() {
                 <div className="flex gap-3 mt-1">
                   <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on GitHub"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card shadow-sm transition-colors hover:bg-muted"
                   >
                     <svg aria-hidden="true" className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
                       <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
@@ -462,13 +462,13 @@ function App() {
                   </a>
                   <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on Discord"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card shadow-sm transition-colors hover:bg-muted"
                   >
                     <SiDiscord aria-hidden="true" size={15} className="text-muted-foreground" />
                   </a>
                   <a href="https://x.com/MeetOpenBot" target="_blank" rel="noopener noreferrer"
                     aria-label="OpenBot on X (Twitter)"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all border border-border bg-card"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card shadow-sm transition-colors hover:bg-muted"
                   >
                     <svg aria-hidden="true" className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />

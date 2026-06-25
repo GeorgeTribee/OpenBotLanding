@@ -2,7 +2,7 @@ import { type Agent } from './AgentComposer'
 
 export function AgentCard({ agent }: { agent: Agent }) {
   return (
-    <div className="flex w-[180px] shrink-0 items-center gap-3 rounded-full bg-secondary/60 p-3 transition-colors hover:bg-accent">
+    <div className="flex w-[180px] shrink-0 items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-sm transition-colors hover:bg-muted/50">
       <img
         src={agent.image}
         alt=""

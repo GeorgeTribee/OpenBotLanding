@@ -1,5 +1,8 @@
-import { useState, useEffect, useMemo, useCallback, type ReactElement } from 'react'
-import { ArrowUp, Folder } from 'lucide-react'
+import { useState, useEffect, useMemo, useCallback, useRef, useLayoutEffect, type ReactElement } from 'react'
+import { ArrowUp, Check, ChevronDown, Folder, Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import openbotLogo from '@/assets/openbotlogo.svg'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
@@ -65,6 +68,17 @@ export interface Registry {
 }
 
 export const REGISTRY_URL = 'https://raw.githubusercontent.com/meetopenbot/openbot-registry/main/registry.json'
+
+/** Matches openbot.one — coordinator is not listed as a specialist. */
+const SYSTEM_AGENT_ID = 'system'
+
+function sortSpecialistAgents(agents: Agent[]): Agent[] {
+  return [...agents].sort((a, b) => {
+    const byName = a.name.localeCompare(b.name)
+    if (byName !== 0) return byName
+    return a.id.localeCompare(b.id)
+  })
+}
 
 function AgentChipBadge({ name, image }: { name: string; image: string }) {
   return (
@@ -457,13 +471,205 @@ function KeyboardShortcutPlugin({ onSubmit }: { onSubmit: (editor: LexicalEditor
 function SubmitButton({ onSubmit }: { onSubmit: (editor: LexicalEditor) => void }) {
   const [editor] = useLexicalComposerContext()
   return (
-    <button
+    <Button
       type="button"
+      size="icon"
+      className="size-8 shrink-0 p-0"
       onClick={() => onSubmit(editor)}
-      className="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:opacity-90 transition-colors shadow-lg"
+      aria-label="Submit"
     >
-      <ArrowUp size={20} className="text-primary-foreground" />
-    </button>
+      <ArrowUp className="size-4" />
+    </Button>
+  )
+}
+
+type AgentMode = 'coordinator' | 'direct'
+
+function AgentModePicker({ agents }: { agents: Agent[] }) {
+  const [open, setOpen] = useState(false)
+  const [mode, setMode] = useState<AgentMode>('coordinator')
+  const [directAgentId, setDirectAgentId] = useState<string | null>(null)
+  const [menuStyle, setMenuStyle] = useState<React.CSSProperties>({})
+  const containerRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+
+  const specialistAgents = useMemo(
+    () => sortSpecialistAgents(agents.filter((agent) => agent.id !== SYSTEM_AGENT_ID)),
+    [agents],
+  )
+
+  const selectedDirectAgent = useMemo(
+    () => specialistAgents.find((agent) => agent.id === directAgentId),
+    [specialistAgents, directAgentId],
+  )
+
+  useEffect(() => {
+    if (mode !== 'direct') return
+    if (directAgentId && specialistAgents.some((agent) => agent.id === directAgentId)) return
+    const first = specialistAgents[0]
+    if (first) setDirectAgentId(first.id)
+  }, [mode, directAgentId, specialistAgents])
+
+  useLayoutEffect(() => {
+    if (!open || !triggerRef.current) return
+
+    const updatePosition = () => {
+      const rect = triggerRef.current!.getBoundingClientRect()
+      setMenuStyle({
+        position: 'fixed',
+        left: rect.left,
+        bottom: window.innerHeight - rect.top + 8,
+        width: '18rem',
+      })
+    }
+
+    updatePosition()
+    window.addEventListener('resize', updatePosition)
+    window.addEventListener('scroll', updatePosition, true)
+    return () => {
+      window.removeEventListener('resize', updatePosition)
+      window.removeEventListener('scroll', updatePosition, true)
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+
+    const handlePointerDown = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (
+        !containerRef.current?.contains(target) &&
+        !menuRef.current?.contains(target)
+      ) {
+        setOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open])
+
+  const menu = open ? (
+    <div
+      ref={menuRef}
+      role="menu"
+      style={menuStyle}
+      className="z-50 max-h-80 overflow-x-hidden overflow-y-auto rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-md"
+    >
+      <p className="px-2 py-1.5 text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+        Coordinator
+      </p>
+      <button
+        type="button"
+        role="menuitem"
+        onClick={() => {
+          setMode('coordinator')
+          setOpen(false)
+        }}
+        className={cn(
+          'flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+          mode === 'coordinator' && 'bg-accent text-accent-foreground',
+        )}
+      >
+        <img src={openbotLogo} alt="" aria-hidden="true" className="size-5 shrink-0" />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <span className="text-sm font-medium">OpenBot</span>
+          <span className="truncate text-[11px] text-muted-foreground">
+            Coordinates multiple specialist agents
+          </span>
+        </div>
+        {mode === 'coordinator' ? <Check className="size-4 shrink-0 text-primary" /> : null}
+      </button>
+
+      {specialistAgents.length > 0 ? (
+        <>
+          <div className="my-1 h-px bg-border" />
+          <p className="px-2 py-1.5 text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+            Specialist Agents
+          </p>
+          {specialistAgents.map((agent) => {
+            const isSelected = mode === 'direct' && agent.id === directAgentId
+            return (
+              <button
+                key={agent.id}
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  setMode('direct')
+                  setDirectAgentId(agent.id)
+                  setOpen(false)
+                }}
+                className={cn(
+                  'flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
+                  isSelected && 'bg-accent text-accent-foreground',
+                )}
+              >
+                <img
+                  src={agent.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="size-5 shrink-0 rounded-full object-cover"
+                />
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="text-sm font-medium">{agent.name}</span>
+                  {agent.description ? (
+                    <span className="truncate text-[11px] text-muted-foreground">
+                      {agent.description}
+                    </span>
+                  ) : null}
+                </div>
+                {isSelected ? <Check className="size-4 shrink-0 text-primary" /> : null}
+              </button>
+            )
+          })}
+        </>
+      ) : null}
+    </div>
+  ) : null
+
+  return (
+    <div ref={containerRef} className="relative flex min-w-0 items-center">
+      <Button
+        ref={triggerRef}
+        type="button"
+        variant="outline"
+        size="sm"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        onClick={() => setOpen((current) => !current)}
+      >
+        {mode === 'coordinator' ? (
+          <>
+            <img src={openbotLogo} alt="" aria-hidden="true" className="size-3.5 shrink-0" />
+            <span className="truncate">OpenBot</span>
+          </>
+        ) : selectedDirectAgent ? (
+          <>
+            <img
+              src={selectedDirectAgent.image}
+              alt=""
+              aria-hidden="true"
+              className="size-4 shrink-0 rounded-full object-cover"
+            />
+            <span className="truncate">{selectedDirectAgent.name}</span>
+          </>
+        ) : (
+          <span className="truncate text-muted-foreground">Select Agent</span>
+        )}
+        <ChevronDown className="size-3 shrink-0 opacity-60" />
+      </Button>
+
+      {menu ? createPortal(menu, document.body) : null}
+    </div>
   )
 }
 
@@ -493,13 +699,15 @@ function StarterPromptButton({
   }
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
+      size="sm"
       onClick={handleClick}
-      className="px-4 py-1.5 rounded-full border border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-ring/50 transition-all text-[13px]"
+      className="h-8 border border-dashed border-border px-4 text-muted-foreground hover:border-border hover:text-foreground"
     >
-      {item.label}
-    </button>
+      <span className="font-medium text-foreground/70">{item.label}</span>
+    </Button>
   )
 }
 
@@ -534,14 +742,17 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
   return (
     <div className="w-full max-w-3xl mx-auto text-left">
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="relative bg-background/60 backdrop-blur-xl border border-border rounded-[24px] p-1.5 shadow-2xl focus-within:border-ring/50 transition-all">
-          <div className="p-3 pb-1 min-h-[80px] relative text-left">
+        <div className="group/input-group relative flex w-full min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-background outline-none transition-[color,box-shadow] has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50">
+          <div className="relative w-full flex-1">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable className="composer-input outline-none text-left text-[16px] font-normal leading-relaxed text-foreground placeholder:text-muted-foreground min-h-[50px] [&_p]:text-left" />
+                <ContentEditable
+                  data-slot="input-group-control"
+                  className="composer-input block w-full max-h-[220px] min-h-[4.25rem] resize-none overflow-y-auto whitespace-pre-wrap px-3 py-2.5 text-base leading-6 outline-none focus-visible:ring-0 md:text-[0.9375rem] [&_p]:text-left"
+                />
               }
               placeholder={
-                <div className="absolute top-3 left-3 text-left text-muted-foreground text-[16px] pointer-events-none">
+                <div className="pointer-events-none absolute top-0 left-0 select-none px-3 py-2.5 text-base leading-6 text-muted-foreground/60 md:text-[0.9375rem]">
                   {selectedChannel
                     ? `Create a ${selectedChannel.name}...`
                     : 'Ask OpenBot a task... use @ to tag agents you\'d like to involve'}
@@ -555,55 +766,47 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
             <KeyboardShortcutPlugin onSubmit={handleSubmit} />
           </div>
 
-          <div className="flex items-center justify-between p-2 pt-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-secondary border border-border text-muted-foreground text-[13px]">
-              <div className="w-4 h-4 rounded-md bg-muted border border-border flex items-center justify-center">
-                <Folder size={10} className="text-subtle-foreground" />
-              </div>
-              <span>{'new-project'}</span>
-            </div>
+          <div className="flex flex-row items-center gap-2 bg-background px-2.5 pb-2 pt-1">
+            <AgentModePicker agents={registry.agents} />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="size-8 shrink-0 text-muted-foreground hover:bg-accent hover:text-foreground"
+              aria-label="Add attachment"
+            >
+              <Plus className="size-4" />
+            </Button>
+            <div className="min-w-0 flex-1" />
+            <Button variant="ghost" size="sm" type="button" tabIndex={-1}>
+              <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+              <span className="truncate font-medium">new-project</span>
+            </Button>
             <SubmitButton onSubmit={handleSubmit} />
           </div>
         </div>
 
-        <div className="mt-6 space-y-3">
+        <div className="mt-4 space-y-4">
           <div className="flex flex-wrap justify-center gap-2">
             {registry.channels.map((channel) => {
               const isSelected = channel.id === selectedChannelId
-              const participantAgents = channel.participants
-                .map((id) => registry.agents.find((a) => a.id === id))
-                .filter((a): a is Agent => !!a)
 
               return (
-                <button
+                <Button
                   key={channel.id}
                   type="button"
+                  variant={isSelected ? 'secondary' : 'outline'}
+                  size="sm"
+                  className="h-8 px-4"
                   onClick={() => setSelectedChannelId(channel.id)}
-                  className={`px-4 py-1.5 rounded-full border transition-all text-[13px] flex items-center gap-2 ${isSelected
-                      ? 'border-ring/60 bg-accent text-foreground'
-                      : 'border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-ring/40'
-                    }`}
                 >
                   {channel.name}
-                  {participantAgents.length > 0 && (
-                    <div className="flex -space-x-2 ml-1">
-                      {participantAgents.map((agent, i) => (
-                        <img
-                          key={agent.id}
-                          src={agent.image}
-                          alt={agent.name}
-                          className="w-4 h-4 rounded-full border border-background object-cover bg-muted"
-                          style={{ zIndex: participantAgents.length - i }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </button>
+                </Button>
               )
             })}
           </div>
 
-          {selectedChannel && (
+          {selectedChannel && selectedChannel.starterPrompts.length > 0 && (
             <div className="flex flex-wrap justify-center gap-2">
               {selectedChannel.starterPrompts.map((item, i) => (
                 <StarterPromptButton key={i} item={item} agents={registry.agents} />

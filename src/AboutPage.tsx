@@ -48,7 +48,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
 
       {/* Divider */}
       <div className="container mx-auto px-6 max-w-4xl">
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+        <div className="h-px bg-border" />
       </div>
 
       {/* Vision */}
@@ -74,7 +74,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
 
       {/* Divider */}
       <div className="container mx-auto px-6 max-w-4xl">
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+        <div className="h-px bg-border" />
       </div>
 
       {/* Values */}
@@ -85,8 +85,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
           {values.map((v) => (
             <div
               key={v.title}
-              className="rounded-2xl p-6"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
+              className="rounded-xl border border-border bg-muted/5 p-6"
             >
               <h3 className="text-foreground font-semibold mb-2">{v.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{v.desc}</p>
@@ -97,7 +96,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
 
       {/* Divider */}
       <div className="container mx-auto px-6 max-w-4xl">
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+        <div className="h-px bg-border" />
       </div>
 
       {/* CTA */}
@@ -109,7 +108,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
             href="https://openbot.one"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 transition-colors"
+            className="inline-flex h-10 items-center justify-center rounded-xl bg-primary px-8 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80"
           >
             Try OpenBot
           </a>
@@ -117,7 +116,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
             href="https://discord.gg/XYYXvN2ebB"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-foreground bg-secondary hover:bg-accent border border-border transition-colors"
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-secondary px-8 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
           >
             Join Discord
           </a>

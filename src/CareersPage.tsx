@@ -37,7 +37,7 @@ export default function CareersPage({ onBack }: { onBack: () => void }) {
           <h2 className="text-xl font-semibold mb-6">Why OpenBot</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {perks.map(p => (
-              <div key={p} className="flex items-center gap-2.5 rounded-xl px-4 py-3" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div key={p} className="flex items-center gap-2.5 rounded-xl border border-border bg-muted/5 px-4 py-3">
                 <svg className="w-4 h-4 text-foreground shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                 <span className="text-muted-foreground text-sm">{p}</span>
               </div>
@@ -48,11 +48,11 @@ export default function CareersPage({ onBack }: { onBack: () => void }) {
         {/* Openings */}
         <div>
           <h2 className="text-xl font-semibold mb-6">Open Roles</h2>
-          <div className="rounded-2xl p-12 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="rounded-xl border border-border bg-muted/5 p-12 text-center">
             <p className="text-foreground/90 font-medium mb-2">No open positions at the moment</p>
             <p className="text-muted-foreground text-sm mb-8">We're not actively hiring right now, but we're always happy to hear from talented people.</p>
             <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 transition-colors">
+              className="inline-flex h-10 items-center justify-center rounded-xl bg-primary px-8 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80">
               Say hello on Discord
             </a>
           </div>

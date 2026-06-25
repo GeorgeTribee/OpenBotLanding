@@ -43,25 +43,25 @@ export default function FoundationPage({ onBack }: { onBack: () => void }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
           {pillars.map((p) => (
-            <div key={p.title} className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div key={p.title} className="rounded-xl border border-border bg-muted/5 p-6">
               <h3 className="text-foreground font-semibold mb-2">{p.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
 
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '48px' }}>
+        <div className="border-t border-border pt-12">
           <h2 className="text-2xl font-bold mb-4">Get Involved</h2>
           <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-xl">
             The Foundation is in its early stages. If you're interested in contributing, applying for a grant, or helping shape its governance, reach out to us on Discord or GitHub.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-foreground bg-secondary hover:bg-accent border border-border transition-colors">
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-secondary px-8 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80">
               Join Discord
             </a>
             <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-medium text-foreground bg-secondary hover:bg-accent border border-border transition-colors">
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-secondary px-8 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80">
               View on GitHub
             </a>
           </div>

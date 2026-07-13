@@ -4,11 +4,13 @@ import { AgentComposer, REGISTRY_URL, type Registry } from './components/AgentCo
 import { AgentCarousel } from './components/AgentCarousel'
 import TermsPage from './TermsPage'
 import PrivacyPage from './PrivacyPage'
+import RefundPolicyPage from './RefundPolicyPage'
 import AboutPage from './AboutPage'
 import CharterPage from './CharterPage'
 import FoundationPage from './FoundationPage'
 import CareersPage from './CareersPage'
 import BrandPage from './BrandPage'
+import PricingPage from './PricingPage'
 import { Button } from '@/components/ui/button'
 import { SiDiscord } from 'react-icons/si'
 import openbotLogo from './assets/openbotlogo.svg'
@@ -44,24 +46,24 @@ export function WorkspaceScreenshot() {
 export function FAQSection() {
   const faqs = [
     {
-      q: 'Is OpenBot really local-first?',
-      a: 'Yes. OpenBot runs as a local application on your machine. Your API keys, agent configurations, and task data are stored locally and never sent to our servers.'
+      q: 'Is self-hosted OpenBot free forever?',
+      a: 'Yes. The self-hosted version is MIT-licensed and will always be free. Download it, run it on your machine, and bring your own API keys — no cost, no limits.'
+    },
+    {
+      q: 'What is the Cloud version?',
+      a: 'OpenBot Cloud is a fully managed, hosted version of OpenBot. No setup, no infrastructure to maintain — just sign in and start orchestrating agents. It\'s currently in early access. Join the waitlist on our Pricing page.'
     },
     {
       q: 'Do I need my own API keys?',
-      a: 'Yes, OpenBot is a "Bring Your Own Key" (BYOK) platform. You can connect your OpenAI, Anthropic, Google Gemini, or any other supported provider keys directly.'
+      a: 'Yes, OpenBot is a "Bring Your Own Key" (BYOK) platform for both self-hosted and cloud. You connect your OpenAI, Anthropic, Google Gemini, or any supported provider keys directly.'
     },
     {
       q: 'Can I build my own agents?',
-      a: 'Absolutely. We provide a comprehensive SDK and documentation to help you build, test, and deploy your own specialized agents.'
+      a: 'Absolutely. We provide a comprehensive SDK and documentation to help you build, test, and deploy your own specialized agents — on either version.'
     },
     {
       q: 'How does multi-agent orchestration work?',
-      a: 'OpenBot uses a central controller that breaks down your natural language requests into sub-tasks and assigns them to the most capable agents in your workspace.'
-    },
-    {
-      q: 'Is there an enterprise version?',
-      a: 'Yes, we offer an Enterprise plan for teams that need advanced features like SSO, audit logs, and dedicated support. Contact us for more details.'
+      a: 'OpenBot uses a central coordinator that breaks down your natural language requests into sub-tasks and assigns them to the most capable agents in your workspace.'
     }
   ]
 
@@ -315,7 +317,7 @@ function App() {
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8">
             <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>How it works</a>
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Features</a>
-            <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
+            <button onClick={() => { window.history.pushState({}, '', '/pricing'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" style={{ fontSize: '14px' }}>Pricing</button>
             <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
           </div>
           <div className="ml-auto">
@@ -341,7 +343,7 @@ function App() {
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-7">
               <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>How it works</a>
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Features</a>
-              <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>FAQ</a>
+              <button onClick={() => { window.history.pushState({}, '', '/pricing'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" style={{ fontSize: '14px' }}>Pricing</button>
               <a href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" style={{ fontSize: '14px' }}>Docs</a>
             </div>
             <div className="ml-auto">
@@ -361,7 +363,7 @@ function App() {
               What should we work on?
             </h1>
             <p className="mb-8 max-w-2xl text-base text-muted-foreground md:text-lg">
-              Stop running agents in isolation. Coordinate specialized agents in one shared, local-first, open-source workspace.
+              Stop running agents in isolation. Coordinate specialized agents in one shared workspace — self-hosted and free, or managed cloud coming soon.
             </p>
 
             <AgentComposer registry={registry} />
@@ -377,10 +379,10 @@ function App() {
               <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
                   <h2 className="text-3xl font-medium mb-4 text-foreground">
-                    A powerful, local-first workspace
+                    A powerful workspace — your way
                   </h2>
                   <p className="text-muted-foreground text-base max-w-2xl mx-auto">
-                    Experience the full power of OpenBot with our integrated workspace. Coordinate agents, manage state, and track progress in real-time.
+                    Run OpenBot locally for full privacy and control, or join the waitlist for our managed cloud with zero setup required.
                   </p>
                 </div>
                 <WorkspaceScreenshot />
@@ -483,11 +485,16 @@ function App() {
                 {[
                   { label: 'Features', href: '#features' },
                   { label: 'How it Works', href: '#how-it-works' },
+                  { label: 'Pricing', href: '/pricing' },
                   { label: 'FAQ', href: '#faq' },
                   { label: 'Documentation', href: DOCS_URL },
                 ].map(({ label, href }) => (
-                  <a key={label} href={href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors">{label}</a>
+                  href.startsWith('/') ? (
+                    <button key={label} onClick={() => { window.history.pushState({}, '', href); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-left text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">{label}</button>
+                  ) : (
+                    <a key={label} href={href}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors">{label}</a>
+                  )
                 ))}
               </div>
 
@@ -535,6 +542,7 @@ function App() {
               <div className="flex items-center gap-5">
                 <button onClick={() => { window.history.pushState({}, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-subtle-foreground hover:text-foreground text-xs transition-colors cursor-pointer">Terms of Service</button>
                 <button onClick={() => { window.history.pushState({}, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-subtle-foreground hover:text-foreground text-xs transition-colors cursor-pointer">Privacy Policy</button>
+                <button onClick={() => { window.history.pushState({}, '', '/refund-policy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="text-subtle-foreground hover:text-foreground text-xs transition-colors cursor-pointer">Refund Policy</button>
               </div>
             </div>
           </div>
@@ -562,6 +570,8 @@ function AppRouter() {
   let page
   if (pathname === '/terms') page = <TermsPage onBack={goHome} />
   else if (pathname === '/privacy') page = <PrivacyPage onBack={goHome} />
+  else if (pathname === '/refund-policy') page = <RefundPolicyPage onBack={goHome} />
+  else if (pathname === '/pricing') page = <PricingPage onBack={goHome} />
   else if (pathname === '/about') page = <AboutPage onBack={goHome} />
   else if (pathname === '/charter') page = <CharterPage onBack={goHome} />
   else if (pathname === '/foundation') page = <FoundationPage onBack={goHome} />

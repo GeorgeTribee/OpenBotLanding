@@ -813,20 +813,6 @@ export function AgentComposer({ registry }: { registry: Registry | null }) {
               ))}
             </div>
           )}
-
-          <a
-            href="https://www.producthunt.com/products/openbot?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-openbot"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mx-auto block w-fit pt-6"
-          >
-            <img
-              alt="OpenBot - Tag specialized agents like friends or employees | Product Hunt"
-              width={250}
-              height={54}
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1181949&theme=light&t=1782553224835"
-            />
-          </a>
         </div>
       </LexicalComposer>
     </div>

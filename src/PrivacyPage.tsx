@@ -26,12 +26,17 @@ export default function PrivacyPage({ onBack }: { onBack: () => void }) {
 
           <section>
             <h2 className="text-lg font-semibold text-foreground mb-3">1. Overview</h2>
-            <p>OpenBot is built local-first. Your data, API keys, agent configurations, and task history live on your device. We do not operate servers that store your personal information or your prompts. This policy describes the limited ways in which information may be collected or shared.</p>
+            <p className="mb-3">OpenBot is available in two versions with different privacy characteristics:</p>
+            <ul className="list-disc list-inside flex flex-col gap-2 text-muted-foreground mb-3">
+              <li><span className="text-foreground/90">Self-hosted:</span> runs entirely on your machine. Your data, API keys, agent configurations, and task history stay on your device. We have no access to them.</li>
+              <li><span className="text-foreground/90">Cloud (early access):</span> a managed, hosted version of OpenBot. Task data and configurations are stored on our servers to enable the service. The sections below clarify which applies in each case.</li>
+            </ul>
+            <p>This policy describes how information may be collected or shared across both versions.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">2. Information We Do Not Collect</h2>
-            <p className="mb-3">Because OpenBot runs locally on your machine, we do not collect or have access to:</p>
+            <h2 className="text-lg font-semibold text-foreground mb-3">2. Self-Hosted: Information We Do Not Collect</h2>
+            <p className="mb-3">Because the self-hosted version runs locally on your machine, we do not collect or have access to:</p>
             <ul className="list-disc list-inside flex flex-col gap-2 text-muted-foreground">
               <li>Your prompts, tasks, or agent workflows</li>
               <li>Your API keys for OpenAI, Anthropic, Google, or any other provider</li>
@@ -41,18 +46,30 @@ export default function PrivacyPage({ onBack }: { onBack: () => void }) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">3. Information We May Collect</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3">3. Cloud: Information We Collect and Store</h2>
+            <p className="mb-3">When you use OpenBot Cloud, we collect and process the following to provide the service:</p>
+            <ul className="list-disc list-inside flex flex-col gap-2 text-muted-foreground">
+              <li><span className="text-foreground/90">Account information</span> — email address, name, and authentication credentials needed to create and manage your account.</li>
+              <li><span className="text-foreground/90">Agent configurations</span> — workspace settings and agent setups stored server-side to enable cross-device access.</li>
+              <li><span className="text-foreground/90">Task and workflow data</span> — prompts, task history, and results processed through the cloud service. This data is used solely to deliver and improve the service.</li>
+              <li><span className="text-foreground/90">Usage telemetry</span> — anonymized usage patterns to help us improve performance and reliability.</li>
+            </ul>
+            <p className="mt-3 text-muted-foreground text-sm">We do not sell your data to third parties. Cloud data is encrypted in transit and at rest.</p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-foreground mb-3">4. Website and Community</h2>
             <p className="mb-3">When you interact with our website (getopenbot.com) or community channels, we may collect:</p>
             <ul className="list-disc list-inside flex flex-col gap-2 text-muted-foreground">
-              <li><span className="text-foreground/90">Usage analytics</span> — anonymized page views and interactions to help us understand what's working (e.g. via privacy-respecting analytics tools).</li>
-              <li><span className="text-foreground/90">Email address</span> — only if you voluntarily sign up for updates or contact us directly.</li>
+              <li><span className="text-foreground/90">Usage analytics</span> — anonymized page views and interactions to help us understand what's working.</li>
+              <li><span className="text-foreground/90">Email address</span> — only if you voluntarily sign up for updates, join the waitlist, or contact us directly.</li>
               <li><span className="text-foreground/90">GitHub data</span> — stars, issues, and pull requests are public and governed by GitHub's privacy policy.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">4. Third-Party AI Providers</h2>
-            <p>When you use OpenBot to run tasks, your prompts are sent directly from your device to the AI provider you have configured (e.g. OpenAI, Anthropic, Google Gemini). OpenBot does not proxy or log these requests. Each provider's own privacy policy governs how they handle your data. We recommend reviewing them:</p>
+            <h2 className="text-lg font-semibold text-foreground mb-3">5. Third-Party AI Providers</h2>
+            <p>When you use OpenBot to run tasks, your prompts are sent to the AI provider you have configured (e.g. OpenAI, Anthropic, Google Gemini). In the self-hosted version, requests go directly from your device; in Cloud, they are routed through our infrastructure. In both cases, each provider's own privacy policy governs how they handle your data. We recommend reviewing them:</p>
             <ul className="list-disc list-inside mt-3 flex flex-col gap-2 text-muted-foreground">
               <li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/90 transition-colors">OpenAI Privacy Policy</a></li>
               <li><a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/90 transition-colors">Anthropic Privacy Policy</a></li>
@@ -61,27 +78,27 @@ export default function PrivacyPage({ onBack }: { onBack: () => void }) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">5. Integrations and External Services</h2>
-            <p>OpenBot can connect to external services (Slack, GitHub, Telegram, etc.) using credentials you provide. These credentials are stored locally. When OpenBot executes actions on these services, it does so on your behalf and subject to their respective terms and privacy policies.</p>
+            <h2 className="text-lg font-semibold text-foreground mb-3">6. Integrations and External Services</h2>
+            <p>OpenBot can connect to external services (Slack, GitHub, Telegram, etc.) using credentials you provide. In the self-hosted version, credentials are stored locally. In Cloud, credentials are stored encrypted on our servers. When OpenBot executes actions on these services, it does so on your behalf and subject to their respective terms and privacy policies.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">6. Data Security</h2>
-            <p>Since all sensitive data (API keys, memory, task history) is stored locally on your device, its security depends on your device's security. We recommend using system-level encryption and keeping your machine secure. We do not have the ability to access, recover, or delete your local data.</p>
+            <h2 className="text-lg font-semibold text-foreground mb-3">7. Data Security</h2>
+            <p>For self-hosted: since all sensitive data is stored on your device, its security depends on your device's security. We recommend system-level encryption. For Cloud: we apply industry-standard encryption in transit (TLS) and at rest, access controls, and regular security reviews. We do not access your task data except as needed to operate and support the service.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">7. Children's Privacy</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3">8. Children's Privacy</h2>
             <p>OpenBot is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">8. Changes to This Policy</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3">9. Changes to This Policy</h2>
             <p>We may update this Privacy Policy from time to time. We will post updates on this page with a revised date. Your continued use of OpenBot after any changes constitutes acceptance of the updated policy.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-foreground mb-3">9. Contact</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-3">10. Contact</h2>
             <p>For privacy-related questions or concerns, please open an issue on our <a href="https://github.com/meetopenbot/openbot" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/90 transition-colors">GitHub repository</a> or reach out on <a href="https://discord.gg/XYYXvN2ebB" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/90 transition-colors">Discord</a>.</p>
           </section>
 

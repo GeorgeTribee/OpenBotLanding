@@ -51,11 +51,11 @@ export function FAQSection() {
     },
     {
       q: 'What is the Cloud version?',
-      a: 'OpenBot Cloud is a fully managed, hosted version of OpenBot. No setup, no infrastructure to maintain — just sign in and start orchestrating agents. It\'s currently in early access. Join the waitlist on our Pricing page.'
+      a: 'OpenBot Cloud is a fully managed runtime — we host it, you skip the ops. Pro ($60/month) includes LLM access via credits so you don\'t juggle API keys. Cloud is invite-only during early access; see our Pricing page for details.'
     },
     {
       q: 'Do I need my own API keys?',
-      a: 'Yes, OpenBot is a "Bring Your Own Key" (BYOK) platform for both self-hosted and cloud. You connect your OpenAI, Anthropic, Google Gemini, or any supported provider keys directly.'
+      a: 'For self-hosted, yes — bring your own OpenAI, Anthropic, Google, or other provider keys. For Pro cloud, LLM access is included via monthly credits. No keys required on cloud.'
     },
     {
       q: 'Can I build my own agents?',
@@ -363,7 +363,7 @@ function App() {
               What should we work on?
             </h1>
             <p className="mb-8 max-w-2xl text-base text-muted-foreground md:text-lg">
-              Stop running agents in isolation. Coordinate specialized agents in one shared workspace — self-hosted and free, or managed cloud coming soon.
+              Stop running agents in isolation. Coordinate specialized agents in one shared workspace — run free on your machine, or pay when you want us to run it for you.
             </p>
 
             <AgentComposer registry={registry} />
@@ -382,7 +382,7 @@ function App() {
                     A powerful workspace — your way
                   </h2>
                   <p className="text-muted-foreground text-base max-w-2xl mx-auto">
-                    Run OpenBot locally for full privacy and control, or join the waitlist for our managed cloud with zero setup required.
+                    Run OpenBot locally for full privacy and control, or upgrade to Pro for managed cloud with included LLM access.
                   </p>
                 </div>
                 <WorkspaceScreenshot />

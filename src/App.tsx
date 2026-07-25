@@ -46,16 +46,16 @@ export function WorkspaceScreenshot() {
 export function FAQSection() {
   const faqs = [
     {
-      q: 'Is self-hosted OpenBot free forever?',
-      a: 'Yes. The self-hosted version is MIT-licensed and will always be free. Download it, run it on your machine, and bring your own API keys — no cost, no limits.'
+      q: 'Is Local OpenBot free forever?',
+      a: 'Yes. The Local (self-hosted) version is MIT-licensed and will always be free. Download it, run it on your machine, and bring your own API keys — no cost, no limits.'
     },
     {
-      q: 'What is the Cloud version?',
-      a: 'OpenBot Cloud is a fully managed runtime — we host it, you skip the ops. Pro ($60/month) includes LLM access via credits so you don\'t juggle API keys. Cloud is invite-only during early access; see our Pricing page for details.'
+      q: 'What are Cloud and Sky?',
+      a: 'Cloud ($60/month) and Sky ($200/month) are our managed hosting plans — we run OpenBot for you with LLM access via credits so you don\'t juggle API keys. Both are invite-only during early access; see our Pricing page for details.'
     },
     {
       q: 'Do I need my own API keys?',
-      a: 'For self-hosted, yes — bring your own OpenAI, Anthropic, Google, or other provider keys. For Pro cloud, LLM access is included via monthly credits. No keys required on cloud.'
+      a: 'For Local, yes — bring your own OpenAI, Anthropic, Google, or other provider keys. For Cloud and Sky, LLM access is included via monthly credits. No keys required on hosted plans.'
     },
     {
       q: 'Can I build my own agents?',
@@ -382,7 +382,7 @@ function App() {
                     A powerful workspace — your way
                   </h2>
                   <p className="text-muted-foreground text-base max-w-2xl mx-auto">
-                    Run OpenBot locally for full privacy and control, or upgrade to Pro for managed cloud with included LLM access.
+                    Run OpenBot on Local for full privacy and control, or upgrade to Cloud or Sky for managed hosting with included LLM access.
                   </p>
                 </div>
                 <WorkspaceScreenshot />

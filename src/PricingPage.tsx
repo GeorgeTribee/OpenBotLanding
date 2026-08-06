@@ -2,6 +2,7 @@ import { useState } from 'react'
 import openbotLogo from './assets/openbotlogo.svg'
 
 const APP_URL = 'https://openbot.one'
+const FORMSPREE_INVITE_URL = 'https://formspree.io/f/mjybvlpj'
 const DOCS_URL = 'https://docs.getopenbot.com'
 const CREDITS_FAQ_URL = `${DOCS_URL}/billing/credits`
 const PRO_MONTHLY_PRICE = 60
@@ -24,21 +25,22 @@ function CheckIcon() {
 
 function RequestInviteForm() {
   const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email) return
+    if (!email || !message.trim()) return
     setStatus('loading')
     try {
-      await fetch('https://formspree.io/f/waitlist', {
+      const response = await fetch(FORMSPREE_INVITE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, message: message.trim() }),
       })
-      setStatus('done')
+      setStatus(response.ok ? 'done' : 'error')
     } catch {
-      setStatus('done')
+      setStatus('error')
     }
   }
 
@@ -68,6 +70,19 @@ function RequestInviteForm() {
           className="w-full rounded-xl border border-border/40 bg-background/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-all group-hover:border-border/80"
         />
       </div>
+      <div className="relative group">
+        <textarea
+          required
+          rows={3}
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          placeholder="Why do you want to use OpenBot?"
+          className="w-full resize-none rounded-xl border border-border/40 bg-background/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-all group-hover:border-border/80"
+        />
+      </div>
+      {status === 'error' && (
+        <p className="text-[11px] text-red-400 text-center">Something went wrong. Please try again.</p>
+      )}
       <button
         type="submit"
         disabled={status === 'loading'}
